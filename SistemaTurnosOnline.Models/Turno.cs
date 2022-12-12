@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace SistemaTurnosOnline.Models
 {
-    public class Turnos
+    public class Turno
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
