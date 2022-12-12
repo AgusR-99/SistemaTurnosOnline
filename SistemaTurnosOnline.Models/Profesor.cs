@@ -18,6 +18,6 @@ namespace SistemaTurnosOnline.Models
         public string Email { get; set; }
         public bool Estado { get; set; }
         public string Password { get; set; }
-        public List<Carrera> Carreras { get; set; }
+        public List<string> CarrerasId { get; set; }
     }
 }
