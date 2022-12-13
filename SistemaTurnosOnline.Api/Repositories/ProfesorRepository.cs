@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Models;
@@ -16,14 +16,27 @@ namespace SistemaTurnosOnline.Api.Repositories
         private IMongoCollection<Profesor> profesorCollection;
 
         // Constructor inicializa coleccion
-        public ProfesorRepository()
+        public ProfesorRepository(SistemaTurnosOnlineDbContext dbContext)
         {
-            profesorCollection = dbContext.db.GetCollection<Profesor>("profesor");
+            this.dbContext = dbContext;
+            profesorCollection = this.dbContext.db.GetCollection<Profesor>("profesor");
         }
 
-        public Task<Profesor> CreateProfesor(Profesor profesor)
+        private async Task<bool> ProfesorExists(string dni)
         {
-            throw new NotImplementedException();
+            return await profesorCollection.Find(p => p.Dni == dni).AnyAsync();
+        }
+
+        public async Task<Profesor> CreateProfesor(Profesor profesor)
+        {
+            if(!await ProfesorExists(profesor.Dni))
+            {
+                await profesorCollection.InsertOneAsync(profesor);
+
+                return profesor;
+            }
+
+            return null;
         }
 
         public Task<Profesor> DeleteProfesor(string id)
@@ -31,9 +44,10 @@ namespace SistemaTurnosOnline.Api.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Profesor> GetProfesor(string id)
+        public async Task<Profesor> GetProfesor(string id)
         {
-            throw new NotImplementedException();
+            var profesor = await profesorCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
+            return profesor;
         }
 
         public async Task<IEnumerable<Profesor>> GetProfesores()
