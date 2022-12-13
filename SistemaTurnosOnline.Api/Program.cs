@@ -17,7 +17,6 @@ builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
