@@ -1,3 +1,8 @@
+using SistemaTurnosOnline.Api.Data;
+using SistemaTurnosOnline.Api.Repositories;
+using SistemaTurnosOnline.Api.Repositories.Contracts;
+using SistemaTurnosOnline.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +12,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration["CONNECTION_STRING"];
+builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
+
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
+builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();
+
 
 var app = builder.Build();
 
