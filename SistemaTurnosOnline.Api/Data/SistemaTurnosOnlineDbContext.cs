@@ -1,21 +1,26 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using SistemaTurnosOnline.Models;
 
 namespace SistemaTurnosOnline.Api.Data
 {
     public class SistemaTurnosOnlineDbContext
     {
-        private readonly IConfiguration configuration;
         public MongoClient? client;
         public IMongoDatabase db;
-        public SistemaTurnosOnlineDbContext(IConfiguration configuration)
+        public SistemaTurnosOnlineDbContext(IOptions<MongoDbSettings> mongoDbSettings)
         {
-            // Se accede al connection string
-            var connectionString = this.configuration["CONNECTION_STRING"];
 
-            // Se inicializa una nueva instancia de MongoCliente mediante el connection string
+            // Acceder al connection string
+            var connectionString = mongoDbSettings.Value.ConnectionURI;
+
+            // Inicializar una nueva instancia de MongoCliente mediante el connection string
             var client = new MongoClient(connectionString);
 
-            db = client.GetDatabase("turnosdb");
+            // Acceder al nombre de la db
+            var databaseName = mongoDbSettings.Value.DatabaseName;
+
+            db = client.GetDatabase(databaseName);
         }
     }
 }
