@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SistemaTurnosOnline.Api.Repositories.Contracts;
+using SistemaTurnosOnline.Models;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {
