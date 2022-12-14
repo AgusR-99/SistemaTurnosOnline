@@ -22,20 +22,42 @@ namespace SistemaTurnosOnline.Api.Repositories
             profesorCollection = this.dbContext.db.GetCollection<Profesor>("profesor");
         }
 
-        private async Task<bool> ProfesorExists(string dni)
+        private async Task<bool> ProfesorExists(string id)
+        {
+            return await profesorCollection.Find(new BsonDocument { { "_id", new ObjectId(id) } }).AnyAsync();
+        }
+        private async Task<bool> DniExists(string dni)
         {
             return await profesorCollection.Find(p => p.Dni == dni).AnyAsync();
+        }
+        private async Task<bool> EmailExists(string email)
+        {
+            return await profesorCollection.Find(p => p.Email == email).AnyAsync();
+        }
+        private async Task<bool> DuplicateExists(Profesor profesor)
+        {
+            if (!await EmailExists(profesor.Email))
+            {
+                if (!await DniExists(profesor.Dni))
+                {
+                    return false;
+                }
+                throw new Exception($"Parametro {nameof(profesor.Dni)} no se puede repetir");
+            }
+            throw new Exception($"Parametro {nameof(profesor.Email)} no se puede repetir");
         }
 
         public async Task<Profesor> CreateProfesor(Profesor profesor)
         {
-            if(!await ProfesorExists(profesor.Dni))
+            if(!await ProfesorExists(profesor.Id.ToString()))
             {
+                if (!await DuplicateExists(profesor))
+                {
                 await profesorCollection.InsertOneAsync(profesor);
 
                 return profesor;
             }
-
+            }
             return null;
         }
 
