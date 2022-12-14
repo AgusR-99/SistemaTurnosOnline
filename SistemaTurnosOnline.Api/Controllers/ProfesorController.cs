@@ -77,5 +77,33 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ex.Message);
             }
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateProfesor([FromBody] Profesor profesor, string id)
+        {
+            try
+            {
+                if (profesor == null)
+                {
+                    return BadRequest();
+                }
+
+                if (profesor.Nombre == String.Empty)
+                {
+                    ModelState.AddModelError("Nombre", "Ingrese el nombre del profesor");
+                }
+
+                profesor.Id = new MongoDB.Bson.ObjectId(id);
+
+                var newProfesor = await profesorRepository.UpdateProfesor(profesor);
+
+                return CreatedAtAction(nameof(GetProfesor), new { id = newProfesor.Id }, newProfesor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }
