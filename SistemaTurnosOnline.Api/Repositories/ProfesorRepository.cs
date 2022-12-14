@@ -53,10 +53,10 @@ namespace SistemaTurnosOnline.Api.Repositories
             {
                 if (!await DuplicateExists(profesor))
                 {
-                await profesorCollection.InsertOneAsync(profesor);
+                    await profesorCollection.InsertOneAsync(profesor);
 
-                return profesor;
-            }
+                    return profesor;
+                }
             }
             return null;
         }
@@ -79,9 +79,21 @@ namespace SistemaTurnosOnline.Api.Repositories
             return profesores;
         }
 
-        public Task<Profesor> UpdateProfesor(Profesor profesor)
+        public async Task<Profesor> UpdateProfesor(Profesor profesor)
         {
-            throw new NotImplementedException();
+            // Corroborar que el Id exista en la coleccion
+            if (await ProfesorExists(profesor.Id.ToString()))
+            {
+                if (!await DuplicateExists(profesor))
+                {
+                    var filtro = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
+
+                    await profesorCollection.ReplaceOneAsync(filtro, profesor);
+
+                    return profesor;
+                }
+            }
+            return null;
         }
     }
 }
