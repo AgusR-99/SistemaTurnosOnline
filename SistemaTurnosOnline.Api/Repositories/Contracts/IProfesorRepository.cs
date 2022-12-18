@@ -9,5 +9,6 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
         Task<Profesor> DeleteProfesor(string id);
         Task<Profesor> GetProfesor(string id);
         Task<IEnumerable<Profesor>> GetProfesores();
+        Task<IEnumerable<Profesor>> GetProfesoresInactive();
     }
 }
