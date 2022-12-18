@@ -12,9 +12,32 @@ namespace SistemaTurnosOnline.Web.Services
             this.httpClient = httpClient;
         }
 
-        public Task<Profesor> CreateProfesor(Profesor profesor)
+        public async Task<Profesor> CreateProfesor(Profesor profesor)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync<Profesor>("api/Profesor", profesor);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(Profesor);
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<Profesor>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+                }
+            }
+            catch (Exception)
+            {
+                // Loguear excepcion
+                throw;
+            }
         }
 
         public Task DeleteProfesor(string id)
