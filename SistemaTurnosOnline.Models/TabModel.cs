@@ -10,5 +10,6 @@ namespace SistemaTurnosOnline.Models
     {
         public string Class { get; set; }
         public string Text { get; set; }
+        public string Href { get; set; }
     }
 }
