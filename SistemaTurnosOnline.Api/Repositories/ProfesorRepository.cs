@@ -99,9 +99,9 @@ namespace SistemaTurnosOnline.Api.Repositories
             {
                 if (!await DuplicateExists(profesor))
                 {
-                    var filtro = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
+                    var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
 
-                    await profesorCollection.ReplaceOneAsync(filtro, profesor);
+                    await profesorCollection.ReplaceOneAsync(filtroId, profesor);
 
                     return profesor;
                 }
