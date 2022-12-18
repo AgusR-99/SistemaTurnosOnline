@@ -78,8 +78,17 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<IEnumerable<Profesor>> GetProfesores()
         {
-            // Filtrar mediante BsonDocument vacio
-            var profesores = await profesorCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
+            var filtroEstado = Builders<Profesor>.Filter.Eq(p => p.Estado, true);
+
+            var profesores = await profesorCollection.FindAsync(filtroEstado).Result.ToListAsync();
+            return profesores;
+        }
+
+        public async Task<IEnumerable<Profesor>> GetProfesoresInactive()
+        {
+            var filtroEstado = Builders<Profesor>.Filter.Eq(p => p.Estado, false);
+
+            var profesores = await profesorCollection.FindAsync(filtroEstado).Result.ToListAsync();
             return profesores;
         }
 
