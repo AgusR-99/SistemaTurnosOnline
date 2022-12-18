@@ -36,6 +36,27 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
+        [HttpGet("GetInactive")]
+        public async Task<IActionResult> GetProfesoresInactive()
+        {
+            try
+            {
+                var profesores = await profesorRepository.GetProfesoresInactive();
+
+                if (profesores == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(profesores);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfesor(string id)
         {
