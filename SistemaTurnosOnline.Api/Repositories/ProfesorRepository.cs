@@ -49,7 +49,7 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<Profesor> CreateProfesor(Profesor profesor)
         {
-            if(!await ProfesorExists(profesor.Id.ToString()))
+            if(profesor.Id == null)
             {
                 if (!await DuplicateExists(profesor))
                 {
