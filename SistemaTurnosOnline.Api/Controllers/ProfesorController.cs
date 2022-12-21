@@ -114,7 +114,7 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ModelState.AddModelError("Nombre", "Ingrese el nombre del profesor");
                 }
 
-                profesor.Id = new MongoDB.Bson.ObjectId(id);
+                profesor.Id = id;
 
                 var newProfesor = await profesorRepository.UpdateProfesor(profesor);
 
