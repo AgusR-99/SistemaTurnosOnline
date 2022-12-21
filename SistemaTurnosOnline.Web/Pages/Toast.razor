@@ -1,0 +1,28 @@
+﻿<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="@Id" class="@Class" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <span class="@Icon"></span>
+            <strong class="me-auto ms-2">@Title</strong>
+            <small>@Time</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @Text
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public string Id { get; set; }
+    [Parameter]
+    public string Class { get; set; } = "toast";
+    [Parameter]
+    public string Icon { get; set; } = "oi oi-info";
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string Time { get; set; }
+    [Parameter]
+    public string Text { get; set; }
+}
