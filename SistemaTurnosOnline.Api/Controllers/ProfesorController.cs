@@ -126,5 +126,26 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ex.Message);
             }
         }
+
+        [HttpGet("Validation/{value}/{check:AttributeCheck}")]
+        public async Task<IActionResult> ValidateDuplicated(string value, AttributeCheck.Attribute check)
+        {
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest();
+                }
+
+                var isDuplicated = await profesorRepository.IsDuplicated(value, check);
+
+                return Ok(isDuplicated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }
