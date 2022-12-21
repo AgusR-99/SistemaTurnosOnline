@@ -9,5 +9,6 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
         Task<Profesor> CreateProfesor(Profesor profesor);
         Task<Profesor> UpdateProfesor(Profesor profesor);
         Task DeleteProfesor(string id);
+        Task <bool> IsDuplicated(string value, AttributeCheck.Attribute check);
     }
 }
