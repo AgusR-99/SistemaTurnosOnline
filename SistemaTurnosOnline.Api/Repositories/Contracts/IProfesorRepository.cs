@@ -10,5 +10,6 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
         Task<Profesor> GetProfesor(string id);
         Task<IEnumerable<Profesor>> GetProfesores();
         Task<IEnumerable<Profesor>> GetProfesoresInactive();
+        Task<bool> IsDuplicated(string value, AttributeCheck.Attribute check);
     }
 }
