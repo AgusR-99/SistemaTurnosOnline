@@ -16,7 +16,7 @@ namespace SistemaTurnosOnline.Web.Services
         {
             try
             {
-                var response = await httpClient.PostAsJsonAsync<Profesor>("api/Profesor", profesor);
+                var response = await httpClient.PostAsJsonAsync("api/Profesor", profesor);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -58,6 +58,29 @@ namespace SistemaTurnosOnline.Web.Services
         public Task<Profesor> UpdateProfesor(Profesor profesor)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> IsDuplicated(string value, AttributeCheck.Attribute check)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Profesor/Validation/{value}/{check}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<bool>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+                // Loguear excepcion
+                throw;
+            }
         }
     }
 }
