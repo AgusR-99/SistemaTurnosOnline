@@ -1,11 +1,18 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using FluentValidation;
+using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Web.Services;
+using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7184") });
+builder.Services.AddScoped<IProfesorService, ProfesorService>();
+builder.Services.AddTransient<ICarreraService, CarreraService>();
+builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
 
 var app = builder.Build();
 
