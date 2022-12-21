@@ -108,5 +108,17 @@ namespace SistemaTurnosOnline.Api.Repositories
             }
             return null;
         }
+
+        public Task<bool> IsDuplicated(string value, AttributeCheck.Attribute check)
+        {
+            switch (check)
+            {
+                case AttributeCheck.Attribute.Dni:
+                    return DniExists(value);
+                case AttributeCheck.Attribute.Email:
+                    return EmailExists(value);
+            }
+            return null;
+        }
     }
 }
