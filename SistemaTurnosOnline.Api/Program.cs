@@ -13,9 +13,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
+builder.Services.AddScoped<ICarreraRepository, CarreraRepository>();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();
+
+//! Enum route constraints: ref https://nickheath.net/2019/02/20/asp-net-core-enum-route-constraints/
+builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
+{
+    options.ConstraintMap.Add("AttributeCheck", typeof(SistemaTurnosOnline.Api.Extensions.CustomRouteConstraint<AttributeCheck.Attribute>));
+});
 
 var app = builder.Build();
 
