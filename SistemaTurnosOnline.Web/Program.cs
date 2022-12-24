@@ -1,8 +1,12 @@
 using FluentValidation;
 using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Models.Validators;
 using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using SistemaTurnosOnline.Web.Utilities;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+using SistemaTurnosOnline.Models.Validators.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,15 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7184") });
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddTransient<ICarreraService, CarreraService>();
+builder.Services.AddTransient<IValidateProfesor, ValidateProfesorService>();
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
+builder.Services
+  .AddBlazorise(options =>
+  {
+      options.Immediate = true;
+  })
+  .AddBootstrapProviders()
+  .AddFontAwesomeIcons();
 
 var app = builder.Build();
 
