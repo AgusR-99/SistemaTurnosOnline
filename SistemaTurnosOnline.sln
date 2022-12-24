@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnosOnline.Api", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnosOnline.Web", "SistemaTurnosOnline.Web\SistemaTurnosOnline.Web.csproj", "{B14DC167-042B-41E4-A5D1-BDFD0C22838E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnosOnline.Models", "SistemaTurnosOnline.Models\SistemaTurnosOnline.Models.csproj", "{80B8122A-0D87-45A6-8379-2A5A181575BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnosOnline.Shared", "SistemaTurnosOnline.Models\SistemaTurnosOnline.Shared.csproj", "{80B8122A-0D87-45A6-8379-2A5A181575BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
