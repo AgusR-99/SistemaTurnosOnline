@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SistemaTurnosOnline.Models
 {
-    public class AttributeCheck
+    public class ProfesorParam
     {
-        public enum Attribute
+        public enum Field
         {
             Dni,
             Email,
