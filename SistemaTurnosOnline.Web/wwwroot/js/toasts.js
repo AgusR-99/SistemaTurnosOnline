@@ -4,4 +4,3 @@ function showToast(id) {
         var toast = new bootstrap.Toast(toastLiveExample)
         toast.show()
     }
-
