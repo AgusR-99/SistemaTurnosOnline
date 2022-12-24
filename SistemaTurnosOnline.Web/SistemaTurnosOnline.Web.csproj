@@ -12,11 +12,14 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
+    <PackageReference Include="Blazorise.Animate" Version="1.1.5" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="1.1.5" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.5" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SistemaTurnosOnline.Models\SistemaTurnosOnline.Models.csproj" />
+    <ProjectReference Include="..\SistemaTurnosOnline.Models\SistemaTurnosOnline.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +32,10 @@
 
   <ItemGroup>
     <None Include="Pages\Toast.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>
