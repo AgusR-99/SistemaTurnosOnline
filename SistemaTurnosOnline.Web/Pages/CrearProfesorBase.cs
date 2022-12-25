@@ -21,7 +21,8 @@ namespace SistemaTurnosOnline.Web.Pages
               new ToastModel(
                 status: ToastModel.Status.Success,
                 id: "toastCreado",
-                @class: "toast text-bg-success",
+                headerClass: "bg-success",
+                @class: "toast",
                 icon: "oi oi-circle-check",
                 title: "Solicitud exitosa!",
                 time: "Ahora",
@@ -30,7 +31,8 @@ namespace SistemaTurnosOnline.Web.Pages
              new ToastModel(
                 status: ToastModel.Status.Error,
                 id: "toastError",
-                @class: "toast text-bg-danger",
+                headerClass: "bg-danger",
+                @class: "toast",
                 icon: "oi oi-circle-x",
                 title: "Error de server",
                 time: "Ahora",
@@ -114,19 +116,19 @@ namespace SistemaTurnosOnline.Web.Pages
                 }
                 else
                 {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                    if (toast != null)
-                    {
-                        await ShowToast(toast.Id);
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                        $"asegurese que dicho parametro se encuentre presente en la lista");
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+
+                if (toast != null)
+                {
+                    await ShowToast(toast.Id);
+                }
+                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
+                    $"asegurese que dicho parametro se encuentre presente en la lista"); ErrorMessage = ex.Message;
             }
         }
     }
