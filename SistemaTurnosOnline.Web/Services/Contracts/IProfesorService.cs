@@ -6,9 +6,9 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
     {
         Task<List<Profesor>> GetProfesores();
         Task<Profesor> GetProfesor(string id);
-        Task<Profesor> CreateProfesor(Profesor profesor);
+        Task<Profesor> CreateProfesor(ProfesorForm profesorForm);
+        //TODO: cambiar a UpdateProfesor(ProfesorForm profesorForm);
         Task<Profesor> UpdateProfesor(Profesor profesor);
         Task DeleteProfesor(string id);
-        Task <bool> IsDuplicated(string value, AttributeCheck.Attribute check);
     }
 }
