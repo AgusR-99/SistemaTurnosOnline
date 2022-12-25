@@ -8,13 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.18.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SistemaTurnosOnline.Models\SistemaTurnosOnline.Models.csproj" />
+    <ProjectReference Include="..\SistemaTurnosOnline.Models\SistemaTurnosOnline.Shared.csproj" />
   </ItemGroup>
 
 </Project>
