@@ -4,6 +4,7 @@ using MongoDB.Driver.Linq;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Models;
+using System.Linq.Expressions;
 
 namespace SistemaTurnosOnline.Api.Repositories
 {
@@ -21,44 +22,11 @@ namespace SistemaTurnosOnline.Api.Repositories
             this.dbContext = dbContext;
             profesorCollection = this.dbContext.db.GetCollection<Profesor>("profesor");
         }
-
-        private async Task<bool> ProfesorExists(string id)
-        {
-            return await profesorCollection.Find(new BsonDocument { { "_id", new ObjectId(id) } }).AnyAsync();
-        }
-        private async Task<bool> DniExists(string dni)
-        {
-            return await profesorCollection.Find(p => p.Dni == dni).AnyAsync();
-        }
-        private async Task<bool> EmailExists(string email)
-        {
-            return await profesorCollection.Find(p => p.Email == email).AnyAsync();
-        }
-        private async Task<bool> DuplicateExists(Profesor profesor)
-        {
-            if (!await EmailExists(profesor.Email))
-            {
-                if (!await DniExists(profesor.Dni))
-                {
-                    return false;
-                }
-                throw new Exception($"Parametro {nameof(profesor.Dni)} no se puede repetir");
-            }
-            throw new Exception($"Parametro {nameof(profesor.Email)} no se puede repetir");
-        }
-
         public async Task<Profesor> CreateProfesor(Profesor profesor)
         {
-            if(profesor.Id == null)
-            {
-                if (!await DuplicateExists(profesor))
-                {
-                    await profesorCollection.InsertOneAsync(profesor);
+            await profesorCollection.InsertOneAsync(profesor);
 
-                    return profesor;
-                }
-            }
-            return null;
+            return profesor;
         }
 
         public Task<Profesor> DeleteProfesor(string id)
@@ -68,7 +36,6 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<Profesor> GetProfesor(string id)
         {
-
             var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, id);
 
             var profesor = await profesorCollection.FindAsync(filtroId).Result.FirstAsync();
@@ -77,9 +44,7 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<IEnumerable<Profesor>> GetProfesores()
         {
-            var filtroEstado = Builders<Profesor>.Filter.Eq(p => p.Estado, true);
-
-            var profesores = await profesorCollection.FindAsync(filtroEstado).Result.ToListAsync();
+            var profesores = await profesorCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
             return profesores;
         }
 
@@ -93,31 +58,28 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<Profesor> UpdateProfesor(Profesor profesor)
         {
-            // Corroborar que el Id exista en la coleccion
-            if (await ProfesorExists(profesor.Id.ToString()))
-            {
-                if (!await DuplicateExists(profesor))
-                {
-                    var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
+            var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
 
-                    await profesorCollection.ReplaceOneAsync(filtroId, profesor);
+            await profesorCollection.ReplaceOneAsync(filtroId, profesor);
 
-                    return profesor;
-                }
-            }
-            return null;
+            return profesor;
         }
 
-        public Task<bool> IsDuplicated(string value, AttributeCheck.Attribute check)
+        public async Task<Profesor> GetProfesorByParam(string value, Expression<Func<Profesor, string>> field)
         {
-            switch (check)
+            try
             {
-                case AttributeCheck.Attribute.Dni:
-                    return DniExists(value);
-                case AttributeCheck.Attribute.Email:
-                    return EmailExists(value);
+                var filtro = Builders<Profesor>.Filter.Eq(field, value);
+
+                var profesor = await profesorCollection.FindAsync(filtro).Result.FirstOrDefaultAsync();
+
+                return profesor;
             }
-            return null;
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
