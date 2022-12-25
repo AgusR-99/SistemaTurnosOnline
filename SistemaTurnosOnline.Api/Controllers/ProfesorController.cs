@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
+using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Models.Validators;
+using System;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {
@@ -9,10 +14,12 @@ namespace SistemaTurnosOnline.Api.Controllers
     public class ProfesorController : ControllerBase
     {
         private readonly IProfesorRepository profesorRepository;
+        private readonly IValidator<ProfesorForm> validator;
 
-        public ProfesorController(IProfesorRepository profesorRepository)
+        public ProfesorController(IProfesorRepository profesorRepository, IValidator<ProfesorForm> validator)
         {
             this.profesorRepository = profesorRepository;
+            this.validator = validator;
         }
 
         [HttpGet]
@@ -78,11 +85,64 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateProfesor([FromBody] Profesor profesor)
+        [HttpGet("GetByEmail/{email}")]
+        public async Task<IActionResult> GetProfesorByEmail(string email)
         {
             try
             {
+                var profesor = await profesorRepository.GetProfesorByParam(email, p => p.Email);
+
+                if (profesor == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(profesor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
+        [HttpGet("GetByDni/{dni}")]
+        public async Task<IActionResult> GetProfesorByDni(string dni)
+        {
+            try
+            {
+                var profesor = await profesorRepository.GetProfesorByParam(dni, p => p.Dni);
+
+                if (profesor == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(profesor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProfesor([FromBody] ProfesorForm profesorForm)
+        {
+            try
+            {
+                var result = await validator.ValidateAsync(profesorForm);
+
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
+
+                var profesor = profesorForm.ConvertToProfesor();
+
                 var newProfesor = await profesorRepository.CreateProfesor(profesor);
 
                 if (newProfesor == null)
@@ -119,27 +179,6 @@ namespace SistemaTurnosOnline.Api.Controllers
                 var newProfesor = await profesorRepository.UpdateProfesor(profesor);
 
                 return CreatedAtAction(nameof(GetProfesor), new { id = newProfesor.Id }, newProfesor);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    ex.Message);
-            }
-        }
-
-        [HttpGet("Validation/{value}/{check:AttributeCheck}")]
-        public async Task<IActionResult> ValidateDuplicated(string value, AttributeCheck.Attribute check)
-        {
-            try
-            {
-                if (value == null)
-                {
-                    return BadRequest();
-                }
-
-                var isDuplicated = await profesorRepository.IsDuplicated(value, check);
-
-                return Ok(isDuplicated);
             }
             catch (Exception ex)
             {
