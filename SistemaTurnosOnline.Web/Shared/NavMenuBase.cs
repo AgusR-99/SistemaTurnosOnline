@@ -75,16 +75,6 @@ namespace SistemaTurnosOnline.Web.Shared
                     Class = "oi-trash"
                 },
             };
-
-            foreach(var tab in tabsProfesor)
-            {
-                tab.Class += " oi ms-3";
-            }
-
-            foreach (var tab in tabsCarreras)
-            {
-                tab.Class += " oi ms-3";
-            }
         }
     }
 }
