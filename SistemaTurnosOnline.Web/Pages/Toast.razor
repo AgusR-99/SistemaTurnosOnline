@@ -1,6 +1,6 @@
-﻿<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+﻿<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
     <div id="@Id" class="@Class" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
+        <div class="toast-header @HeaderClass">
             <span class="@Icon"></span>
             <strong class="me-auto ms-2">@Title</strong>
             <small>@Time</small>
@@ -15,6 +15,8 @@
 @code{
     [Parameter]
     public string Id { get; set; }
+    [Parameter]
+    public string HeaderClass { get; set; } = "toast-header";
     [Parameter]
     public string Class { get; set; } = "toast";
     [Parameter]
