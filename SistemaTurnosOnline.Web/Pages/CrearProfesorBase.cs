@@ -42,6 +42,7 @@ namespace SistemaTurnosOnline.Web.Pages
             try
             {
                 CarreraService.SetCarrerasValues(new List<string> { });
+
                 Carreras = await CarreraService.GetCarreras();
             }
             catch (Exception)
@@ -84,15 +85,6 @@ namespace SistemaTurnosOnline.Web.Pages
         {
             try
             {
-                Profesor profesor = new Profesor()
-                {
-                    Dni = ProfesorForm.Dni,
-                    Nombre = ProfesorForm.Nombre,
-                    Email = ProfesorForm.Email,
-                    Password = ProfesorForm.Password,
-                    Estado = false,
-            };
-
                 var CarrerasValues = CarreraService.GetCarrerasValues();
 
                 var carrerasId =
@@ -101,9 +93,9 @@ namespace SistemaTurnosOnline.Web.Pages
                     on carrera.Id equals carrerasValues
                     select carrera.Id;
 
-                profesor.CarrerasId = carrerasId.ToList();
+                ProfesorForm.CarrerasId = carrerasId.ToList();
 
-                var profesorToAdd = await ProfesorService.CreateProfesor(profesor);
+                var profesorToAdd = await ProfesorService.CreateProfesor(ProfesorForm);
 
                 if (profesorToAdd != null)
                 {
@@ -112,6 +104,10 @@ namespace SistemaTurnosOnline.Web.Pages
                     if (toast != null)
                     {
                         await ShowToast(toast.Id);
+                        typeof(ProfesorForm).GetProperties()
+                                            .Where(p => p.PropertyType == typeof(string))
+                                            .ToList()
+                                            .ForEach(p => p.SetValue(ProfesorForm, string.Empty, null));
                     }
                     else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Success)}" +
                         $"asegurese que dicho parametro se encuentre presente en la lista");
