@@ -16,14 +16,14 @@
         </div>
         @foreach (var tab in tabsProfesor)
         {
-            <Tab _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></Tab>
+            <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
         }
         <div class="nav-item px-3">
             <span class="text-light">Carreras</span>
         </div>
         @foreach (var tab in tabsCarreras)
         {
-            <Tab _Class="@tab.Class" _Text="@tab.Text"></Tab>
+            <TabComponent _Class="@tab.Class" _Text="@tab.Text"></TabComponent>
         }
     </nav>
 </div>
