@@ -23,31 +23,31 @@ namespace SistemaTurnosOnline.Web.Shared
                 new TabModel()
                 {
                     Text = "Agregar",
-                    Class = "oi oi-plus",
+                    Class = "oi-plus",
                     Href = "/profesor/create"
                 },
                 new TabModel()
                 {
                     Text = "Listar todos",
-                    Class = "oi oi-grid-four-up",
+                    Class = "oi-grid-four-up",
                     Href = "/profesor/readall"
                 },
                 new TabModel()
                 {
                     Text = "Buscar",
-                    Class = "oi oi-magnifying-glass",
+                    Class = "oi-magnifying-glass",
                     Href = "/profesor/search"
                 },
                 new TabModel()
                 {
                     Text = "Actualizar",
-                    Class = "oi oi-loop-circular",
+                    Class = "oi-loop-circular",
                     Href = "/profesor/update"
                 },
                 new TabModel()
                 {
                     Text = "Eliminar",
-                    Class = "oi oi-trash",
+                    Class = "oi-trash",
                     Href = "/profesor/delete"
                 },
             };
@@ -57,24 +57,34 @@ namespace SistemaTurnosOnline.Web.Shared
                 new TabModel()
                 {
                     Text = "Agregar",
-                    Class = "oi oi-plus"
+                    Class = "oi-plus"
                 },
                 new TabModel()
                 {
                     Text = "Listar todos",
-                    Class = "oi oi-grid-four-up"
+                    Class = "oi-grid-four-up"
                 },
                 new TabModel()
                 {
                     Text = "Buscar",
-                    Class = "oi oi-magnifying-glass"
+                    Class = "oi-magnifying-glass"
                 },
                 new TabModel()
                 {
                     Text = "Eliminar",
-                    Class = "oi oi-trash"
+                    Class = "oi-trash"
                 },
             };
+
+            foreach(var tab in tabsProfesor)
+            {
+                tab.Class += " oi ms-3";
+            }
+
+            foreach (var tab in tabsCarreras)
+            {
+                tab.Class += " oi ms-3";
+            }
         }
     }
 }
