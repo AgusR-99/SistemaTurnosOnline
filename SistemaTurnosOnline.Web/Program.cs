@@ -7,6 +7,8 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using SistemaTurnosOnline.Models.Validators.Contracts;
+using MudBlazor;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services
   })
   .AddBootstrapProviders()
   .AddFontAwesomeIcons();
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
