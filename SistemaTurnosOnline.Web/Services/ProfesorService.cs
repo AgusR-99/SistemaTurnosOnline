@@ -1,5 +1,7 @@
 ﻿using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using System.Text.Json;
+using System.Text;
 
 namespace SistemaTurnosOnline.Web.Services
 {
@@ -45,19 +47,81 @@ namespace SistemaTurnosOnline.Web.Services
             throw new NotImplementedException();
         }
 
-        public Task<Profesor> GetProfesor(string id)
+        public async Task<Profesor> GetProfesor(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Profesor/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return default(Profesor);
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<Profesor>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+                //Log exception
+                throw;
+            }
         }
 
-        public Task<List<Profesor>> GetProfesores()
+        public async Task<IEnumerable<Profesor>> GetProfesores()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.GetAsync("api/Profesor");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return Enumerable.Empty<Profesor>();
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<Profesor>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+            catch (Exception)
+            {
+                //Log exception
+                throw;
+            }
         }
 
-        public Task<Profesor> UpdateProfesor(Profesor profesor)
+        public async Task<Profesor> UpdateProfesor(ProfesorForm profesorForm)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var profesorFormJson = new StringContent(JsonSerializer.Serialize(profesorForm), Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PatchAsync($"api/Profesor/{profesorForm.Id}", profesorFormJson);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Profesor>();
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
