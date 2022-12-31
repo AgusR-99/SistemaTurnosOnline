@@ -28,28 +28,10 @@ namespace SistemaTurnosOnline.Web.Shared
                 },
                 new TabModel()
                 {
-                    Text = "Listar todos",
-                    Class = "oi-grid-four-up",
+                    Text = "Administrar",
+                    Class = "oi-wrench",
                     Href = "/profesor/readall"
-                },
-                new TabModel()
-                {
-                    Text = "Buscar",
-                    Class = "oi-magnifying-glass",
-                    Href = "/profesor/search"
-                },
-                new TabModel()
-                {
-                    Text = "Actualizar",
-                    Class = "oi-loop-circular",
-                    Href = "/profesor/update"
-                },
-                new TabModel()
-                {
-                    Text = "Eliminar",
-                    Class = "oi-trash",
-                    Href = "/profesor/delete"
-                },
+                }
             };
 
             tabsCarreras = new List<TabModel>()
@@ -61,19 +43,10 @@ namespace SistemaTurnosOnline.Web.Shared
                 },
                 new TabModel()
                 {
-                    Text = "Listar todos",
-                    Class = "oi-grid-four-up"
-                },
-                new TabModel()
-                {
-                    Text = "Buscar",
-                    Class = "oi-magnifying-glass"
-                },
-                new TabModel()
-                {
-                    Text = "Eliminar",
-                    Class = "oi-trash"
-                },
+                    Text = "Administrar",
+                    Class = "oi-wrench",
+                    Href = "/carrera/readall"
+                }
             };
         }
     }
