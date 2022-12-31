@@ -14,7 +14,20 @@ namespace SistemaTurnosOnline.Api.Validator
             this.profesorRepository = profesorRepository;
         }
 
-        public async Task<bool> ValidateDni(string dni)
+        public async Task<bool> DniIsUnique(string dni, string id)
+        {
+            Expression<Func<Profesor, string>> field = p => p.Dni;
+            var profesor = await profesorRepository.GetProfesorByParam(dni, field);
+
+            if (profesor == null || profesor.Id == id)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DniIsUnique(string dni)
         {
             Expression<Func<Profesor, string>> field = p => p.Dni;
             var profesor = await profesorRepository.GetProfesorByParam(dni, field);
@@ -27,7 +40,20 @@ namespace SistemaTurnosOnline.Api.Validator
             return false;
         }
 
-        public async Task<bool> ValidateEmail(string email)
+        public async Task<bool> EmailIsUnique(string email, string id)
+        {
+            Expression<Func<Profesor, string>> field = p => p.Email;
+            var profesor = await profesorRepository.GetProfesorByParam(email, field);
+
+            if (profesor == null || profesor.Id == id)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> EmailIsUnique(string email)
         {
             Expression<Func<Profesor, string>> field = p => p.Email;
             var profesor = await profesorRepository.GetProfesorByParam(email, field);
