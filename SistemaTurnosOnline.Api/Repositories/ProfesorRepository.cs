@@ -29,9 +29,18 @@ namespace SistemaTurnosOnline.Api.Repositories
             return profesor;
         }
 
-        public Task<Profesor> DeleteProfesor(string id)
+        public async Task<Profesor> DeleteProfesor(string id)
         {
-            throw new NotImplementedException();
+            var filtro = Builders<Profesor>.Filter.Eq(p => p.Id, id);
+
+            var profesor = await profesorCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
+
+            if (profesor != null)
+            {
+                await profesorCollection.DeleteOneAsync(filtro);
+            }
+
+            return profesor;
         }
 
         public async Task<Profesor> GetProfesor(string id)
