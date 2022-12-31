@@ -35,6 +35,16 @@ a, .btn-link {
     color: red;
 }
 
+.rounded-end-0 {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.rounded-start-0 {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
