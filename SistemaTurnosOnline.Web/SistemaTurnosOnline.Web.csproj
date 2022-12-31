@@ -13,10 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
     <PackageReference Include="Blazorise.Animate" Version="1.1.5" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="1.1.5" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.5" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
-    <PackageReference Include="MudBlazor" Version="6.1.6" />
   </ItemGroup>
 
   <ItemGroup>
