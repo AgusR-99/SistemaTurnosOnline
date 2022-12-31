@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
 using SistemaTurnosOnline.Models.Validators.Contracts;
 using System.Linq.Expressions;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SistemaTurnosOnline.Models.Validators
@@ -107,11 +104,27 @@ namespace SistemaTurnosOnline.Models.Validators
                     .WithMessage($"'{GetMemberName(expression)}' no coincide con la contraseña");
                 }
 
-                // Si es email, evaluar si tiene forma de email
+                // Si es email, evaluar si tiene forma de email y si es unico
                 else if (field == ProfesorParam.Field.Email)
                 {
                     RuleFor(expression)
-                        .EmailAddress();
+                        .EmailAddress()
+                        .MustAsync(async (ProfesorForm, email, CancellationToken) =>
+                        {
+                            return await BeUniqueEmail(ProfesorForm, email);
+                        })
+                        .WithMessage($"'{GetMemberName(expression)}' no puede repetirse");
+                }
+
+                // Si es email, evaluar si tiene forma de dni y si es unico
+                else if (field == ProfesorParam.Field.Dni)
+                {
+                    RuleFor(expression)
+                        .MustAsync(async (ProfesorForm, dni, CancellationToken) =>
+                        {
+                            return await BeUniqueDni(ProfesorForm, dni);
+                        })
+                        .WithMessage($"'{GetMemberName(expression)}' no puede repetirse");
                 }
 
                 // Si es numero, evaluar si solo tiene numeros
@@ -135,18 +148,6 @@ namespace SistemaTurnosOnline.Models.Validators
                             return BeLetter(valueToValidate);
                         }).WithMessage($"'{GetMemberName(expression)}' solo puede contener letras");
                 }
-
-                // Si es unico, evaluar que no exista en la DB
-                if (isUnique)
-                {
-                    RuleFor(expression)
-                    .MustAsync(
-                        async (valueToValidate, cancellation) =>
-                        {
-                            var result = await BeUnique(valueToValidate, field, cancellation);
-                            return result;
-                        }).WithMessage($"'{GetMemberName(expression)}' ya se encuentra en uso");
-                }
             });
         }
 
@@ -161,50 +162,25 @@ namespace SistemaTurnosOnline.Models.Validators
             throw new ArgumentException("Expression is not a member access", "expression");
         }
 
-        private async Task<bool> BeUnique(string value, ProfesorParam.Field field, CancellationToken cancellation)
+        private async Task<bool> BeUniqueEmail(ProfesorForm profesor, string email)
         {
-            try
+            if (profesor.Id == null)
             {
-                switch (field)
-                {
-                    case ProfesorParam.Field.Dni:
-                        var foo = await validation.ValidateDni(value);
-                        return foo;
-                    case ProfesorParam.Field.Email:
-                        return await validation.ValidateEmail(value);
-                    default:
-                        throw new ArgumentException($"Argumento {nameof(field)}: {field} no implementado como unico");
-                }
+                return await validation.EmailIsUnique(email);
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+
+            return await validation.EmailIsUnique(email, profesor.Id);
         }
 
-        /*private async Task<bool> IsDuplicated(string value, ProfesorParam.Attribute check)
+        private async Task<bool> BeUniqueDni(ProfesorForm profesor, string dni)
         {
-            try
+            if (profesor.Id == null)
             {
-
-                var response = await httpClient.GetAsync($"api/Profesor/Validation/{value}/{check}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<bool>();
-                }
-                else
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    throw new Exception(message);
-                }
+                return await validation.DniIsUnique(dni);
             }
-            catch (Exception)
-            {
-                // Loguear excepcion
-                throw;
-            }
-        }*/
+
+            return await validation.DniIsUnique(dni, profesor.Id);
+        }
 
         private bool BeDigit(string valueToValidate)
         {
