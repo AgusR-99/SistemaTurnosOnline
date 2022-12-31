@@ -224,5 +224,26 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProfesor(string id)
+        {
+            try
+            {
+                var deletedProfesor = await profesorRepository.DeleteProfesor(id);
+
+                if (deletedProfesor == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(deletedProfesor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }
