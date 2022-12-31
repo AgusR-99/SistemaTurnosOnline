@@ -1,0 +1,37 @@
+﻿@page "/profesor/readall"
+@using SistemaTurnosOnline.Models
+@inherits ListarTodosProfesorBase
+
+<h3>ListarTodosProfesor</h3>
+
+@if (Profesores == null)
+{
+
+}
+else 
+{
+    <div class="m-auto">
+        <table class="m-auto w-100" id="@TableId">
+            <thead>
+                <tr>
+                    @foreach (var header in Headers)
+                    {
+                        <th>@header</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var profesor in Profesores)
+                {
+                    <tr>
+                        <td>@profesor.Dni</td>
+                        <td>@profesor.Nombre</td>
+                        <td>@profesor.Email</td>
+                        <td><a href="profesor/@profesor.Id" class="btn btn-primary p-2"><i class="oi oi-pencil"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+}
