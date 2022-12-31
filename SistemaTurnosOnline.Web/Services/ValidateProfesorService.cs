@@ -1,6 +1,4 @@
-﻿using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Models.Validators.Contracts;
-using System.Linq.Expressions;
+﻿using SistemaTurnosOnline.Models.Validators.Contracts;
 using System.Net;
 
 namespace SistemaTurnosOnline.Web.Services
@@ -31,11 +29,11 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public async Task<bool> ValidateDni(string dni)
+        public async Task<bool> DniIsUnique(string dni, string id)
         {
             try
             {
-                var response = await httpClient.GetAsync($"api/Profesor/GetByDni/{dni}");
+                var response = await httpClient.GetAsync($"api/Profesor/GetByDni/{id}/{dni}");
 
                 return await responseStatus(response);
             }
@@ -45,7 +43,22 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public async Task<bool> ValidateEmail(string email)
+        public async Task<bool> EmailIsUnique(string email, string id)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Profesor/GetByEmail/{id}/{email}");
+
+                return await responseStatus(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> EmailIsUnique(string email)
         {
             try
             {
@@ -56,6 +69,20 @@ namespace SistemaTurnosOnline.Web.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<bool> DniIsUnique(string dni)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Profesor/GetByDni/{dni}");
+
+                return await responseStatus(response);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
