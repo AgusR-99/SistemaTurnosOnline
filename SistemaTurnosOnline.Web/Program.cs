@@ -3,12 +3,8 @@ using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Models.Validators;
 using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
 using SistemaTurnosOnline.Models.Validators.Contracts;
-using MudBlazor;
-using MudBlazor.Services;
+using Blazorise;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +17,10 @@ builder.Services.AddTransient<ICarreraService, CarreraService>();
 builder.Services.AddTransient<IValidateProfesor, ValidateProfesorService>();
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
 builder.Services
-  .AddBlazorise(options =>
-  {
-      options.Immediate = true;
-  })
-  .AddBootstrapProviders()
-  .AddFontAwesomeIcons();
-builder.Services.AddMudServices();
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    });
 
 var app = builder.Build();
 
