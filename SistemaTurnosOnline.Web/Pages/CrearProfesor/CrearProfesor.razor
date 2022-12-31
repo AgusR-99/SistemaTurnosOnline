@@ -1,0 +1,72 @@
+﻿@page "/profesor/create"
+@inherits CrearProfesorBase
+
+<Animate Animation="Animations.Fade">
+    <div class="w-50 mx-auto">
+        <a href="/" class="btn p-0 mb-3"><span class="oi oi-arrow-left"></span></a>
+
+
+        <EditForm Model=@ProfesorForm OnValidSubmit="@CreateProfesor_Click">
+            <FluentValidationValidator />
+            <h3 class="mb-3">CrearProfesor</h3>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="ProfesorForm.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
+                <label for="dniInput">DNI</label>
+                <ValidationMessage For="@(() => ProfesorForm.Dni)" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="ProfesorForm.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
+                <label for="nombreInput">Nombre y Apellido</label>
+                <ValidationMessage For="@(() => ProfesorForm.Nombre)" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="ProfesorForm.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
+                <label for="emailInput">Direccion Email</label>
+                <ValidationMessage For="@(() => ProfesorForm.Email)" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="ProfesorForm.Password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+                <label for="passwordInput">Contraseña</label>
+                <ValidationMessage For="@(() => ProfesorForm.Password)" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="ProfesorForm.PasswordConfirm" type="password" class="form-control" id="passwordInputRe" placeholder="password" />
+                <label for="passwordInputRe">Repetir contraseña</label>
+                <ValidationMessage For="@(() => ProfesorForm.PasswordConfirm)" />
+            </div>
+            @if (Carreras == null)
+            {
+                <div class="d-flex align-items-center">
+                    <div class="spinner-border text-primary mx-auto" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-floating mb-3">
+                    @foreach (var carrera in Carreras)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
+                            <label class="form-check-label" for="@carrera.Id">
+                                @carrera.Nombre
+                            </label>
+                        </div>
+                    }
+                </div>
+            }
+            <button type="submit" class="btn btn-success float-end w-100">
+                Crear
+            </button>
+        </EditForm>
+    </div>
+    @foreach (var Toast in Toasts)
+    {
+        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+    }
+</Animate>
