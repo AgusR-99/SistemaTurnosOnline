@@ -56,9 +56,9 @@ namespace SistemaTurnosOnline.Api.Repositories
             return profesores;
         }
 
-        public async Task<Profesor> UpdateProfesor(Profesor profesor)
+        public async Task<Profesor> UpdateProfesor(Profesor profesor, string id)
         {
-            var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, profesor.Id);
+            var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, id);
 
             await profesorCollection.ReplaceOneAsync(filtroId, profesor);
 
@@ -67,19 +67,11 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<Profesor> GetProfesorByParam(string value, Expression<Func<Profesor, string>> field)
         {
-            try
-            {
-                var filtro = Builders<Profesor>.Filter.Eq(field, value);
+            var filtro = Builders<Profesor>.Filter.Eq(field, value);
 
-                var profesor = await profesorCollection.FindAsync(filtro).Result.FirstOrDefaultAsync();
+            var profesor = await profesorCollection.FindAsync(filtro).Result.FirstOrDefaultAsync();
 
-                return profesor;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            return profesor;
         }
     }
 }
