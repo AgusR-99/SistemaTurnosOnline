@@ -5057,8 +5057,9 @@ textarea.form-control-lg {
 
 .alert-danger {
     color: #951d32;
-    background-color: #fed6dd;
-    border-color: #fdc1cc
+    background-color: #301A1F;
+    border-top-color: #853535;
+    border-bottom-color: #853535;
 }
 
     .alert-danger .alert-link {
@@ -17249,10 +17250,6 @@ i.flag.zimbabwe:before, i.flag.zw:before {
     margin-top: -.1rem;
     margin-left: -.5rem;
     padding: .2em .45em
-}
-
-.alert {
-    border: 0
 }
 
 .alert-absolute {
