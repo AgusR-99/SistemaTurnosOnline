@@ -14,26 +14,31 @@ namespace SistemaTurnosOnline.Web.Services
             this.httpClient = httpClient;
         }
 
+        private async Task<Profesor> ProcessProfesorResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return default(Profesor);
+                }
+
+                return await response.Content.ReadFromJsonAsync<Profesor>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+            }
+        }
+
         public async Task<Profesor> CreateProfesor(ProfesorForm profesorForm)
         {
             try
             {
                 var response = await httpClient.PostAsJsonAsync("api/Profesor", profesorForm);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                    {
-                        return default(Profesor);
-                    }
-
-                    return await response.Content.ReadFromJsonAsync<Profesor>();
-                }
-                else
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Http status: {response.StatusCode} Message: {message}");
-                }
+                return await ProcessProfesorResponseAsync(response);
             }
             catch (Exception)
             {
@@ -53,20 +58,7 @@ namespace SistemaTurnosOnline.Web.Services
             {
                 var response = await httpClient.GetAsync($"api/Profesor/{id}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    {
-                        return default(Profesor);
-                    }
-
-                    return await response.Content.ReadFromJsonAsync<Profesor>();
-                }
-                else
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    throw new Exception(message);
-                }
+                return await ProcessProfesorResponseAsync(response);
             }
             catch (Exception)
             {
@@ -111,11 +103,7 @@ namespace SistemaTurnosOnline.Web.Services
 
                 var response = await httpClient.PatchAsync($"api/Profesor/{profesorForm.Id}", profesorFormJson);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<Profesor>();
-                }
-                return null;
+                return await ProcessProfesorResponseAsync(response);
             }
             catch (Exception)
             {
