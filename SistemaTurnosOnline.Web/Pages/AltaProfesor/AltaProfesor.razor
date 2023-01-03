@@ -1,0 +1,174 @@
+﻿@page "/profesor/activate"
+@page "/profesor/activate/{id}"
+@inherits AltaProfesorBase
+
+<div class="w-50 mx-auto">
+    <a href="/profesor/readinactive" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+
+    <EditForm Model=@ProfesorForm OnValidSubmit="@ActivateProfesor_Click">
+        <FluentValidationValidator />
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfesorForm.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
+            <label for="dniInput">DNI</label>
+            <ValidationMessage For="@(() => ProfesorForm.Dni)" />
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfesorForm.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
+            <label for="nombreInput">Nombre y Apellido</label>
+            <ValidationMessage For="@(() => ProfesorForm.Nombre)" />
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfesorForm.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
+            <label for="emailInput">Direccion Email</label>
+            <ValidationMessage For="@(() => ProfesorForm.Email)" />
+        </div>
+
+        <div class="form-floating d-flex">
+            <InputText @bind-Value="ProfesorForm.Password" type="password" class="form-control border-end-0 rounded-end-0" id="@idPassword" placeholder="password" />
+            <button class="form-control m-0 pt-4 ps-1 pe-2 w-auto border-start-0 rounded-start-0"
+                    type="button"
+                    @onclick="() => ShowPassword(idPassword)">
+                <i class="oi oi-eye"></i>
+            </button>
+            <label for="passwordInput">Contraseña</label>
+        </div>
+        <ValidationMessage For="@(() => ProfesorForm.Password)" />
+
+        <div class="form-floating mt-3 mb-3 d-flex">
+            <InputText @bind-Value="ProfesorForm.PasswordConfirm" type="password" class="form-control border-end-0 rounded-end-0" id="@idPasswordRe" placeholder="password" />
+            <button class="form-control m-0 pt-4 ps-1 pe-2 w-auto border-start-0 rounded-start-0"
+                    type="button"
+                    @onclick="() => ShowPassword(idPasswordRe)">
+                <i class="oi oi-eye"></i>
+            </button>
+            <label for="passwordInputRe">Repetir contraseña</label>
+        </div>
+        <ValidationMessage For="@(() => ProfesorForm.PasswordConfirm)" />
+
+        @if (Carreras == null)
+        {
+            <div class="d-flex align-items-center">
+                <div class="spinner-border text-primary mx-auto" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-floating mb-3">
+                @foreach (var carrera in CarrerasForm)
+                {
+                    <div class="form-check">
+                        @if (carrera.IsChecked)
+                        {
+                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
+                        }
+                        else
+                        {
+                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
+                        }
+                        <label class="form-check-label" for="@carrera.Id">
+                            @carrera.Nombre
+                        </label>
+                    </div>
+                }
+            </div>
+        }
+        
+        @foreach (var Toast in Toasts)
+        {
+            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+        }
+
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Rechazar
+            </button>
+
+            <button type="submit" class="btn btn-success w-50">
+                Aprobar
+            </button>
+        </div>
+    </EditForm>
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres rechazar la cuenta?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                    <div class="text-light">
+                        Esta accion es irreversible.
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Se eliminaran todos los datos relacionados a esta solicitud.
+                    </div>
+                    <div class="mt-2">
+                        Los datos no podran ser recuperados.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                            @onclick="() => DeleteProfesor_Click()">
+                        Rechazar solicitud de cuenta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="@ModalActivatedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                </div>
+                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-circle-check"></i>
+                    <div class="text-light">
+                        Cuenta aprobada.
+                    </div>
+                </div>
+                <div class="modal-body">
+                    Se ha activado la cuenta exitosamente
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="@ModalDeletedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                </div>
+                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-circle-check"></i>
+                    <div class="text-light">
+                        Cuenta rechazada.
+                    </div>
+                </div>
+                <div class="modal-body">
+                    Se ha rechazado la solicitud de cuenta exitosamente
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

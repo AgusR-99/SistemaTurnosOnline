@@ -1,0 +1,40 @@
+﻿@page "/profesor/readinactive"
+@inherits ListarProfesoresInactivosBase
+
+<Animate Animation="Animations.Fade">
+    <h3>Activar profesores</h3>
+
+    @if (Profesores == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
+                    <tr>
+                        @foreach (var header in Headers)
+                        {
+                            <th>@header</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var profesor in Profesores)
+                    {
+                        <tr>
+                            <td>@profesor.Dni</td>
+                            <td>@profesor.Nombre</td>
+                            <td>@profesor.Email</td>
+                            <td><a href="profesor/activate/@profesor.Id" class="btn btn-primary p-2"><i class="oi oi-ellipses"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</Animate>

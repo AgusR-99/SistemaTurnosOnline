@@ -32,6 +32,24 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
+        private async Task<IEnumerable<Profesor>> ProcessProfesorCollectionResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return Enumerable.Empty<Profesor>();
+                }
+
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Profesor>>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+        }
+
         public async Task<Profesor> CreateProfesor(ProfesorForm profesorForm)
         {
             try
@@ -83,20 +101,22 @@ namespace SistemaTurnosOnline.Web.Services
             {
                 var response = await httpClient.GetAsync("api/Profesor");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    {
-                        return Enumerable.Empty<Profesor>();
-                    }
+                return await ProcessProfesorCollectionResponseAsync(response);
+            }
+            catch (Exception)
+            {
+                //Log exception
+                throw;
+            }
+        }
 
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<Profesor>>();
-                }
-                else
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    throw new Exception(message);
-                }
+        public async Task<IEnumerable<Profesor>> GetProfesoresInactive()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync("api/Profesor/GetInactive");
+
+                return await ProcessProfesorCollectionResponseAsync(response);
             }
             catch (Exception)
             {

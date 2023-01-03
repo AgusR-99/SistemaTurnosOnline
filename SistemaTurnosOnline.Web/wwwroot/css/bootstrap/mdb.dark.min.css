@@ -5026,8 +5026,9 @@ textarea.form-control-lg {
 
 .alert-success {
     color: #006e2c;
-    background-color: #ccf1db;
-    border-color: #b3e9c9
+    background-color: #1f301a;
+    border-top-color: #358535;
+    border-bottom-color: #358535;
 }
 
     .alert-success .alert-link {

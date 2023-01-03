@@ -31,6 +31,12 @@ namespace SistemaTurnosOnline.Web.Shared
                     Text = "Administrar",
                     Class = "oi-wrench",
                     Href = "/profesor/readall"
+                },
+                new TabModel()
+                {
+                    Text = "Activar",
+                    Class = "oi-task",
+                    Href = "/profesor/readinactive"
                 }
             };
 

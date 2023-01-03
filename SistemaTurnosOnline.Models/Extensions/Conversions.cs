@@ -14,6 +14,7 @@ namespace SistemaTurnosOnline.Api.Extensions
                 Email = profesorForm.Email,
                 Nombre = profesorForm.Nombre,
                 Password = profesorForm.Password,
+                Estado = profesorForm.Estado,
                 CarrerasId = profesorForm.CarrerasId
             };
         }
@@ -27,6 +28,7 @@ namespace SistemaTurnosOnline.Api.Extensions
                 Email = profesor.Email,
                 Nombre = profesor.Nombre,
                 Password = profesor.Password,
+                Estado = profesor.Estado,
                 CarrerasId = profesor.CarrerasId
             };
         }
