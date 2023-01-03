@@ -47,9 +47,19 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public Task DeleteProfesor(string id)
+        public async Task<Profesor> DeleteProfesor(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.DeleteAsync($"api/Profesor/{id}");
+
+                return await ProcessProfesorResponseAsync(response);
+            }
+            catch (Exception)
+            {
+                // Loguear excepcion
+                throw;
+            }
         }
 
         public async Task<Profesor> GetProfesor(string id)

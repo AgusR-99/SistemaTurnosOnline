@@ -5001,8 +5001,7 @@ textarea.form-control-lg {
     position: relative;
     padding: 1rem;
     margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: .25rem
+    border: 2px solid transparent;
 }
 
 .alert-heading {
@@ -17591,9 +17590,9 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 }
 
 .alert-primary {
-    color: #0b3d91;
-    background-color: #d0e0fc;
-    border-color: #b8d1fb
+    background-color: #1a2430;
+    border-top-color: #353585;
+    border-bottom-color: #353585;
 }
 
     .alert-primary .alert-link {

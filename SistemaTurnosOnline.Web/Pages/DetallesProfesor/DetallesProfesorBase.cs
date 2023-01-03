@@ -12,6 +12,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         [Inject]
         public IJSRuntime Js { get; set; }
         [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        [Inject]
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
@@ -44,6 +46,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 text: "Se ha producido un error al enviar la solicitud"
                 )
         };
+        public string ModalId { get; set; } = "deletedModal";
         [Parameter]
         public string idPassword { get; set; } = "passwordInput";
         public string idPasswordRe { get; set; } = "passwordInputRe";
@@ -89,6 +92,15 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         private async Task ShowToast(string id)
         {
             await Js.InvokeVoidAsync(identifier: "showToast", id);
+        }
+
+        private async Task ShowModal(string id)
+        {
+            await Js.InvokeVoidAsync(identifier: "showModal", id);
+        }
+        private async Task HideModal(string id)
+        {
+            await Js.InvokeVoidAsync(identifier: "hideModal", id);
         }
 
         protected void Checkbox_Click(string id)
@@ -157,6 +169,38 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
                     $"asegurese que dicho parametro se encuentre presente en la lista"); ErrorMessage = ex.Message;
             }
+        }
+        protected async Task DeleteProfesor_Click()
+        {
+            try
+            {
+                var deletedProfesor = ProfesorService.DeleteProfesor(Id);
+
+                if (deletedProfesor != null)
+                {
+                    await ShowModal(ModalId);
+                }
+                else
+                {
+                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+
+                    if (toast != null)
+                    {
+                        await ShowToast(toast.Id);
+                    }
+                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
+                        $"asegurese que dicho parametro se encuentre presente en la lista");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected void Navigate_Click()
+        {
+            NavigationManager.NavigateTo("profesor/readall");
         }
     }
 }

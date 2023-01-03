@@ -2,36 +2,40 @@
 @using SistemaTurnosOnline.Models
 @inherits ListarTodosProfesorBase
 
-<h3>ListarTodosProfesor</h3>
+<Animate Animation="Animations.Fade">
+    <h3>Administrar profesores</h3>
 
-@if (Profesores == null)
-{
-
-}
-else 
-{
-    <div class="m-auto">
-        <table class="m-auto w-100" id="@TableId">
-            <thead>
-                <tr>
-                    @foreach (var header in Headers)
-                    {
-                        <th>@header</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var profesor in Profesores)
-                {
+    @if (Profesores == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
                     <tr>
-                        <td>@profesor.Dni</td>
-                        <td>@profesor.Nombre</td>
-                        <td>@profesor.Email</td>
-                        <td><a href="profesor/@profesor.Id" class="btn btn-primary p-2"><i class="oi oi-pencil"></i></a></td>
+                        @foreach (var header in Headers)
+                        {
+                            <th>@header</th>
+                        }
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    
-}
+                </thead>
+                <tbody>
+                    @foreach (var profesor in Profesores)
+                    {
+                        <tr>
+                            <td>@profesor.Dni</td>
+                            <td>@profesor.Nombre</td>
+                            <td>@profesor.Email</td>
+                            <td><a href="profesor/@profesor.Id" class="btn btn-primary p-2"><i class="oi oi-pencil"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</Animate>
