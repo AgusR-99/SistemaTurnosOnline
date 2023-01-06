@@ -6,6 +6,8 @@ using SistemaTurnosOnline.Api.Validator;
 using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Models.Validators;
 using SistemaTurnosOnline.Models.Validators.Contracts;
+using SistemaTurnosOnline.Shared.Validators;
+using SistemaTurnosOnline.Shared.Validators.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddScoped<ICarreraRepository, CarreraRepository>();
 
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
 builder.Services.AddScoped<IValidateProfesor, ValidateProfesor>();
+
+builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
+builder.Services.AddScoped<ICarreraValidator, ValidateCarrera>();
+
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();

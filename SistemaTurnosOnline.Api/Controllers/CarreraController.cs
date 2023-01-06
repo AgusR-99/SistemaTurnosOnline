@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Models;
@@ -11,10 +13,12 @@ namespace SistemaTurnosOnline.Api.Controllers
     public class CarreraController : ControllerBase
     {
         private readonly ICarreraRepository carreraRepository;
+        private readonly IValidator<Carrera> validator;
 
-        public CarreraController(ICarreraRepository carreraRepository)
+        public CarreraController(ICarreraRepository carreraRepository, IValidator<Carrera> validator)
         {
             this.carreraRepository = carreraRepository;
+            this.validator = validator;
         }
 
         [HttpGet]
@@ -64,6 +68,15 @@ namespace SistemaTurnosOnline.Api.Controllers
         {
             try
             {
+                var result = await validator.ValidateAsync(carrera);
+
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
+
                 var newCarrera = await carreraRepository.CreateCarrera(carrera);
 
                 if (newCarrera == null)
