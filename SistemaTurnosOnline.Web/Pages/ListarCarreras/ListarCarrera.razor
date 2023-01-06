@@ -1,0 +1,37 @@
+﻿@page "/carrera/readall"
+@inherits ListarCarrerasBase
+
+<Animate Animation="Animations.Fade">
+    <h3>Administrar carreras</h3>
+    
+    @if (Carreras == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
+                <tr>
+                    @foreach (var header in Headers)
+                    {
+                        <th>@header</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var carrera in Carreras)
+                {
+                    <tr>
+                        <td>@carrera.Nombre</td>
+                        <td><a href="carrera/@carrera.Id" class="btn btn-primary p-2"><i class="oi oi-pencil"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</Animate>
