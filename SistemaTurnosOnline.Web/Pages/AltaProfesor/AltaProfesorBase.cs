@@ -41,7 +41,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
                 icon: "oi oi-circle-check",
                 title: "Actualizacion exitosa",
                 time: "Ahora",
-                text: "Se ha enviado actualizado el usuario con exito"
+                text: "Se ha activado el usuario con exito"
                 ),
              new ToastModel(
                 status: ToastModel.Status.Error,
