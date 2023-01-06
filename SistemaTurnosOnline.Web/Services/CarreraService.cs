@@ -1,7 +1,5 @@
 ﻿using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace SistemaTurnosOnline.Web.Services
 {
@@ -15,6 +13,24 @@ namespace SistemaTurnosOnline.Web.Services
             this.httpClient = httpClient;
         }
 
+        private async Task<Carrera> ProcessCarreraResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return default(Carrera);
+                }
+
+                return await response.Content.ReadFromJsonAsync<Carrera>();
+            }
+            else
+            {
+                var message = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+            }
+        }
+
         public List<string> GetCarrerasValues()
         {
             return CarrerasValues;
@@ -25,9 +41,18 @@ namespace SistemaTurnosOnline.Web.Services
             CarrerasValues = carrerasValue;
         }
 
-        public Task<Carrera> CreateCarrera(Carrera carrera)
+        public async Task<Carrera> CreateCarrera(Carrera carrera)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync("api/Carrera", carrera);
+
+                return await ProcessCarreraResponseAsync(response);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<Carrera> DeleteCarrera(string id)
@@ -53,8 +78,7 @@ namespace SistemaTurnosOnline.Web.Services
                         return Enumerable.Empty<Carrera>().ToList();
                     }
 
-                    List < Carrera > carreraList = await response.Content.ReadFromJsonAsync<List<Carrera>>();
-                    return carreraList;
+                    return await response.Content.ReadFromJsonAsync<List<Carrera>>();
                 }
                 else
                 {

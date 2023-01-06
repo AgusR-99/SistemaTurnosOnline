@@ -18,34 +18,11 @@ namespace SistemaTurnosOnline.Api.Repositories
             this.dbContext = dbContext;
             carreraCollection = this.dbContext.db.GetCollection<Carrera>("carrera");
         }
-        private async Task<bool> CarreraExists(string id)
-        {
-            return await carreraCollection.Find(new BsonDocument { { "_id", new ObjectId(id) } }).AnyAsync();
-        }
-        private async Task<bool> NombreExists(string nombre)
-        {
-            return await carreraCollection.Find(p => p.Nombre == nombre).AnyAsync();
-        }
-        private async Task<bool> DuplicateExists(Carrera carrera)
-        {
-            if (!await NombreExists(carrera.Nombre))
-            {
-                return false;
-            }
-            throw new Exception($"Parametro {nameof(carrera.Nombre)} no se puede repetir");
-        }
+
         public async Task<Carrera> CreateCarrera(Carrera carrera)
         {
-            if (!await CarreraExists(carrera.Id))
-            {
-                if (!await DuplicateExists(carrera))
-                {
-                    await carreraCollection.InsertOneAsync(carrera);
-
-                    return carrera;
-                }
-            }
-            return null;
+            await carreraCollection.InsertOneAsync(carrera);
+            return carrera;
         }
 
         public Task<Carrera> UpdateCarrera(Carrera professor)
@@ -68,6 +45,15 @@ namespace SistemaTurnosOnline.Api.Repositories
         {
             var carrera = await carreraCollection.FindAsync(new BsonDocument()).Result.FirstAsync();
             return carrera;
+        }
+
+        public async Task<Carrera> GetCarreraByName(string name)
+        {
+            var filtroId = Builders<Carrera>.Filter.Eq(c => c.Nombre, name);
+
+            var profesor = await carreraCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
+
+            return profesor;
         }
     }
 }

@@ -5,6 +5,8 @@ using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Models.Validators.Contracts;
 using Blazorise;
+using SistemaTurnosOnline.Shared.Validators;
+using SistemaTurnosOnline.Shared.Validators.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,9 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddTransient<ICarreraService, CarreraService>();
 builder.Services.AddTransient<IValidateProfesor, ValidateProfesorService>();
+builder.Services.AddTransient<ICarreraValidator, ValidateCarreraService>();
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
+builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
 builder.Services
     .AddBlazorise(options =>
     {

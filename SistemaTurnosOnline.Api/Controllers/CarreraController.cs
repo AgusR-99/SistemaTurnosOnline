@@ -79,5 +79,26 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ex.Message);
             }
         }
+
+        [HttpGet("GetByName/{name}")]
+        public async Task<IActionResult> GetCarreraByName(string name)
+        {
+            try
+            {
+                var carrera = await carreraRepository.GetCarreraByName(name);
+
+                if (carrera == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(carrera);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }

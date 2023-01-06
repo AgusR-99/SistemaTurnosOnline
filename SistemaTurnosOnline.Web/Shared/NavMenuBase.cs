@@ -45,7 +45,8 @@ namespace SistemaTurnosOnline.Web.Shared
                 new TabModel()
                 {
                     Text = "Agregar",
-                    Class = "oi-plus"
+                    Class = "oi-plus",
+                    Href = "/carrera/create"
                 },
                 new TabModel()
                 {
