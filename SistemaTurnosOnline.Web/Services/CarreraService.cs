@@ -1,5 +1,7 @@
 ﻿using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using System.Text.Json;
+using System.Text;
 
 namespace SistemaTurnosOnline.Web.Services
 {
@@ -24,11 +26,9 @@ namespace SistemaTurnosOnline.Web.Services
 
                 return await response.Content.ReadFromJsonAsync<Carrera>();
             }
-            else
-            {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Http status: {response.StatusCode} Message: {message}");
-            }
+
+            var message = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
         public List<string> GetCarrerasValues()
@@ -55,14 +55,33 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public Task<Carrera> DeleteCarrera(string id)
+        public async Task<Carrera> DeleteCarrera(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.DeleteAsync($"api/Carrera/{id}");
+                
+                return await ProcessCarreraResponseAsync(response);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<Carrera> GetCarrera(string id)
+        public async Task<Carrera> GetCarrera(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Carrera/{id}");
+
+                return await ProcessCarreraResponseAsync(response);
+            }
+            catch (Exception)
+            {
+                //Log exception
+                throw;
+            }
         }
 
         public async Task<List<Carrera>> GetCarreras()
@@ -93,9 +112,21 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public Task<Carrera> UpdateCarrera(Carrera carrera)
+        public async Task<Carrera> UpdateCarrera(Carrera carrera)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var carreraFormJson = new StringContent(JsonSerializer.Serialize(carrera), Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PatchAsync($"api/Carrera/{carrera.Id}", carreraFormJson);
+
+                return await ProcessCarreraResponseAsync(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

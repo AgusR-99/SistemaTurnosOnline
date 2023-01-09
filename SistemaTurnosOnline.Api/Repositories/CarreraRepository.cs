@@ -25,14 +25,27 @@ namespace SistemaTurnosOnline.Api.Repositories
             return carrera;
         }
 
-        public Task<Carrera> UpdateCarrera(Carrera professor)
+        public async Task<Carrera> UpdateCarrera(Carrera carrera, string id)
         {
-            throw new NotImplementedException();
+            var filtroId = Builders<Carrera>.Filter.Eq(c => c.Id, id);
+
+            await carreraCollection.ReplaceOneAsync(filtroId, carrera);
+
+            return carrera;
         }
 
-        public Task<Carrera> DeleteCarrera(string id)
+        public async Task<Carrera> DeleteCarrera(string id)
         {
-            throw new NotImplementedException();
+            var filtro = Builders<Carrera>.Filter.Eq(c => c.Id, id);
+
+            var carrera = await carreraCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
+
+            if (carrera != null)
+            {
+                await carreraCollection.DeleteOneAsync(filtro);
+            }
+
+            return carrera;
         }
 
         public async Task<List<Carrera>> GetCarreras()
@@ -43,7 +56,9 @@ namespace SistemaTurnosOnline.Api.Repositories
 
         public async Task<Carrera> GetCarrera(string id)
         {
-            var carrera = await carreraCollection.FindAsync(new BsonDocument()).Result.FirstAsync();
+            var filtro = Builders<Carrera>.Filter.Eq(c => c.Id, id);
+
+            var carrera = await carreraCollection.FindAsync(filtro).Result.FirstAsync();
             return carrera;
         }
 

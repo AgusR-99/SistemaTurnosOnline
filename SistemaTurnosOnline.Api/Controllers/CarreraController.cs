@@ -113,5 +113,51 @@ namespace SistemaTurnosOnline.Api.Controllers
                     ex.Message);
             }
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateCarrera([FromBody] Carrera carrera, string id)
+        {
+            try
+            {
+                var result = await validator.ValidateAsync(carrera);
+
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
+
+                var newCarrera = await carreraRepository.UpdateCarrera(carrera, id);
+
+                return CreatedAtAction(nameof(GetCarrera), new { id = newCarrera.Id }, newCarrera);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProfesor(string id)
+        {
+            try
+            {
+                var deletedCarrera = await carreraRepository.DeleteCarrera(id);
+
+                if (deletedCarrera == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(deletedCarrera);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }
