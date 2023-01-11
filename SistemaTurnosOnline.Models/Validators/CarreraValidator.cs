@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 
 namespace SistemaTurnosOnline.Shared.Validators

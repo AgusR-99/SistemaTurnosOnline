@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Web.Shared
 {
@@ -15,24 +15,25 @@ namespace SistemaTurnosOnline.Web.Shared
         }
         public List<TabModel> tabsProfesor { get; set; }
         public List<TabModel> tabsCarreras { get; set; }
+        public List<TabModel> tabsTurnos { get; set; }
 
         public NavMenuBase()
         {
             tabsProfesor = new List<TabModel>()
             {
-                new TabModel()
+                new()
                 {
                     Text = "Agregar",
                     Class = "oi-plus",
                     Href = "/profesor/create"
                 },
-                new TabModel()
+                new()
                 {
                     Text = "Administrar",
                     Class = "oi-wrench",
                     Href = "/profesor/readall"
                 },
-                new TabModel()
+                new()
                 {
                     Text = "Activar",
                     Class = "oi-task",
@@ -42,17 +43,33 @@ namespace SistemaTurnosOnline.Web.Shared
 
             tabsCarreras = new List<TabModel>()
             {
-                new TabModel()
+                new()
                 {
                     Text = "Agregar",
                     Class = "oi-plus",
                     Href = "/carrera/create"
                 },
-                new TabModel()
+                new()
                 {
                     Text = "Administrar",
                     Class = "oi-wrench",
                     Href = "/carrera/readall"
+                }
+            };
+
+            tabsTurnos = new List<TabModel>()
+            {
+                new()
+                {
+                    Text = "Agregar",
+                    Class = "oi-plus",
+                    Href = "/turno/create"
+                },
+                new()
+                {
+                    Text = "Administrar",
+                    Class = "oi-wrench",
+                    Href = "/turno/readall"
                 }
             };
         }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using SistemaTurnosOnline.Api.Extensions;
-using SistemaTurnosOnline.Models;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.AltaProfesor

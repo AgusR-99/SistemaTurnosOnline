@@ -1,21 +1,23 @@
 using FluentValidation;
-using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Models.Validators;
 using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using SistemaTurnosOnline.Models.Validators.Contracts;
 using Blazorise;
 using SistemaTurnosOnline.Shared.Validators;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
+using SistemaTurnosOnline.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7184") });
+
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddTransient<ICarreraService, CarreraService>();
+builder.Services.AddTransient<ITurnoService, TurnoService>();
+
 builder.Services.AddTransient<IValidateProfesor, ValidateProfesorService>();
 builder.Services.AddTransient<ICarreraValidator, ValidateCarreraService>();
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();

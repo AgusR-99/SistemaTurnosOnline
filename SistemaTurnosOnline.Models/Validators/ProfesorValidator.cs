@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using SistemaTurnosOnline.Models.Validators.Contracts;
+using SistemaTurnosOnline.Shared.Validators.Contracts;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace SistemaTurnosOnline.Models.Validators
+namespace SistemaTurnosOnline.Shared.Validators
 {
     public class ProfesorValidator : AbstractValidator<ProfesorForm>
     {

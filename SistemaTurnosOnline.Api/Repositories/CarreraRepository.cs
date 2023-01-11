@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Api.Repositories
 {

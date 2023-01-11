@@ -1,7 +1,6 @@
-﻿using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Shared;
+﻿using SistemaTurnosOnline.Shared.Turnos;
 
-namespace SistemaTurnosOnline.Api.Extensions
+namespace SistemaTurnosOnline.Shared.Extensions
 {
     public static class Conversions
     {
@@ -48,6 +47,22 @@ namespace SistemaTurnosOnline.Api.Extensions
             {
                 Id = carrera.Id,
                 Nombre = carrera.Nombre
+            };
+        }
+
+        public static TurnoForm ConvertToTurnoForm(this Turno turno)
+        {
+            return new TurnoForm
+            {
+                Descripcion = turno.Descripcion
+            };
+        }
+
+        public static Turno ConvertToTurno(this TurnoForm turnoForm)
+        {
+            return new Turno
+            {
+                Descripcion = turnoForm.Descripcion
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Models
+﻿namespace SistemaTurnosOnline.Shared
 {
     public class ProfesorForm
     {

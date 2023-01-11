@@ -3,9 +3,7 @@ using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Api.Validator;
-using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Models.Validators;
-using SistemaTurnosOnline.Models.Validators.Contracts;
+using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Validators;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 
@@ -20,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
 builder.Services.AddScoped<ICarreraRepository, CarreraRepository>();
+builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
+
 
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
 builder.Services.AddScoped<IValidateProfesor, ValidateProfesor>();

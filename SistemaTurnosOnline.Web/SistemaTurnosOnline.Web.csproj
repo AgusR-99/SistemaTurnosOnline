@@ -34,8 +34,4 @@
     <None Include="wwwroot\js\showmodal.js" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
 </Project>

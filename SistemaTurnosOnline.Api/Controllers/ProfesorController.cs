@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Shared.Extensions;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {

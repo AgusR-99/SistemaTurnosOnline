@@ -1,6 +1,6 @@
 ﻿using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Models.Validators.Contracts;
+using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Shared.Validators.Contracts;
 using System.Linq.Expressions;
 
 namespace SistemaTurnosOnline.Api.Validator

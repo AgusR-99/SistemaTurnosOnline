@@ -1,4 +1,4 @@
-﻿using SistemaTurnosOnline.Models;
+﻿using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Web.Services.Contracts
 {

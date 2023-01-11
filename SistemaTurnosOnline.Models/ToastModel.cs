@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Web.Pages
+﻿namespace SistemaTurnosOnline.Shared
 {
     public class ToastModel
     {

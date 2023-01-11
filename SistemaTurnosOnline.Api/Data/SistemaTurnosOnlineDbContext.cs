@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Api.Data
 {

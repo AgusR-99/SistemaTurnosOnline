@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SistemaTurnosOnline.Models
+namespace SistemaTurnosOnline.Shared
 {
     public class Carrera
     {

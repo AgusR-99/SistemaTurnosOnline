@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarProfesores

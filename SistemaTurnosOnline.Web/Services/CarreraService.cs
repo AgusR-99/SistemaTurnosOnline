@@ -1,7 +1,7 @@
-﻿using SistemaTurnosOnline.Models;
-using SistemaTurnosOnline.Web.Services.Contracts;
+﻿using SistemaTurnosOnline.Web.Services.Contracts;
 using System.Text.Json;
 using System.Text;
+using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Web.Services
 {

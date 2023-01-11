@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnosOnline.Api.Extensions;
-using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Models;
+using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {

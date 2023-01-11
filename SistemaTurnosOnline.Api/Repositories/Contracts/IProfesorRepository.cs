@@ -1,4 +1,4 @@
-﻿using SistemaTurnosOnline.Models;
+﻿using SistemaTurnosOnline.Shared;
 using System.Linq.Expressions;
 
 namespace SistemaTurnosOnline.Api.Repositories.Contracts
