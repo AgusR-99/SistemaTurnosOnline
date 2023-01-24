@@ -46,7 +46,8 @@ namespace SistemaTurnosOnline.Api.Repositories
         {
             var filtroId = Builders<Profesor>.Filter.Eq(p => p.Id, id);
 
-            var profesor = await profesorCollection.FindAsync(filtroId).Result.FirstAsync();
+            var profesor = await profesorCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
+
             return profesor;
         }
 

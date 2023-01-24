@@ -16,6 +16,7 @@ namespace SistemaTurnosOnline.Web.Shared
         public List<TabModel> tabsProfesor { get; set; }
         public List<TabModel> tabsCarreras { get; set; }
         public List<TabModel> tabsTurnos { get; set; }
+        public List<TabModel> tabsTurnosAdmin { get; set; }
 
         public NavMenuBase()
         {
@@ -64,7 +65,11 @@ namespace SistemaTurnosOnline.Web.Shared
                     Text = "Agregar",
                     Class = "oi-plus",
                     Href = "/turno/create"
-                },
+                }
+            };
+
+            tabsTurnosAdmin = new List<TabModel>()
+            {
                 new()
                 {
                     Text = "Administrar",

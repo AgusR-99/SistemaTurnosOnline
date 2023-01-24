@@ -97,6 +97,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 ProfesorForm.CarrerasId = carrerasId.ToList();
 
+                ProfesorForm.Rol = "Guest";
+
                 var profesorToAdd = await ProfesorService.CreateProfesor(ProfesorForm);
 
                 if (profesorToAdd != null)

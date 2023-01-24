@@ -30,6 +30,8 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
+        public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
+        public string SelectedRol { get; set; } = "Guest";
         public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
         {
               new ToastModel(
@@ -129,6 +131,8 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             try
             {
                 ProfesorForm.Estado = true;
+
+                ProfesorForm.Rol = SelectedRol;
 
                 var activatedProfesor = await ProfesorService.UpdateProfesor(ProfesorForm);
 

@@ -1,5 +1,6 @@
 ﻿@page "/carrera/readall"
 @inherits ListarCarrerasBase
+@attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
     <h3>Administrar carreras</h3>

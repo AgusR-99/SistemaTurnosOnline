@@ -11,24 +11,28 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <span class="text-light">Profesores</span>
+                </div>
 
-        <div class="nav-item px-3">
-            <span class="text-light">Profesores</span>
-        </div>
+                @foreach (var tab in tabsProfesor)
+                {
+                    <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
+                }
 
-        @foreach (var tab in tabsProfesor)
-        {
-            <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
-        }
+                <div class="nav-item px-3">
+                    <span class="text-light">Carreras</span>
+                </div>
 
-        <div class="nav-item px-3">
-            <span class="text-light">Carreras</span>
-        </div>
-
-        @foreach (var tab in tabsCarreras)
-        {
-            <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
-        }
+                @foreach (var tab in tabsCarreras)
+                {
+                    <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
+                }
+            </Authorized>
+        </AuthorizeView>
         
         <div class="nav-item px-3">
             <span class="text-light">Turnos</span>
@@ -38,5 +42,13 @@
         {
             <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
         }
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                @foreach (var tab in tabsTurnosAdmin)
+                {
+                    <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
+                }
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>

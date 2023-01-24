@@ -1,5 +1,6 @@
 ﻿@page "/profesor/create"
 @inherits CrearProfesorBase
+@attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
     <div class="w-50 mx-auto">

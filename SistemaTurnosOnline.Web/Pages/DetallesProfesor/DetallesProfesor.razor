@@ -1,6 +1,7 @@
 ﻿@page "/profesor"
 @page "/profesor/{id}"
 @inherits DetallesProfesorBase
+@attribute [Authorize(Roles = "Admin")]
 
     <h3>Actualizar datos</h3>
     <div class="w-50 mx-auto">
@@ -77,6 +78,14 @@
                     }
                 </div>
             }
+        
+        <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
+            @foreach (var rol in Roles)
+            {
+                <option value="@rol">@rol</option>
+            }
+        </select>
+
         <button type="submit" class="btn btn-success float-end w-100 mb-5">
             Actualizar
         </button>

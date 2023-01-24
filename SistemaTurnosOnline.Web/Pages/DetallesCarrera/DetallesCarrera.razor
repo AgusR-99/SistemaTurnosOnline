@@ -1,6 +1,7 @@
 ﻿@page "/carrera"
 @page "/carrera/{id}"
 @inherits DetallesCarreraBase
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>DetallesCarrera</h3>
 

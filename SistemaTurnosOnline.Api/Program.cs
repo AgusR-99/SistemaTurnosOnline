@@ -27,6 +27,8 @@ builder.Services.AddScoped<IValidateProfesor, ValidateProfesor>();
 builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
 builder.Services.AddScoped<ICarreraValidator, ValidateCarrera>();
 
+builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
+builder.Services.AddScoped<ISignInValidator, ValidateSignIn>();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();

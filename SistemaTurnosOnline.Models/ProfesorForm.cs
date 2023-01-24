@@ -9,6 +9,7 @@
         public string Password { get; set; }
         public string PasswordConfirm { get; set; }
         public bool Estado { get; set; }
+        public string Rol { get; set; }
         public List<string>? CarrerasId { get; set; }
     }
 }

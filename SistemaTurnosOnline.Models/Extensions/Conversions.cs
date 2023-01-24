@@ -14,6 +14,7 @@ namespace SistemaTurnosOnline.Shared.Extensions
                 Nombre = profesorForm.Nombre,
                 Password = profesorForm.Password,
                 Estado = profesorForm.Estado,
+                Rol = profesorForm.Rol,
                 CarrerasId = profesorForm.CarrerasId
             };
         }
@@ -28,6 +29,7 @@ namespace SistemaTurnosOnline.Shared.Extensions
                 Nombre = profesor.Nombre,
                 Password = profesor.Password,
                 Estado = profesor.Estado,
+                Rol = profesor.Rol,
                 CarrerasId = profesor.CarrerasId
             };
         }

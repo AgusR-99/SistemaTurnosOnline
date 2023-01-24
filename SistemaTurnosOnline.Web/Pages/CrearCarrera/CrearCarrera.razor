@@ -1,5 +1,6 @@
 ﻿@page "/carrera/create"
 @inherits CrearCarreraBase
+@attribute [Authorize(Roles = "Admin")]
 
 <div class="w-50 mx-auto">
     <h3>CrearCarrera</h3>

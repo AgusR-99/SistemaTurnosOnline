@@ -1,5 +1,6 @@
 ﻿@page "/profesor/readinactive"
 @inherits ListarProfesoresInactivosBase
+@attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
     <h3>Activar profesores</h3>

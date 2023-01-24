@@ -1,5 +1,6 @@
 ﻿@page "/turno/create"
 @inherits CrearTurnoBase
+@attribute [Authorize(Roles = "Admin, Guest")]
 
 <div class="w-50 mx-auto">
 

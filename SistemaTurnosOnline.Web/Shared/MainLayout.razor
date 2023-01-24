@@ -1,15 +1,27 @@
-﻿@inherits LayoutComponentBase
+﻿@using SistemaTurnosOnline.Web.Authentication
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
 
 <PageTitle>SistemaTurnosOnline.Web</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar">
+                <NavMenu/>
+            </div>
+        </Authorized>
+    </AuthorizeView>
 
     <main>
         <div class="top-row px-4 bg-dark border-dark">
             <a href="https://github.com/AgusR-99/SistemaTurnosOnline" target="_blank">About</a>
+            <AuthorizeView>
+                <Authorized>
+                    <a @onclick="Logout_Click" href="javascript:void(0)">Cerrar sesion</a>
+                </Authorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -17,3 +29,15 @@
         </article>
     </main>
 </div>
+
+@code
+{
+    private async Task Logout_Click()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+
+        NavigationManager.NavigateTo("/sign-in", true);
+    }
+}

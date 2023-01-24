@@ -25,11 +25,8 @@ namespace SistemaTurnosOnline.Web.Services
 
                 return await response.Content.ReadFromJsonAsync<Profesor>();
             }
-            else
-            {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Http status: {response.StatusCode} Message: {message}");
-            }
+            var message = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
         private async Task<IEnumerable<Profesor>> ProcessProfesorCollectionResponseAsync(HttpResponseMessage response)
@@ -52,17 +49,9 @@ namespace SistemaTurnosOnline.Web.Services
 
         public async Task<Profesor> CreateProfesor(ProfesorForm profesorForm)
         {
-            try
-            {
-                var response = await httpClient.PostAsJsonAsync("api/Profesor", profesorForm);
+            var response = await httpClient.PostAsJsonAsync("api/Profesor", profesorForm);
 
-                return await ProcessProfesorResponseAsync(response);
-            }
-            catch (Exception)
-            {
-                // Loguear excepcion
-                throw;
-            }
+            return await ProcessProfesorResponseAsync(response);
         }
 
         public async Task<Profesor> DeleteProfesor(string id)
@@ -93,6 +82,13 @@ namespace SistemaTurnosOnline.Web.Services
                 //Log exception
                 throw;
             }
+        }
+
+        public async Task<Profesor> GetProfesorByDni(string dni)
+        {
+            var response = await httpClient.GetAsync($"api/Profesor/GetByDni/{dni}");
+
+            return await ProcessProfesorResponseAsync(response);
         }
 
         public async Task<IEnumerable<Profesor>> GetProfesores()
