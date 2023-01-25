@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Extensions;
@@ -21,6 +23,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
 
         public string TurnoCreado_Modal { get; set; } = "createdModal";
 
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
         public ToastModel Toast { get; set; } = 
             new(
                 status: ToastModel.Status.Error,
@@ -37,6 +42,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
         {
             try
             {
+                var authState = await AuthenticationState;
+                TurnoForm.UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 await TurnoService.CreateTurno(TurnoForm);
 
                 await TurnoCreado_Modal.ShowModal(Js);

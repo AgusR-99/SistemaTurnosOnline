@@ -64,7 +64,8 @@ namespace SistemaTurnosOnline.Shared.Extensions
         {
             return new Turno
             {
-                Descripcion = turnoForm.Descripcion
+                Descripcion = turnoForm.Descripcion,
+                UserId = turnoForm.UserId
             };
         }
     }

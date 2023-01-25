@@ -8,6 +8,7 @@ namespace SistemaTurnosOnline.Shared.Turnos
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string UserId { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
         public long OrdenEnCola { get; set; }

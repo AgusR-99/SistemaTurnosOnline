@@ -26,7 +26,7 @@ namespace SistemaTurnosOnline.Web.Pages.SignIn
 
             await customAuthStateProvider.UpdateAuthenticationState(new UserSession
                 {
-                    Username = userAccount.Dni,
+                    UserId = userAccount.Id,
                     UserRole = userAccount.Rol
                 });
 
