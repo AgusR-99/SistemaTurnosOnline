@@ -1,0 +1,42 @@
+﻿@page "/turno/readall"
+@inherits ListarTurnosBase
+@attribute [Authorize(Roles = "Admin")]
+
+<Animate Animation="Animations.Fade">
+    <h3>Administrar turnos</h3>
+
+    @if (TurnoListado == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
+                    <tr>
+                        @foreach (var header in Headers)
+                        {
+                            <th>@header</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var turno in TurnoListado)
+                    {
+                        <tr>
+                            <td>@turno.Orden</td>
+                            <td>@turno.Dni</td>
+                            <td>@turno.UserName</td>
+                            <td>@turno.Descripcion</td>
+                            <td><a href="turno/@turno.TurnoId" class="btn btn-primary p-2"><i class="oi oi-pencil"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</Animate>

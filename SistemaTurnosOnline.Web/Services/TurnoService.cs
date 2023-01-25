@@ -12,9 +12,21 @@ namespace SistemaTurnosOnline.Web.Services
         {
             this.httpClient = httpClient;
         }
-        public Task<List<Turno>> GetTurnos()
+
+        public async Task<IEnumerable<Turno>> GetTurnos()
         {
-            throw new NotImplementedException();
+            var response = await httpClient.GetAsync("api/Turno");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return Enumerable.Empty<Turno>();
+
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Turno>>();
+            }
+
+            var message = await response.Content.ReadFromJsonAsync<Turno>();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
         public Task<Turno> GetTurno(string id)

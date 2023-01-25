@@ -60,9 +60,9 @@ namespace SistemaTurnosOnline.Api.Repositories
             return turno;
         }
 
-        public Task<IEnumerable<Turno>> GetTurnos()
+        public async Task<IEnumerable<Turno>> GetTurnos()
         {
-            throw new NotImplementedException();
+            return await turnoCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
         }
     }
 }

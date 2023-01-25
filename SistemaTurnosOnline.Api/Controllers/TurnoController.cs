@@ -19,7 +19,20 @@ namespace SistemaTurnosOnline.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTurnos()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var turnos = await turnoRepository.GetTurnos();
+
+                if (turnos == null)
+                    return NotFound();
+
+                return Ok(turnos);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpGet("{id}")]
