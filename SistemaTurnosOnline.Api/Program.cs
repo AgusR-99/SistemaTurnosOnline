@@ -4,6 +4,7 @@ using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Api.Validator;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Shared.Validators;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 
@@ -29,6 +30,9 @@ builder.Services.AddScoped<ICarreraValidator, ValidateCarrera>();
 
 builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
 builder.Services.AddScoped<ISignInValidator, ValidateSignIn>();
+
+builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();
+builder.Services.AddScoped<ITurnoValidator, ValidateTurno>();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();

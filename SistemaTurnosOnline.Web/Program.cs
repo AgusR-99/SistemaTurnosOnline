@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using SistemaTurnosOnline.Shared.Validators;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +28,13 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStat
 builder.Services.AddTransient<IValidateProfesor, ValidateProfesorService>();
 builder.Services.AddTransient<ICarreraValidator, ValidateCarreraService>();
 builder.Services.AddTransient<ISignInValidator, ValidateSignInService>();
+builder.Services.AddTransient<ITurnoValidator, ValidateTurnoService>();
 
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
 builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
 builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
+builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();
+
 builder.Services
     .AddBlazorise(options =>
     {

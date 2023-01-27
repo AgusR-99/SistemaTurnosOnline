@@ -8,7 +8,7 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
         Task<IEnumerable<Turno>> GetTurnos();
         Task<Turno> GetTurno(string id);
         Task<Turno> CreateTurno(TurnoForm turnoForm);
-        Task<Turno> UpdateTurno(TurnoForm turnoForm);
+        Task<Turno> UpdateTurno(Turno turno);
         Task<Turno> DeleteTurno(string id);
     }
 }

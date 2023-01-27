@@ -1,12 +1,30 @@
 ﻿using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Shared.Turnos;
+using System.Text.Json;
+using System.Text;
 
 namespace SistemaTurnosOnline.Web.Services
 {
     public class TurnoService : ITurnoService
     {
         private readonly HttpClient httpClient;
+
+        private async Task<Turno> ProcessTurnoResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return default(Turno);
+                }
+
+                return await response.Content.ReadFromJsonAsync<Turno>();
+            }
+
+            var message = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+        }
 
         public TurnoService(HttpClient httpClient)
         {
@@ -29,9 +47,11 @@ namespace SistemaTurnosOnline.Web.Services
             throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
-        public Task<Turno> GetTurno(string id)
+        public async Task<Turno> GetTurno(string id)
         {
-            throw new NotImplementedException();
+            var response = await httpClient.GetAsync($"api/Turno/{id}");
+
+            return await ProcessTurnoResponseAsync(response);
         }
 
         public async Task<Turno> CreateTurno(TurnoForm turnoForm)
@@ -41,14 +61,20 @@ namespace SistemaTurnosOnline.Web.Services
             return await response.Content.ReadFromJsonAsync<Turno>();
         }
 
-        public Task<Turno> UpdateTurno(TurnoForm turnoForm)
+        public async Task<Turno> UpdateTurno(Turno turno)
         {
-            throw new NotImplementedException();
+            var turnoFormJson = new StringContent(JsonSerializer.Serialize(turno), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PatchAsync($"api/Turno/{turno.Id}", turnoFormJson);
+
+            return await ProcessTurnoResponseAsync(response);
         }
 
-        public Task<Turno> DeleteTurno(string id)
+        public async Task<Turno> DeleteTurno(string id)
         {
-            throw new NotImplementedException();
+            var response = await httpClient.DeleteAsync($"api/Turno/{id}");
+
+            return await ProcessTurnoResponseAsync(response);
         }
     }
 }

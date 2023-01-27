@@ -1,0 +1,107 @@
+﻿@page "/turno"
+@page "/turno/{id}"
+@inherits DetallesTurnoBase
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Actualizar turno</h3>
+
+<div class="w-50 mx-auto">
+    <a href="/turno/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+
+    <EditForm Model=@TurnoListado OnValidSubmit="@UpdateTurno_Click">
+        <FluentValidationValidator />
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="TurnoListado.Descripcion" type="text" class="form-control" id="DescripcionInput" placeholder="descripcion" />
+            <label for="DescripcionInput">Descripcion</label>
+            <ValidationMessage For="@(() => TurnoListado.Descripcion)" />
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="TurnoListado.Orden" type="number" class="form-control" id="OrdenInput" placeholder="1234" />
+            <label for="OrdenInput">Orden en cola</label>
+            <ValidationMessage For="@(() => TurnoListado.Orden)" />
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success w-50 me-5">
+                Actualizar
+            </button>
+        
+            <button type="button" class="btn btn-danger w-50" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Finalizar
+            </button>
+        </div>
+
+        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+               Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title"
+               Text="@Toast.Text" Time="@Toast.Time">
+        </Toast>
+    </EditForm>
+
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres finalizar el turno?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                    <div class="text-light">
+                        Esta accion es irreversible.
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Se eliminaran todos los datos relacionados al turno.
+                    </div>
+                    <div class="mt-2">
+                        La cola avanzara al siguiente turno.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                            @onclick="() => DeleteTurno_Click()">
+                        Finalizar este turno
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="@TurnoActualizado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                </div>
+                <div class="modal-body">
+                    Se ha actualizado el turno exitosamente
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="@TurnoFinalizado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                </div>
+                <div class="modal-body">
+                    Se ha finalizado el turno exitosamente
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

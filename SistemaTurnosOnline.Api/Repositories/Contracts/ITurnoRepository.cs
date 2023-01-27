@@ -11,5 +11,6 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
         Task<Turno> GetTurnoByParam(string value, Expression<Func<Turno, string>> field);
         Task<Turno> GetTurno(string id);
         Task<IEnumerable<Turno>> GetTurnos();
+        Task<long> GetTurnoCount();
     }
 }
