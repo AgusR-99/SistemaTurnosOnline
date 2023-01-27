@@ -31,11 +31,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
 
                 TurnoListado turnoList = new TurnoListado
                 {
-                    TurnoId = turno.UserId,
+                    TurnoId = turno.Id,
                     Dni = profesor.Dni,
                     UserName = profesor.Nombre,
                     Descripcion = turno.Descripcion,
-                    Orden = turno.OrdenEnCola
+                    Orden = turno.OrdenEnCola.ToString()
                 };
 
                 turnoListados.Add(turnoList);
