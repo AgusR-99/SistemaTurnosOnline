@@ -1,0 +1,43 @@
+﻿@page "/turno/user-items"
+@inherits ListarTurnosUsuarioBase 
+@attribute [Authorize(Roles = "Admin, Guest")]
+
+<Animate Animation="Animations.Fade">
+    <h3>Mis turnos</h3>
+
+    @if (Turnos == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
+            <div class="m-auto mb-3 text-center">
+                <span class="mb-3">Posicion en la cola</span>
+                <h1 class="display-1">@PosicionEnCola</h1>      
+            </div>
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
+                <tr>
+                    @foreach (var header in Headers)
+                    {
+                        <th>@header</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var turno in Turnos)
+                {
+                    <tr>
+                        <td>@turno.OrdenEnCola</td>
+                        <td>@turno.Descripcion</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</Animate>

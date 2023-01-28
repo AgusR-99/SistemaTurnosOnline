@@ -57,6 +57,22 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
+        [HttpGet("UserId/{userId}")]
+        public async Task<IActionResult> GetTurnoByUserId(string userId)
+        {
+            try
+            {
+                var turno = await turnoRepository.GetTurnosByUserId(userId);
+
+                return Ok(turno);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
         [HttpGet("ValidateOutOfBounds/{orden}")]
         public async Task<IActionResult> ValidateOutOfBounds(string orden)
         {

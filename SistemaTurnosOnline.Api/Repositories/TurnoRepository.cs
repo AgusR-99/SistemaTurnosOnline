@@ -132,6 +132,18 @@ namespace SistemaTurnosOnline.Api.Repositories
             return turno;
         }
 
+        public async Task<IEnumerable<Turno>> GetTurnosByUserId(string userId)
+        {
+            var filtroUserId = Builders<Turno>.Filter.Eq(t => t.UserId, userId);
+
+            var turno = await turnoCollection
+                .Find(filtroUserId)
+                .Sort(Builders<Turno>.Sort.Ascending("OrdenEnCola"))
+                .ToListAsync();
+
+            return turno;
+        }
+
         public async Task<IEnumerable<Turno>> GetTurnos()
         {
             return await turnoCollection.FindAsync(new BsonDocument()).Result.ToListAsync();

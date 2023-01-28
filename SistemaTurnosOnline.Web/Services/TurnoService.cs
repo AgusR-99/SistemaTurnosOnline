@@ -26,15 +26,8 @@ namespace SistemaTurnosOnline.Web.Services
             throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
-        public TurnoService(HttpClient httpClient)
+        private async Task<IEnumerable<Turno>> ProcessTurnoCollectionResponseAsync(HttpResponseMessage response)
         {
-            this.httpClient = httpClient;
-        }
-
-        public async Task<IEnumerable<Turno>> GetTurnos()
-        {
-            var response = await httpClient.GetAsync("api/Turno");
-
             if (response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -47,11 +40,30 @@ namespace SistemaTurnosOnline.Web.Services
             throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
+        public TurnoService(HttpClient httpClient)
+        {
+            this.httpClient = httpClient;
+        }
+
+        public async Task<IEnumerable<Turno>> GetTurnos()
+        {
+            var response = await httpClient.GetAsync("api/Turno");
+
+            return await ProcessTurnoCollectionResponseAsync(response);
+        }
+
         public async Task<Turno> GetTurno(string id)
         {
             var response = await httpClient.GetAsync($"api/Turno/{id}");
 
             return await ProcessTurnoResponseAsync(response);
+        }
+
+        public async Task<IEnumerable<Turno>> GetTurnosByUserId(string userId)
+        {
+            var response = await httpClient.GetAsync($"api/Turno/UserId/{userId}");
+
+            return await ProcessTurnoCollectionResponseAsync(response);
         }
 
         public async Task<Turno> CreateTurno(TurnoForm turnoForm)

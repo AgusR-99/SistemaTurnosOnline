@@ -62,6 +62,12 @@ namespace SistemaTurnosOnline.Web.Shared
             {
                 new()
                 {
+                    Text = "Mis turnos",
+                    Class = "oi-clock",
+                    Href = "/turno/user-items"
+                },
+                new()
+                {
                     Text = "Agregar",
                     Class = "oi-plus",
                     Href = "/turno/create"
