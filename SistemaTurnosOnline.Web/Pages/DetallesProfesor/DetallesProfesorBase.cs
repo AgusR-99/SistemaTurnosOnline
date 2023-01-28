@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
@@ -47,7 +48,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 text: "Se ha producido un error al enviar la solicitud"
                 )
         };
-        public string ModalId { get; set; } = "deletedModal";
+        public string EliminarProfesor_Modal { get; set; } = "deletedModal";
         [Parameter]
         public string idPassword { get; set; } = "passwordInput";
         public string idPasswordRe { get; set; } = "passwordInputRe";
@@ -152,7 +153,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                     if (toast != null)
                     {
-                        await ShowToast(toast.Id);
+                        await toast.Id.ShowToast(Js);
                     }
                     else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Success)}" +
                         $"asegurese que dicho parametro se encuentre presente en la lista");
@@ -168,7 +169,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 if (toast != null)
                 {
-                    await ShowToast(toast.Id);
+                    await toast.Id.ShowToast(Js);
                 }
                 else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
                     $"asegurese que dicho parametro se encuentre presente en la lista"); ErrorMessage = ex.Message;
@@ -178,27 +179,19 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         {
             try
             {
-                var deletedProfesor = ProfesorService.DeleteProfesor(Id);
+                var deletedProfesor = await ProfesorService.DeleteProfesor(Id);
 
                 if (deletedProfesor != null)
                 {
-                    await ShowModal(ModalId);
-                }
-                else
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                    if (toast != null)
-                    {
-                        await ShowToast(toast.Id);
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                        $"asegurese que dicho parametro se encuentre presente en la lista");
+                    await EliminarProfesor_Modal.ShowModal(Js);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+
+                toast.Text = ex.Message;
+                await toast.Id.ShowToast(Js);
             }
         }
 

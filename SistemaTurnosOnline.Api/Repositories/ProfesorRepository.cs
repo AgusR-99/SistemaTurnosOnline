@@ -15,6 +15,13 @@ namespace SistemaTurnosOnline.Api.Repositories
         // Instanciar coleccion correspondiente
         private IMongoCollection<Profesor> profesorCollection;
 
+        private bool CheckIfLastAdmin(List<Profesor> profesores)
+        {
+            int count = profesores.Count(profesor => profesor.Rol == "Admin");
+
+            return count == 1;
+        }
+
         // Constructor inicializa coleccion
         public ProfesorRepository(SistemaTurnosOnlineDbContext dbContext)
         {
@@ -28,18 +35,24 @@ namespace SistemaTurnosOnline.Api.Repositories
             return profesor;
         }
 
-        public async Task<Profesor> DeleteProfesor(string id)
+        public async Task<Profesor?> DeleteProfesor(string id)
         {
             var filtro = Builders<Profesor>.Filter.Eq(p => p.Id, id);
 
-            var profesor = await profesorCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
+            var profesorList = await profesorCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
 
-            if (profesor != null)
+            var profesor = profesorList.First(p => p.Id == id);
+
+            if (!CheckIfLastAdmin(profesorList) || profesor.Rol == "Guest")
             {
+                if (profesor == null) return default(Profesor);
+
                 await profesorCollection.DeleteOneAsync(filtro);
+
+                return profesor;
             }
 
-            return profesor;
+            throw new InvalidOperationException("El usuario no puede ser eliminado debido a que es el unico administrador");
         }
 
         public async Task<Profesor> GetProfesor(string id)

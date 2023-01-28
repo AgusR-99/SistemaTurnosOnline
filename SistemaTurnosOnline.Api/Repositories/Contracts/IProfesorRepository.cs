@@ -7,7 +7,7 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
     {
         Task<Profesor> CreateProfesor(Profesor profesor);
         Task<Profesor> UpdateProfesor(Profesor profesor, string id);
-        Task<Profesor> DeleteProfesor(string id);
+        Task<Profesor?> DeleteProfesor(string id);
         Task<Profesor> GetProfesorByParam(string value, Expression<Func<Profesor, string>> field);
         Task<Profesor> GetProfesor(string id);
         Task<IEnumerable<Profesor>> GetProfesores();
