@@ -4,6 +4,7 @@ using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared;
 using System.Linq.Expressions;
+using SistemaTurnosOnline.Shared.Turnos;
 
 namespace SistemaTurnosOnline.Api.Repositories
 {
@@ -11,6 +12,7 @@ namespace SistemaTurnosOnline.Api.Repositories
     {
         // Instanciar MongoDb context
         private readonly SistemaTurnosOnlineDbContext dbContext;
+        private readonly ITurnoRepository turnoRepository;
 
         // Instanciar coleccion correspondiente
         private IMongoCollection<Profesor> profesorCollection;
@@ -23,9 +25,10 @@ namespace SistemaTurnosOnline.Api.Repositories
         }
 
         // Constructor inicializa coleccion
-        public ProfesorRepository(SistemaTurnosOnlineDbContext dbContext)
+        public ProfesorRepository(SistemaTurnosOnlineDbContext dbContext, ITurnoRepository turnoRepository)
         {
             this.dbContext = dbContext;
+            this.turnoRepository = turnoRepository;
             profesorCollection = this.dbContext.db.GetCollection<Profesor>("profesor");
         }
         public async Task<Profesor> CreateProfesor(Profesor profesor)
@@ -46,6 +49,10 @@ namespace SistemaTurnosOnline.Api.Repositories
             if (!CheckIfLastAdmin(profesorList) || profesor.Rol == "Guest")
             {
                 if (profesor == null) return default(Profesor);
+
+                var turnos = await turnoRepository.GetTurnosByUserId(profesor.Id);
+
+                turnos.ToList().ForEach(t => turnoRepository.DeleteTurno(t.Id));
 
                 await profesorCollection.DeleteOneAsync(filtro);
 
