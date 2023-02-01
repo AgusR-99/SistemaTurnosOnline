@@ -36,7 +36,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
             Turnos = await TurnoService.GetTurnosByUserId(userId);
 
-            PosicionEnCola = Turnos.First().OrdenEnCola;
+            if (Turnos.Count() != 0) PosicionEnCola = Turnos.First().OrdenEnCola;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

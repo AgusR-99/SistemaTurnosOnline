@@ -14,10 +14,15 @@
     else
     {
         <div class="m-auto">
-            <div class="m-auto mb-3 text-center">
-                <span class="mb-3">Posicion en la cola</span>
-                <h1 class="display-1">@PosicionEnCola</h1>      
-            </div>
+
+            @if (PosicionEnCola != 0)
+            {
+                <div class="m-auto mb-3 text-center">
+                    <span class="mb-3">Posicion en la cola</span>
+                    <h1 class="display-1">@PosicionEnCola</h1>
+                </div>
+            }
+
             <table class="m-auto w-100" id="@TableId">
                 <thead>
                 <tr>
