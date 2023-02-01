@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
@@ -9,13 +10,15 @@ namespace SistemaTurnosOnline.Api.Repositories
     public class CarreraRepository : ICarreraRepository
     {
         private readonly SistemaTurnosOnlineDbContext dbContext;
+        private readonly IProfesorRepository profesorRepository;
 
         // Instanciar coleccion correspondiente
         private IMongoCollection<Carrera> carreraCollection;
 
-        public CarreraRepository(SistemaTurnosOnlineDbContext dbContext)
+        public CarreraRepository(SistemaTurnosOnlineDbContext dbContext, IProfesorRepository profesorRepository)
         {
             this.dbContext = dbContext;
+            this.profesorRepository = profesorRepository;
             carreraCollection = this.dbContext.db.GetCollection<Carrera>("carrera");
         }
 
@@ -38,14 +41,28 @@ namespace SistemaTurnosOnline.Api.Repositories
         {
             var filtro = Builders<Carrera>.Filter.Eq(c => c.Id, id);
 
-            var carrera = await carreraCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
+            var carreraToDelete = await carreraCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.FirstAsync();
 
-            if (carrera != null)
+            if (carreraToDelete != null)
             {
+                var profesores = await profesorRepository.GetProfesores();
+
+                foreach (var profesor in profesores)
+                {
+                    var carreraRefId = profesor.CarrerasId.Find(c => c == id);
+
+                    if (carreraRefId != null)
+                    {
+                        profesor.CarrerasId.Remove(carreraRefId);
+                    }
+
+                    profesorRepository.UpdateProfesor(profesor, profesor.Id);
+                }
+
                 await carreraCollection.DeleteOneAsync(filtro);
             }
 
-            return carrera;
+            return carreraToDelete;
         }
 
         public async Task<List<Carrera>> GetCarreras()
