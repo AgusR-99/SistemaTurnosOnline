@@ -23,6 +23,7 @@ builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
 
 
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
+builder.Services.AddScoped<IValidator<ProfesorSecure>, ProfesorSecureValidator>();
 builder.Services.AddScoped<IValidateProfesor, ValidateProfesor>();
 
 builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();

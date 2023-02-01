@@ -4,7 +4,6 @@ using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
-using SistemaTurnosOnline.Shared.Validators;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {
@@ -14,11 +13,14 @@ namespace SistemaTurnosOnline.Api.Controllers
     {
         private readonly IProfesorRepository profesorRepository;
         private readonly IValidator<ProfesorForm> profesorValidator;
+        private readonly IValidator<ProfesorSecure> profesorSecureValidator;
 
-        public ProfesorController(IProfesorRepository profesorRepository, IValidator<ProfesorForm> profesorValidator)
+        public ProfesorController(IProfesorRepository profesorRepository, IValidator<ProfesorForm> profesorValidator,
+            IValidator<ProfesorSecure> profesorSecureValidator)
         {
             this.profesorRepository = profesorRepository;
             this.profesorValidator = profesorValidator;
+            this.profesorSecureValidator = profesorSecureValidator;
         }
 
         [HttpGet]
@@ -69,13 +71,15 @@ namespace SistemaTurnosOnline.Api.Controllers
             try
             {
                 var profesor = await profesorRepository.GetProfesor(id);
+
+                var profesorSecured = profesor.ConvertToProfesorSecure();
                 
-                if (profesor == null)
+                if (profesorSecured == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(profesor);
+                return Ok(profesorSecured);
             }
             catch (Exception ex)
             {
@@ -246,11 +250,11 @@ namespace SistemaTurnosOnline.Api.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateProfesor([FromBody] ProfesorForm profesorForm, string id)
+        public async Task<IActionResult> UpdateProfesor([FromBody] ProfesorSecure profesorSecure, string id)
         {
             try
             {
-                var result = await profesorValidator.ValidateAsync(profesorForm);
+                var result = await profesorSecureValidator.ValidateAsync(profesorSecure);
 
                 if (!result.IsValid)
                 {
@@ -259,9 +263,11 @@ namespace SistemaTurnosOnline.Api.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, result);
                 }
 
-                var profesor = profesorForm.ConvertToProfesor();
+                var profesorToUpdate = profesorSecure.ConvertToProfesor();
 
-                var newProfesor = await profesorRepository.UpdateProfesor(profesor, id);
+                profesorToUpdate.Password = (await profesorRepository.GetProfesor(id)).Password;
+
+                var newProfesor = await profesorRepository.UpdateProfesor(profesorToUpdate, id);
 
                 return CreatedAtAction(nameof(GetProfesor), new { id = newProfesor.Id }, newProfesor);
             }

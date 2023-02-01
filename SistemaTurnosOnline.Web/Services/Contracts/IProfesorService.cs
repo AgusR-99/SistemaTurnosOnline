@@ -6,11 +6,11 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
     {
         Task<IEnumerable<Profesor>> GetProfesores();
         Task<IEnumerable<Profesor>> GetProfesoresInactive();
-        Task<Profesor> GetProfesor(string id);
+        Task<ProfesorSecure> GetProfesor(string id);
         Task<Profesor> GetProfesorByDni(string dni);
         Task<Profesor> CreateProfesor(ProfesorForm profesorForm);
         //TODO: cambiar a UpdateProfesor(ProfesorForm profesorForm);
-        Task<Profesor> UpdateProfesor(ProfesorForm profesorForm);
+        Task<Profesor> UpdateProfesor(ProfesorSecure profesorSecure);
         Task<Profesor> DeleteProfesor(string id);
     }
 }

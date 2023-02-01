@@ -29,6 +29,21 @@ namespace SistemaTurnosOnline.Web.Services
             throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
+        private async Task<ProfesorSecure> ProcessProfesorSecureResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return default(ProfesorSecure);
+                }
+
+                return await response.Content.ReadFromJsonAsync<ProfesorSecure>();
+            }
+            var message = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+        }
+
         private async Task<IEnumerable<Profesor>> ProcessProfesorCollectionResponseAsync(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
@@ -61,13 +76,13 @@ namespace SistemaTurnosOnline.Web.Services
             return await ProcessProfesorResponseAsync(response);
         }
 
-        public async Task<Profesor> GetProfesor(string id)
+        public async Task<ProfesorSecure> GetProfesor(string id)
         {
             try
             {
                 var response = await httpClient.GetAsync($"api/Profesor/{id}");
 
-                return await ProcessProfesorResponseAsync(response);
+                return await ProcessProfesorSecureResponseAsync(response);
             }
             catch (Exception)
             {
@@ -113,13 +128,13 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
-        public async Task<Profesor> UpdateProfesor(ProfesorForm profesorForm)
+        public async Task<Profesor> UpdateProfesor(ProfesorSecure profesorSecure)
         {
             try
             {
-                var profesorFormJson = new StringContent(JsonSerializer.Serialize(profesorForm), Encoding.UTF8, "application/json");
+                var profesorFormJson = new StringContent(JsonSerializer.Serialize(profesorSecure), Encoding.UTF8, "application/json");
 
-                var response = await httpClient.PatchAsync($"api/Profesor/{profesorForm.Id}", profesorFormJson);
+                var response = await httpClient.PatchAsync($"api/Profesor/{profesorSecure.Id}", profesorFormJson);
 
                 return await ProcessProfesorResponseAsync(response);
             }

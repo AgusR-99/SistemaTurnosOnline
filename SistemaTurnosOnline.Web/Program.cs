@@ -31,6 +31,7 @@ builder.Services.AddTransient<ISignInValidator, ValidateSignInService>();
 builder.Services.AddTransient<ITurnoValidator, ValidateTurnoService>();
 
 builder.Services.AddScoped<IValidator<ProfesorForm>, ProfesorValidator>();
+builder.Services.AddScoped<IValidator<ProfesorSecure>, ProfesorSecureValidator>();
 builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
 builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
 builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();

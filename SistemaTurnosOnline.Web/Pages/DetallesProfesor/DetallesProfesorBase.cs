@@ -19,8 +19,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         public ICarreraService CarreraService { get; set; }
         [Parameter]
         public string Id { get; set; }
-        public Profesor Profesor { get; set; }
-        public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
+
+        public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
@@ -62,7 +62,6 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
 
             Profesor = await ProfesorService.GetProfesor(Id);
-            ProfesorForm = Profesor.ConvertToProfesorForm();
             Carreras = await CarreraService.GetCarreras();
 
             CarrerasForm = Carreras.Select(carrera => carrera.ConvertToCarreraForm())
@@ -141,26 +140,17 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     on carrera.Id equals carrerasValues
                     select carrera.Id;
 
-                ProfesorForm.CarrerasId = carrerasId.ToList();
+                Profesor.CarrerasId = carrerasId.ToList();
 
-                ProfesorForm.Rol = SelectedRol;
+                Profesor.Rol = SelectedRol;
 
-                var profesorToUpdate = await ProfesorService.UpdateProfesor(ProfesorForm);
+                var profesorToUpdate = await ProfesorService.UpdateProfesor(Profesor);
 
                 if (profesorToUpdate != null)
                 {
                     var toast = Toasts.Find(t => t.status == ToastModel.Status.Success);
 
-                    if (toast != null)
-                    {
-                        await toast.Id.ShowToast(Js);
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Success)}" +
-                        $"asegurese que dicho parametro se encuentre presente en la lista");
-                }
-                else
-                {
-                    throw new Exception();
+                    if (toast != null) await toast.Id.ShowToast(Js);
                 }
             }
             catch (Exception ex)
@@ -169,10 +159,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 if (toast != null)
                 {
+                    toast.Text = ex.Message;
                     await toast.Id.ShowToast(Js);
                 }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                    $"asegurese que dicho parametro se encuentre presente en la lista"); ErrorMessage = ex.Message;
             }
         }
         protected async Task DeleteProfesor_Click()

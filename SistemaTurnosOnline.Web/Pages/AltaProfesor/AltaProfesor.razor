@@ -6,47 +6,25 @@
 <div class="w-50 mx-auto">
     <a href="/profesor/readinactive" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
 
-    <EditForm Model=@ProfesorForm OnValidSubmit="@ActivateProfesor_Click">
+    <EditForm Model=@Profesor OnValidSubmit="@ActivateProfesor_Click">
         <FluentValidationValidator />
         <div class="form-floating mb-3">
-            <InputText @bind-Value="ProfesorForm.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
+            <InputText @bind-Value="Profesor.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
             <label for="dniInput">DNI</label>
-            <ValidationMessage For="@(() => ProfesorForm.Dni)" />
+            <ValidationMessage For="@(() => Profesor.Dni)" />
         </div>
 
         <div class="form-floating mb-3">
-            <InputText @bind-Value="ProfesorForm.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
+            <InputText @bind-Value="Profesor.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
             <label for="nombreInput">Nombre y Apellido</label>
-            <ValidationMessage For="@(() => ProfesorForm.Nombre)" />
+            <ValidationMessage For="@(() => Profesor.Nombre)" />
         </div>
 
         <div class="form-floating mb-3">
-            <InputText @bind-Value="ProfesorForm.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
+            <InputText @bind-Value="Profesor.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
             <label for="emailInput">Direccion Email</label>
-            <ValidationMessage For="@(() => ProfesorForm.Email)" />
+            <ValidationMessage For="@(() => Profesor.Email)" />
         </div>
-
-        <div class="form-floating d-flex">
-            <InputText @bind-Value="ProfesorForm.Password" type="password" class="form-control border-end-0 rounded-end-0" id="@idPassword" placeholder="password" />
-            <button class="form-control m-0 pt-4 ps-1 pe-2 w-auto border-start-0 rounded-start-0"
-                    type="button"
-                    @onclick="() => ShowPassword(idPassword)">
-                <i class="oi oi-eye"></i>
-            </button>
-            <label for="passwordInput">Contraseña</label>
-        </div>
-        <ValidationMessage For="@(() => ProfesorForm.Password)" />
-
-        <div class="form-floating mt-3 mb-3 d-flex">
-            <InputText @bind-Value="ProfesorForm.PasswordConfirm" type="password" class="form-control border-end-0 rounded-end-0" id="@idPasswordRe" placeholder="password" />
-            <button class="form-control m-0 pt-4 ps-1 pe-2 w-auto border-start-0 rounded-start-0"
-                    type="button"
-                    @onclick="() => ShowPassword(idPasswordRe)">
-                <i class="oi oi-eye"></i>
-            </button>
-            <label for="passwordInputRe">Repetir contraseña</label>
-        </div>
-        <ValidationMessage For="@(() => ProfesorForm.PasswordConfirm)" />
 
         @if (Carreras == null)
         {

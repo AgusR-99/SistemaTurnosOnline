@@ -26,8 +26,8 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public string idPassword { get; set; } = "passwordInput";
         [Parameter]
         public string idPasswordRe { get; set; } = "passwordInputRe";
-        public Profesor Profesor { get; set; }
-        public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
+
+        public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
@@ -80,8 +80,6 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             Profesor = await ProfesorService.GetProfesor(Id);
             Carreras = await CarreraService.GetCarreras();
 
-            ProfesorForm = Profesor.ConvertToProfesorForm();
-
             CarrerasForm = Carreras.Select(carrera => carrera.ConvertToCarreraForm())
                   .ToList();
 
@@ -130,11 +128,11 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         {
             try
             {
-                ProfesorForm.Estado = true;
+                Profesor.Estado = true;
 
-                ProfesorForm.Rol = SelectedRol;
+                Profesor.Rol = SelectedRol;
 
-                var activatedProfesor = await ProfesorService.UpdateProfesor(ProfesorForm);
+                var activatedProfesor = await ProfesorService.UpdateProfesor(Profesor);
 
                 if (activatedProfesor != null)
                 {
