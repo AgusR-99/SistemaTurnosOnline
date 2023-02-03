@@ -18,12 +18,12 @@ namespace SistemaTurnosOnline.Web.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return false;
+                return true;
             }
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                return true;
+                return false;
             }
 
             var message = await response.Content.ReadAsStringAsync();
@@ -32,16 +32,16 @@ namespace SistemaTurnosOnline.Web.Services
 
         public async Task<bool> IsPasswordValid(SignInForm form, string formPassword)
         {
-            var response = await httpClient.GetAsync($"api/Profesor/ValidatePassword/Active/{form.Dni}/{formPassword}");
+            var response = await httpClient.PostAsJsonAsync($"api/Profesor/SignIn", form);
 
             if (response.IsSuccessStatusCode)
             {
-                return false;
+                return true;
             }
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.BadRequest)
             {
-                return true;
+                return false;
             }
 
             var message = await response.Content.ReadAsStringAsync();

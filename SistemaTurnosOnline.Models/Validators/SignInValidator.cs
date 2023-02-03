@@ -19,7 +19,7 @@ namespace SistemaTurnosOnline.Shared.Validators
                 RuleFor(s => s.Dni)
                     .MustAsync(async (dni, CancellationToken) =>
                     {
-                        return !await this.validator.AccountIsActive(dni);
+                        return await this.validator.AccountIsActive(dni);
                     })
                     .WithMessage("Cuenta no esta activada o no existe");
             });
@@ -32,7 +32,8 @@ namespace SistemaTurnosOnline.Shared.Validators
                 RuleFor(s => s.Password)
                     .MustAsync(async (form, password, CancellationToken) =>
                     {
-                        return !await this.validator.IsPasswordValid(form, password);
+                        bool foo = await this.validator.IsPasswordValid(form, password);
+                        return foo;
                     })
                     .WithMessage("Contraseña es invalida");
             });

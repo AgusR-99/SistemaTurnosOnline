@@ -2,7 +2,9 @@
 @inherits SignInBase
 
 <EditForm OnValidSubmit="@SignIn_Click" Model="Form">
-    <FluentValidationValidator />
+    <FluentValidationValidator 
+        @ref="_fluentValidationValidator"
+        DisableAssemblyScanning="@true" />
     <div class="w-50 mx-auto">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 

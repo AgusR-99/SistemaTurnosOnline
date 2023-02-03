@@ -14,16 +14,16 @@ namespace SistemaTurnosOnline.Api.Validator
         }
         public async Task<bool> AccountIsActive(string formDni)
         {
-            var profesor = await profesorRepository.GetProfesor(formDni);
+            var profesor = await profesorRepository.GetProfesorByParam(formDni, p => p.Dni);
 
             return profesor is { Estado: true };
         }
 
         public async Task<bool> IsPasswordValid(SignInForm form, string formPassword)
         {
-            var profesor = await profesorRepository.GetProfesor(form.Dni);
+            var profesor = await profesorRepository.GetProfesorByParam(form.Dni, p => p.Dni);
 
-            return profesor.Password == formPassword;
+            return BCrypt.Net.BCrypt.Verify(formPassword, profesor.Password);
         }
     }
 }

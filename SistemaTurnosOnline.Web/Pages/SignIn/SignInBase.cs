@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.FluentValidation;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Authentication;
@@ -15,22 +16,30 @@ namespace SistemaTurnosOnline.Web.Pages.SignIn
         [Inject]
         NavigationManager NavigationManager { get; set; }
 
+        public FluentValidationValidator? _fluentValidationValidator;
+
         public SignInForm Form { get; set; } = new SignInForm();
         public async Task SignIn_Click()
         {
-            var userAccount = await ProfesorService.GetProfesorByDni(Form.Dni);
+        // OnValidSubmit callback no esperará automáticamente la validación asíncrona,
+        // por eso mismo se debe esperar explicitamente mediante este metodo
+        // https://github.com/Blazored/FluentValidation/issues/38
+            var valid = await _fluentValidationValidator!.ValidateAsync(options => options.IncludeAllRuleSets());
 
-            if (userAccount == null || userAccount.Password != Form.Password || userAccount.Estado == false) return;
+            if (valid)
+            {
+                var userAccount = await ProfesorService.GetProfesorByDni(Form.Dni);
 
-            var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
 
-            await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+                await customAuthStateProvider.UpdateAuthenticationState(new UserSession
                 {
                     UserId = userAccount.Id,
                     UserRole = userAccount.Rol
                 });
 
-            NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/", true); Console.WriteLine("Form Submitted Successfully!");
+            }
         }
     }
 }

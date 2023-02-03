@@ -14,13 +14,15 @@ namespace SistemaTurnosOnline.Api.Controllers
         private readonly IProfesorRepository profesorRepository;
         private readonly IValidator<ProfesorForm> profesorValidator;
         private readonly IValidator<ProfesorSecure> profesorSecureValidator;
+        private readonly IValidator<SignInForm> signInValidator;
 
         public ProfesorController(IProfesorRepository profesorRepository, IValidator<ProfesorForm> profesorValidator,
-            IValidator<ProfesorSecure> profesorSecureValidator)
+            IValidator<ProfesorSecure> profesorSecureValidator, IValidator<SignInForm> signInValidator)
         {
             this.profesorRepository = profesorRepository;
             this.profesorValidator = profesorValidator;
             this.profesorSecureValidator = profesorSecureValidator;
+            this.signInValidator = signInValidator;
         }
 
         [HttpGet]
@@ -184,7 +186,9 @@ namespace SistemaTurnosOnline.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(profesor);
+                var profesorSecure = profesor.ConvertToProfesorSecure();
+
+                return Ok(profesorSecure);
             }
             catch (Exception ex)
             {
@@ -193,14 +197,30 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
-        [HttpGet("ValidatePassword/Active/{dni}/{password}")]
-        public async Task<IActionResult> ValidateActiveProfesorPassword(string dni, string password)
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignInValidation([FromBody] SignInForm form)
         {
             try
             {
-                var profesor = await profesorRepository.GetProfesorByParam(dni, p => p.Dni);
+                var result = await signInValidator.ValidateAsync(form);
 
-                if (profesor == null || !profesor.Estado || profesor.Password != password)
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
+
+                var profesor = await profesorRepository.GetProfesorByParam(form.Dni, p => p.Dni);
+
+                Task<bool> validPass = new Task<bool>(() =>
+                {
+                    return BCrypt.Net.BCrypt.Verify(form.Password, profesor.Password);
+                });
+
+                validPass.Start();
+
+                if (profesor == null || !profesor.Estado || !await validPass)
                 {
                     return NotFound();
                 }
@@ -232,6 +252,8 @@ namespace SistemaTurnosOnline.Api.Controllers
 
                 if (string.IsNullOrWhiteSpace(profesor.Rol))
                     profesor.Rol = "guest";
+
+                profesor.Password = BCrypt.Net.BCrypt.HashPassword(profesor.Password);
 
                 var newProfesor = await profesorRepository.CreateProfesor(profesor);
 
