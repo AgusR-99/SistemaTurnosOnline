@@ -5036,9 +5036,10 @@ textarea.form-control-lg {
     }
 
 .alert-info {
-    color: #22738e;
-    background-color: #d7f2fb;
-    border-color: #c4ecfa
+    color: #1d4795;
+    background-color: #1a2430;
+    border-top-color: #1155bb;
+    border-bottom-color: #1155bb;
 }
 
     .alert-info .alert-link {
@@ -5046,9 +5047,10 @@ textarea.form-control-lg {
     }
 
 .alert-warning {
-    color: #640;
-    background-color: #fec;
-    border-color: #ffe5b3
+    color: #958b1d;
+    background-color: #302d1a;
+    border-top-color: #bbaa11;
+    border-bottom-color: #bbaa11;
 }
 
     .alert-warning .alert-link {

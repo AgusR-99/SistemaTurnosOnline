@@ -4,6 +4,7 @@ using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using System.Security.Cryptography;
 
 namespace SistemaTurnosOnline.Api.Controllers
 {
@@ -292,6 +293,35 @@ namespace SistemaTurnosOnline.Api.Controllers
                 var newProfesor = await profesorRepository.UpdateProfesor(profesorToUpdate, id);
 
                 return CreatedAtAction(nameof(GetProfesor), new { id = newProfesor.Id }, newProfesor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
+        [HttpPatch("ResetPassword/{id}")]
+        public async Task<IActionResult> ResetPassword(string id)
+        {
+            try
+            {
+                var profesor = await profesorRepository.GetProfesor(id);
+
+                var randomNumber = new byte[8];
+                string refreshToken = "";
+
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(randomNumber);
+                    refreshToken = Convert.ToBase64String(randomNumber);
+                }
+
+                profesor.Password = BCrypt.Net.BCrypt.HashPassword(refreshToken);
+
+                var updatedProfesor = await profesorRepository.UpdateProfesor(profesor, id);
+
+                return CreatedAtAction(nameof(GetProfesor), new { id = updatedProfesor.Id }, refreshToken);
             }
             catch (Exception ex)
             {

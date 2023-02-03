@@ -69,6 +69,15 @@ namespace SistemaTurnosOnline.Web.Services
             return await ProcessProfesorResponseAsync(response);
         }
 
+        public async Task<string> ResetPassword(string id)
+        {
+            var profesorFormJson = new StringContent(JsonSerializer.Serialize(id), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PatchAsync($"api/Profesor/ResetPassword/{id}", profesorFormJson);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public async Task<Profesor> DeleteProfesor(string id)
         {
             var response = await httpClient.DeleteAsync($"api/Profesor/{id}");

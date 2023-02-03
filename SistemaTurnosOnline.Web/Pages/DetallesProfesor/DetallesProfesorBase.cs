@@ -35,7 +35,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 icon: "oi oi-circle-check",
                 title: "Actualizacion exitosa",
                 time: "Ahora",
-                text: "Se ha enviado actualizado el usuario con exito"
+                text: "Se ha actualizado el usuario con exito"
                 ),
              new ToastModel(
                 status: ToastModel.Status.Error,
@@ -48,11 +48,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 text: "Se ha producido un error al enviar la solicitud"
                 )
         };
-        public string EliminarProfesor_Modal { get; set; } = "deletedModal";
-        [Parameter]
-        public string idPassword { get; set; } = "passwordInput";
-        public string idPasswordRe { get; set; } = "passwordInputRe";
-        public string ErrorMessage { get; set; }
+        public string EliminarProfesorModal { get; set; } = "deletedModal";
+
+        public string PasswordResetModal { get; set; } = "resetPasswordModal";
+
+        public string NewPassword { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -86,26 +86,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             SelectedRol = Profesor.Rol;
         }
 
-        public async Task ShowPassword(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showPassword", id);
-        }
-
-        private async Task ShowToast(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showToast", id);
-        }
-
-        private async Task ShowModal(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showModal", id);
-        }
-        private async Task HideModal(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "hideModal", id);
-        }
-
-        protected void Checkbox_Click(string id)
+        protected async Task Checkbox_Click(string id)
         {
             try
             {
@@ -122,9 +103,12 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 CarreraService.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+
+                toast.Text = ex.Message;
+                await toast.Id.ShowToast(Js);
             }
 
         }
@@ -172,8 +156,25 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 if (deletedProfesor != null)
                 {
-                    await EliminarProfesor_Modal.ShowModal(Js);
+                    await EliminarProfesorModal.ShowModal(Js);
                 }
+            }
+            catch (Exception ex)
+            {
+                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+
+                toast.Text = ex.Message;
+                await toast.Id.ShowToast(Js);
+            }
+        }
+
+        protected async Task ResetPassword_Click()
+        {
+            try
+            {
+                NewPassword = await ProfesorService.ResetPassword(Id);
+
+                await PasswordResetModal.ShowModal(Js);
             }
             catch (Exception ex)
             {

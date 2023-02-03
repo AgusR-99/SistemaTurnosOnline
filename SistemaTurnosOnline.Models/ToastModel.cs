@@ -5,8 +5,7 @@
         public enum Status
         {
             Success,
-            Error,
-            Pending
+            Error
         }
         public Status status { get; set; }
         public string Id { get; set; }
