@@ -23,7 +23,7 @@ namespace SistemaTurnosOnline.Api.Validator
         {
             var profesor = await profesorRepository.GetProfesorByParam(form.Dni, p => p.Dni);
 
-            return BCrypt.Net.BCrypt.Verify(formPassword, profesor.Password);
+            return profesor != null ? BCrypt.Net.BCrypt.Verify(formPassword, profesor.Password) : false;
         }
     }
 }
