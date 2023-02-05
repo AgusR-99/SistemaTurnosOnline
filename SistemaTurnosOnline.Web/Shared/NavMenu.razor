@@ -12,6 +12,15 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         
+        <div class="nav-item px-3">
+            <span class="text-light">Perfil</span>
+        </div>
+
+        @foreach (var tab in tabsPerfil)
+        {
+            <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
+        }
+
         <AuthorizeView Roles="Admin">
             <Authorized>
                 <div class="nav-item px-3">
@@ -33,7 +42,7 @@
                 }
             </Authorized>
         </AuthorizeView>
-        
+
         <div class="nav-item px-3">
             <span class="text-light">Turnos</span>
         </div>
@@ -42,6 +51,7 @@
         {
             <TabComponent _Class="@tab.Class" _Text="@tab.Text" _Href="@tab.Href"></TabComponent>
         }
+
         <AuthorizeView Roles="Admin">
             <Authorized>
                 @foreach (var tab in tabsTurnosAdmin)

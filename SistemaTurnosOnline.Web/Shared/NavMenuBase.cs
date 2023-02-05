@@ -13,6 +13,8 @@ namespace SistemaTurnosOnline.Web.Shared
         {
             collapseNavMenu = !collapseNavMenu;
         }
+
+        public List<TabModel> tabsPerfil { get; set; }
         public List<TabModel> tabsProfesor { get; set; }
         public List<TabModel> tabsCarreras { get; set; }
         public List<TabModel> tabsTurnos { get; set; }
@@ -20,6 +22,22 @@ namespace SistemaTurnosOnline.Web.Shared
 
         public NavMenuBase()
         {
+            tabsPerfil = new List<TabModel>
+            {
+                new()
+                {
+                    Text = "General",
+                    Class = "oi-person",
+                    Href = "/profile/general"
+                },
+                new()
+                {
+                    Text = "Seguridad",
+                    Class = "oi-lock-locked",
+                    Href = "/profile/security"
+                }
+            };
+
             tabsProfesor = new List<TabModel>()
             {
                 new()
