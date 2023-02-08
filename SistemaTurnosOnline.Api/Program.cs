@@ -35,6 +35,9 @@ builder.Services.AddScoped<ISignInValidator, ValidateSignIn>();
 builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();
 builder.Services.AddScoped<ITurnoValidator, ValidateTurno>();
 
+builder.Services.AddScoped<IValidator<ProfileSecurityForm>, ProfileSecurityValidator>();
+builder.Services.AddScoped<IPasswordValidator, ValidateProfileSecurity>();
+
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();
 

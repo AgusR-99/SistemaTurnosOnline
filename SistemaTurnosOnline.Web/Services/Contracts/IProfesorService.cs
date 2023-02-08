@@ -10,6 +10,7 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
         Task<Profesor> GetProfesorByDni(string dni);
         Task<Profesor> CreateProfesor(ProfesorForm profesorForm);
         Task<Profesor> UpdateProfesor(ProfesorSecure profesorSecure);
+        Task<Profesor> UpdateProfesorPassword(ProfileSecurityForm profileSecurityForm);
         Task<string> ResetPassword(string id);
         Task<Profesor> DeleteProfesor(string id);
     }

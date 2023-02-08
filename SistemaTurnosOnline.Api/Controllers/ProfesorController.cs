@@ -16,14 +16,17 @@ namespace SistemaTurnosOnline.Api.Controllers
         private readonly IValidator<ProfesorForm> profesorValidator;
         private readonly IValidator<ProfesorSecure> profesorSecureValidator;
         private readonly IValidator<SignInForm> signInValidator;
+        private readonly IValidator<ProfileSecurityForm> profileSecurityFormValidator;
 
         public ProfesorController(IProfesorRepository profesorRepository, IValidator<ProfesorForm> profesorValidator,
-            IValidator<ProfesorSecure> profesorSecureValidator, IValidator<SignInForm> signInValidator)
+            IValidator<ProfesorSecure> profesorSecureValidator, IValidator<SignInForm> signInValidator,
+            IValidator<ProfileSecurityForm> profileSecurityFormValidator)
         {
             this.profesorRepository = profesorRepository;
             this.profesorValidator = profesorValidator;
             this.profesorSecureValidator = profesorSecureValidator;
             this.signInValidator = signInValidator;
+            this.profileSecurityFormValidator = profileSecurityFormValidator;
         }
 
         [HttpGet]
@@ -235,6 +238,28 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
+        [HttpPost("PasswordValidation")]
+        public async Task<IActionResult> PasswordValidation([FromBody] PasswordValidationModel model)
+        {
+            try
+            {
+                var profesor = await profesorRepository.GetProfesor(model.UserId);
+
+                if (profesor == null) return BadRequest();
+
+                var validPass = BCrypt.Net.BCrypt.Verify(model.Password, profesor.Password);
+
+                if (validPass) return Ok(validPass);
+
+                else return UnprocessableEntity(validPass);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateProfesor([FromBody] ProfesorForm profesorForm)
         {
@@ -322,6 +347,37 @@ namespace SistemaTurnosOnline.Api.Controllers
                 var updatedProfesor = await profesorRepository.UpdateProfesor(profesor, id);
 
                 return CreatedAtAction(nameof(GetProfesor), new { id = updatedProfesor.Id }, refreshToken);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
+        [HttpPatch("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] ProfileSecurityForm profileSecurityForm)
+        {
+            try
+            {
+                var result = await profileSecurityFormValidator.ValidateAsync(profileSecurityForm);
+
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
+
+                var profesor = await profesorRepository.GetProfesor(profileSecurityForm.Id);
+
+                profesor.Password = BCrypt.Net.BCrypt.HashPassword(profileSecurityForm.NewPassword);
+
+                var updatedProfesor = (await profesorRepository
+                    .UpdateProfesor(profesor, profileSecurityForm.Id))
+                    .ConvertToProfesorSecure();
+
+                return CreatedAtAction(nameof(GetProfesor), new { id = updatedProfesor.Id }, updatedProfesor);
             }
             catch (Exception ex)
             {

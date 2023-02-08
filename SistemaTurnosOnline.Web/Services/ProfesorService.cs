@@ -153,5 +153,14 @@ namespace SistemaTurnosOnline.Web.Services
                 throw;
             }
         }
+
+        public async Task<Profesor> UpdateProfesorPassword(ProfileSecurityForm profileSecurityForm)
+        {
+            var profesorFormJson = new StringContent(JsonSerializer.Serialize(profileSecurityForm), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PatchAsync($"api/Profesor/UpdatePassword", profesorFormJson);
+
+            return await ProcessProfesorResponseAsync(response);
+        }
     }
 }

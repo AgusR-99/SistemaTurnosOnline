@@ -1,0 +1,61 @@
+﻿@page "/profile/security"
+@inherits PerfilSeguridadBase
+@attribute [Authorize(Roles = "Admin, Guest")]
+
+<h3>PerfilSeguridad</h3>
+
+<div class="w-50 mx-auto">
+    <a href="/turno/user-items" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+
+    <EditForm Model=@ProfileSecurityForm OnValidSubmit="@UpdateProfesor_Click">
+        <FluentValidationValidator 
+        @ref="_fluentValidationValidator"
+        DisableAssemblyScanning="@true" />
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfileSecurityForm.Password" type="password" class="form-control" id="PasswordInput" placeholder="somepassword" />
+            <label for="DescripcionInput">Contraseña</label>
+            <ValidationMessage For="@(() => ProfileSecurityForm.Password)" />
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfileSecurityForm.NewPassword" type="password" class="form-control" id="NewPasswordInput" placeholder="somepassword" />
+            <label for="NewPasswordInput">Nueva contraseña</label>
+            <ValidationMessage For="@(() => ProfileSecurityForm.NewPassword)" />
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ProfileSecurityForm.NewPasswordConfirm" type="password" class="form-control" id="NewPasswordConfirmInput" placeholder="somepassword" />
+            <label for="NewPasswordConfirmInput">Confirmar nueva contraseña</label>
+            <ValidationMessage For="@(() => ProfileSecurityForm.NewPasswordConfirm)" />
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success w-100 me-5">
+                Guardar
+            </button>
+        </div>
+
+        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+               Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title"
+               Text="@Toast.Text" Time="@Toast.Time">
+        </Toast>
+    </EditForm>
+
+    <!-- Modal -->
+    <div class="modal fade" id="@PasswordActualizado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="@PasswordActualizado_Modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatedModalLabel">Accion realizada con exito</h5>
+                </div>
+                <div class="modal-body">
+                    Se ha actualizado la contraseña exitosamente
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
