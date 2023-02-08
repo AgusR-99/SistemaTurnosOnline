@@ -54,7 +54,11 @@ namespace SistemaTurnosOnline.Shared.Validators
             RulesForParameter(
                 ProfesorParam.Field.Password,
                 PasswordExpression,
-                p => !string.IsNullOrWhiteSpace(p.Password)
+                p => !string.IsNullOrWhiteSpace(p.Password),
+                false,
+                false,
+                false,
+                4
                 );
 
             // Reglas para la confirmacion de password
