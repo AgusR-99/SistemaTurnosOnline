@@ -12,7 +12,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarCarreras
         [Inject]
         public ICarreraService CarreraService { get; set; }
         public IEnumerable<Carrera> Carreras { get; set; }
-        public List<string> Headers { get; set; } = new List<string> { "Nombre", "" };
+        public List<string> Headers { get; set; } = new List<string> { "Nombre", "Codigo de carrera", "" };
         [Parameter]
         public string TableId { get; set; } = "carrerasTable";
 

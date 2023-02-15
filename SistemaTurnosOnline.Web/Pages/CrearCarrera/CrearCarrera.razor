@@ -3,7 +3,7 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="w-50 mx-auto">
-    <h3>CrearCarrera</h3>
+    <h3>Agregar nueva carrera</h3>
 
     <a href="/carrera/create" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
 
@@ -15,6 +15,14 @@
             <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre"/>
             <label for="nombreInput">Nombre</label>
             <ValidationMessage For="@(() => Carrera.Nombre)"/>
+
+        </div>
+
+        <div class="form-floating mb-3">
+
+            <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
+            <label for="codigoInput">Codigo de carrera</label>
+            <ValidationMessage For="@(() => Carrera.Codigo)" />
 
         </div>
 

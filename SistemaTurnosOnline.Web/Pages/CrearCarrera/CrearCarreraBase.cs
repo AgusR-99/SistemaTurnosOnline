@@ -46,6 +46,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
         {
             try
             {
+                Carrera.Id = "";
+
                 var newCarrera = await CarreraService.CreateCarrera(Carrera);
 
                 if (newCarrera != null)

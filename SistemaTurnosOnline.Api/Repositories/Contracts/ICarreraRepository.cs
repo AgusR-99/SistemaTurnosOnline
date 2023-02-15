@@ -10,5 +10,6 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
         Task<List<Carrera>> GetCarreras();
         Task<Carrera> GetCarrera(string id);
         Task<Carrera> GetCarreraByName(string name);
+        Task<Carrera> GetCarreraByCode(string code);
     }
 }

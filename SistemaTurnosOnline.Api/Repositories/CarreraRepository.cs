@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Xml.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using SistemaTurnosOnline.Api.Data;
@@ -83,9 +84,18 @@ namespace SistemaTurnosOnline.Api.Repositories
         {
             var filtroId = Builders<Carrera>.Filter.Eq(c => c.Nombre, name);
 
-            var profesor = await carreraCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
+            var carrera = await carreraCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
 
-            return profesor;
+            return carrera;
+        }
+
+        public async Task<Carrera> GetCarreraByCode(string code)
+        {
+            var filtroId = Builders<Carrera>.Filter.Eq(c => c.Codigo, code);
+
+            var carrera = await carreraCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
+
+            return carrera;
         }
     }
 }

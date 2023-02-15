@@ -112,6 +112,27 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
+        [HttpGet("GetByCode/{code}")]
+        public async Task<IActionResult> GetCarreraByCode(string code)
+        {
+            try
+            {
+                var carrera = await carreraRepository.GetCarreraByCode(code);
+
+                if (carrera == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(carrera);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateCarrera([FromBody] Carrera carrera, string id)
         {
@@ -125,6 +146,8 @@ namespace SistemaTurnosOnline.Api.Controllers
 
                     return StatusCode(StatusCodes.Status400BadRequest, result);
                 }
+
+                carrera.Id = id;
 
                 var newCarrera = await carreraRepository.UpdateCarrera(carrera, id);
 

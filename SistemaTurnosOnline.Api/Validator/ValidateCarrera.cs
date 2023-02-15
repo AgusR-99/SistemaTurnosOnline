@@ -13,13 +13,18 @@ namespace SistemaTurnosOnline.Api.Validator
             this.carreraRepository = carreraRepository;
         }
 
-        public async Task<bool> NameIsUnique(string name)
+        public async Task<bool> CodeIsUnique(string code, string id)
+        {
+            var carrera = await carreraRepository.GetCarreraByCode(code);
+
+            return await Task.FromResult(carrera == null || carrera.Id == id);
+        }
+
+        public async Task<bool> NameIsUnique(string name, string id)
         {
             var carrera = await carreraRepository.GetCarreraByName(name);
 
-            if (carrera == null) return true;
-
-            return false;
+            return await Task.FromResult(carrera == null || carrera.Id == id);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Blazorise;
+using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 using System.Net;
 using System.Net.Http;
+using System.Xml.Linq;
 
 namespace SistemaTurnosOnline.Web.Services
 {
@@ -42,6 +44,24 @@ namespace SistemaTurnosOnline.Web.Services
                 // Loguear excepcion
                 throw;
             }
+        }
+
+        public async Task<bool> NameIsUnique(string name, string id)
+        {
+            var response = await httpClient.GetAsync($"api/Carrera/GetByName/{name}");
+
+            var carrera = await response.Content.ReadFromJsonAsync<Carrera>();
+
+            return await Task.FromResult(carrera.Id == null || carrera.Id == id);
+        }
+
+        public async Task<bool> CodeIsUnique(string code, string id)
+        {
+            var response = await httpClient.GetAsync($"api/Carrera/GetByCode/{code}");
+
+            var carrera = await response.Content.ReadFromJsonAsync<Carrera>();
+
+            return await Task.FromResult(carrera.Id == null || carrera.Id == id);
         }
     }
 }

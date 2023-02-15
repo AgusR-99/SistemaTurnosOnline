@@ -14,8 +14,12 @@ namespace SistemaTurnosOnline.Shared.Validators
             RuleFor(c => c.Nombre)
                 .NotEmpty()
                 .MinimumLength(4)
-                .MustAsync(async (name, CancellationToken) => 
-                    await this.validator.NameIsUnique(name)).WithMessage("La carrera ya existe");
+                .MustAsync(async (carrera, name, CancellationToken) => 
+                    await this.validator.NameIsUnique(name, carrera.Id)).WithMessage("La carrera ya existe");
+            RuleFor(c => c.Codigo)
+                .NotEmpty()
+                .MustAsync(async (carrera, codigo, CancellationToken) =>
+                    await this.validator.CodeIsUnique(codigo, carrera.Id)).WithMessage("El codigo ya existe");
         }
     }
 }
