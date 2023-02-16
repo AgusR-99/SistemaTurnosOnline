@@ -1,15 +1,16 @@
-﻿@page "/profesor/create"
+﻿@page "/sign-up"
 @inherits CrearProfesorBase
-@attribute [Authorize(Roles = "Admin")]
 
-<Animate Animation="Animations.Fade">
-    <div class="w-50 mx-auto">
-        <a href="/" class="btn p-0 mb-3"><span class="oi oi-arrow-left"></span></a>
-
-
+<div class="w-50 mx-auto">
+    @if (UserId != null)
+    {
+        <AlreadySignedIn />
+    }
+    else
+    {
         <EditForm Model=@ProfesorForm OnValidSubmit="@CreateProfesor_Click">
             <FluentValidationValidator />
-            <h3 class="mb-3">CrearProfesor</h3>
+            <h3 class="mb-3">Registrarse</h3>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="ProfesorForm.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
                 <label for="dniInput">DNI</label>
@@ -61,13 +62,45 @@
                     }
                 </div>
             }
-            <button type="submit" class="btn btn-success float-end w-100">
-                Crear
-            </button>
+
+            <div class="d-flex justify-content-center mb-3">
+                <button type="submit" class="btn btn-success mb-3 w-25">
+                    Crear
+                </button>
+            </div>
+
+            <span>¿Ya tienes una cuenta?</span> <a href="/sign-in">Ingresa</a>
+            
         </EditForm>
-    </div>
-    @foreach (var Toast in Toasts)
-    {
-        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
     }
-</Animate>
+</div>
+
+<Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+
+<!-- Modal -->
+<div class="modal fade" id="@CrearProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CrearProfesorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CrearProfesorModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-circle-check"></i>
+                <div class="text-light">
+                    Solicitud enviada
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Se ha enviado la solicitud de alta con exito.
+                </div>
+                <div class="mt-2">
+                    Podra acceder a su cuenta una vez que sea verificada y aceptada.
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>  

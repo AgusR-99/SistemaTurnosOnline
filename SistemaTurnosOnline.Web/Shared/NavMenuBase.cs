@@ -42,12 +42,6 @@ namespace SistemaTurnosOnline.Web.Shared
             {
                 new()
                 {
-                    Text = "Agregar",
-                    Class = "oi-plus",
-                    Href = "/profesor/create"
-                },
-                new()
-                {
                     Text = "Administrar",
                     Class = "oi-wrench",
                     Href = "/profesor/readall"

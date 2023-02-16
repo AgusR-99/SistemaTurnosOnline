@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Authentication;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.SignIn
 {
@@ -16,14 +17,50 @@ namespace SistemaTurnosOnline.Web.Pages.SignIn
         [Inject]
         NavigationManager NavigationManager { get; set; }
 
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
         public FluentValidationValidator? _fluentValidationValidator;
 
         public SignInForm Form { get; set; } = new SignInForm();
+
+        public string? UserId { get; set; }
+
+        private async void StartTimerAsync(int time)
+        {
+            while (time > 0)
+            {
+                time--;
+                StateHasChanged();
+                await Task.Delay(1000);
+            }
+            NavigationManager.NavigateTo("turno/user-items", true);
+        }
+
+        protected async override Task OnInitializedAsync()
+        {
+
+            var authState = await AuthenticationState;
+
+            try
+            {
+                UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                if (UserId != null) 
+                { 
+                    StartTimerAsync(3);
+                }
+            }
+            catch
+            {
+            }
+        }
+
         public async Task SignIn_Click()
         {
-        // OnValidSubmit callback no esperará automáticamente la validación asíncrona,
-        // por eso mismo se debe esperar explicitamente mediante este metodo
-        // https://github.com/Blazored/FluentValidation/issues/38
+            // OnValidSubmit callback no esperará automáticamente la validación asíncrona,
+            // por eso mismo se debe esperar explicitamente mediante este metodo
+            // https://github.com/Blazored/FluentValidation/issues/38
             var valid = await _fluentValidationValidator!.ValidateAsync(options => options.IncludeAllRuleSets());
 
             if (valid)

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 {
@@ -13,22 +16,20 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
+        [Inject]
+        NavigationManager NavigationManager { get; set; }
+
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
+
+        public string CrearProfesorModal { get; set; } = "createdModal";
         public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
         public string ErrorMessage { get; set; }
         public List<Carrera> Carreras { get; set; }
-        public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
-        {
-              new ToastModel(
-                status: ToastModel.Status.Success,
-                id: "toastCreado",
-                headerClass: "bg-success",
-                @class: "toast",
-                icon: "oi oi-circle-check",
-                title: "Solicitud exitosa",
-                time: "Ahora",
-                text: "Se ha enviado la solicitud de alta al administrador"
-                ),
-             new ToastModel(
+        public string? UserId { get; set; }
+
+        public ToastModel Toast { get; set; } = new ToastModel(
                 status: ToastModel.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
@@ -37,29 +38,53 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 title: "Error de server",
                 time: "Ahora",
                 text: "Se ha producido un error al enviar la solicitud"
-                )
-        };
+                );
+
+        private async void StartTimerAsync(int time)
+        {
+            while (time > 0)
+            {
+                time--;
+                StateHasChanged();
+                await Task.Delay(1000);
+            }
+            NavigationManager.NavigateTo("turno/user-items", true);
+        }
+
         protected override async Task OnInitializedAsync()
         {
+            var authState = await AuthenticationState;
+
+            try
+            {
+                UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                if (UserId != null)
+                {
+                    StartTimerAsync(3);
+
+                    return;
+                }
+            }
+            catch
+            {
+            }
+
             try
             {
                 CarreraService.SetCarrerasValues(new List<string> { });
 
                 Carreras = await CarreraService.GetCarreras();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Toast.Text = ex.Message;
 
-                throw;
+                await Toast.Id.ShowToast(Js);
             }
         }
 
-        private async Task ShowToast(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showToast", id);
-        }
-
-        protected void Checkbox_Click(string id)
+        protected async void Checkbox_Click(string id)
         {
             try
             {
@@ -76,9 +101,11 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 CarreraService.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Toast.Text = ex.Message;
+
+                await Toast.Id.ShowToast(Js);
             }
 
         }
@@ -103,35 +130,19 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 if (profesorToAdd != null)
                 {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Success);
-
-                    if (toast != null)
-                    {
-                        await ShowToast(toast.Id);
-                        typeof(ProfesorForm).GetProperties()
-                                            .Where(p => p.PropertyType == typeof(string))
-                                            .ToList()
-                                            .ForEach(p => p.SetValue(ProfesorForm, string.Empty, null));
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Success)}" +
-                        $"asegurese que dicho parametro se encuentre presente en la lista");
-                }
-                else
-                {
-                    throw new Exception();
+                    await CrearProfesorModal.ShowModal(Js);
                 }
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                if (toast != null)
-                {
-                    await ShowToast(toast.Id);
-                }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                    $"asegurese que dicho parametro se encuentre presente en la lista"); ErrorMessage = ex.Message;
+                Toast.Text = ex.Message;
+                await Toast.Id.ShowToast(Js);
             }
+        }
+
+        protected void Navigate_Click()
+        {
+            NavigationManager.NavigateTo("/");
         }
     }
 }
