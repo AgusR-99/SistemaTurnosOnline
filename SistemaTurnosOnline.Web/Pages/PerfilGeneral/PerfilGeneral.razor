@@ -1,4 +1,5 @@
 ﻿@page "/profile/general"
+@using SistemaTurnosOnline.Web.Extensions
 @inherits PerfilGeneralBase
 @attribute [Authorize(Roles = "Admin, Guest")]
 
@@ -61,7 +62,7 @@
         </button>
             
     </EditForm>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="@ActualizadoProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updatedModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -79,5 +80,5 @@
         </div>
     </div>
 
-    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Class="@Toast.Class" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
 </div>

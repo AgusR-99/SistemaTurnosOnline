@@ -30,7 +30,6 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 status: ToastModel.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
-                @class: "toast",
                 icon: "oi oi-circle-x",
                 title: "Error de server",
                 time: "Ahora",
