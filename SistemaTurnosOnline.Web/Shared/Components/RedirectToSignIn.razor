@@ -1,0 +1,12 @@
+﻿@attribute [AllowAnonymous]
+@inject NavigationManager _navigationManager
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _navigationManager.NavigateTo("sign-in");
+        }
+    }
+}

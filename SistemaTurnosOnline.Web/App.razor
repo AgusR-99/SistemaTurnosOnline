@@ -1,13 +1,42 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    @if (context.User.Identity != null && !context.User.Identity.IsAuthenticated)
+                    {
+                        <RedirectToSignIn />
+                    }
+                    else
+                    {
+                        <div class="d-flex">
+                            <h1 class="me-3 display-1">401</h1>
+                            <div>
+                                <h3 class="mb-3 text-muted">NOT AUTHORIZED</h3>
+                                <p>No estas autorizado para la accion seleccionada</p>
+                                <p>Volver al <a href="/">inicio</a></p>
+                            </div>
+                        </div>
+                    }
+                </NotAuthorized>
+                <Authorizing>
+                    <div class="spinner-border text-primary text-center" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <div class="d-flex">
+                            <h1 class="me-3 display-1">404</h1>
+                            <div>
+                                <h3 class="mb-3 text-muted">NOT FOUND</h3>
+                                <p>El recurso solicitado no ha sido encontrado en el servidor</p>
+                                <p>Volver al <a href="/">inicio</a></p>
+                            </div>
+                </div>
             </LayoutView>
         </NotFound>
     </Router>

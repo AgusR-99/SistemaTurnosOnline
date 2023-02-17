@@ -40,7 +40,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 text: "Se ha producido un error al enviar la solicitud"
                 );
 
-        private async void StartTimerAsync(int time)
+        private async Task StartTimerAsync(int time)
         {
             while (time > 0)
             {
@@ -53,23 +53,6 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
         protected override async Task OnInitializedAsync()
         {
-            var authState = await AuthenticationState;
-
-            try
-            {
-                UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
-                if (UserId != null)
-                {
-                    StartTimerAsync(3);
-
-                    return;
-                }
-            }
-            catch
-            {
-            }
-
             try
             {
                 CarreraService.SetCarrerasValues(new List<string> { });
@@ -81,6 +64,21 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 Toast.Text = ex.Message;
 
                 await Toast.Id.ShowToast(Js);
+            }
+        }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                var authState = await AuthenticationState;
+
+                if (authState.User.Claims.Any())
+                {
+                    UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                    await StartTimerAsync(3);
+                }
             }
         }
 

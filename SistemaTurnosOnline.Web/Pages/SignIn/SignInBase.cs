@@ -26,7 +26,7 @@ namespace SistemaTurnosOnline.Web.Pages.SignIn
 
         public string? UserId { get; set; }
 
-        private async void StartTimerAsync(int time)
+        private async Task StartTimerAsync(int time)
         {
             while (time > 0)
             {
@@ -37,22 +37,18 @@ namespace SistemaTurnosOnline.Web.Pages.SignIn
             NavigationManager.NavigateTo("turno/user-items", true);
         }
 
-        protected async override Task OnInitializedAsync()
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-
-            var authState = await AuthenticationState;
-
-            try
+            if (firstRender)
             {
-                UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                var authState = await AuthenticationState;
 
-                if (UserId != null) 
-                { 
-                    StartTimerAsync(3);
+                if (authState.User.Claims.Any())
+                {
+                    UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                    await StartTimerAsync(3);
                 }
-            }
-            catch
-            {
             }
         }
 
