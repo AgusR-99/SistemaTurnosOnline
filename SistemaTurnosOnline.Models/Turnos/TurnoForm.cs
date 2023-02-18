@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Shared
+﻿namespace SistemaTurnosOnline.Shared.Turnos
 {
     public class TurnoForm
     {

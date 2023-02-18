@@ -1,5 +1,4 @@
-﻿using SistemaTurnosOnline.Shared;
-using SistemaTurnosOnline.Web.Services.Contracts;
+﻿using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Shared.Turnos;
 using System.Text.Json;
 using System.Text;

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaTurnosOnline.Api.Extensions;
 using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Shared.Turnos;
 
