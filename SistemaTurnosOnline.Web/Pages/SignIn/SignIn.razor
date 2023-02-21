@@ -1,37 +1,37 @@
 ﻿@page "/sign-in"
 @inherits SignInBase
 
-<EditForm OnValidSubmit="@SignIn_Click" Model="Form">
-    <FluentValidationValidator 
-        @ref="_fluentValidationValidator"
-        DisableAssemblyScanning="@true" />
-    <div class="w-50 mx-auto">
-        @if (UserId != null)
-        {
-            <AlreadySignedIn/>
-        }
-        else
-        {
-            <h1 class="h3 mb-3 fw-normal">Ingresar</h1>
+<Animate Animation="Animations.Fade">
+    <EditForm OnValidSubmit="@SignIn_Click" Model="Form">
+        <FluentValidationValidator @ref="_fluentValidationValidator"
+                                   DisableAssemblyScanning="@true" />
+        <div class="w-50 mx-auto">
+            @if (UserId != null)
+            {
+                <AlreadySignedIn />
+            }
+            else
+            {
+                <h1 class="h3 mb-3 fw-normal">Ingresar</h1>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="@Form.Dni" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                <label for="floatingInput">DNI</label>
-                <ValidationMessage For="@(() => Form.Dni)" />
-            </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="@Form.Dni" class="form-control" id="floatingInput" placeholder="name@example.com" />
+                    <label for="floatingInput">DNI</label>
+                    <ValidationMessage For="@(() => Form.Dni)" />
+                </div>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="@Form.Password" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-                <label for="floatingPassword">Password</label>
-                <ValidationMessage For="@(() => Form.Password)" />
-            </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="@Form.Password" type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+                    <label for="floatingPassword">Password</label>
+                    <ValidationMessage For="@(() => Form.Password)" />
+                </div>
 
-            <div class="d-flex justify-content-center mb-3">
-                <button class="btn btn-lg btn-primary" type="submit">Ingresar</button>
-            </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <button class="btn btn-lg btn-primary" type="submit">Ingresar</button>
+                </div>
 
-            <span>¿No tienes una cuenta?</span> <a href="/sign-up"> Registrate</a>
-        }
-    </div>
-</EditForm>
-
+                <span>¿No tienes una cuenta?</span> <a href="/sign-up"> Registrate</a>
+            }
+        </div>
+    </EditForm>
+</Animate>

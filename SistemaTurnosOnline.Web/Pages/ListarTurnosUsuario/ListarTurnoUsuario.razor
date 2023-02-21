@@ -1,144 +1,146 @@
 ﻿@page "/turno/user-items"
-@inherits ListarTurnosUsuarioBase 
+@inherits ListarTurnosUsuarioBase
 @attribute [Authorize(Roles = "Admin, Guest")]
 
-<h3>Mis turnos</h3>
+<Animate Animation="Animations.Fade">
+    <h3>Mis turnos</h3>
 
-@if (Turnos == null)
-{
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-}
-else
-{
-    <div class="m-auto">
+    @if (Turnos == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <div class="m-auto">
 
-        @if (PosicionEnCola != 0)
-        {
-            <div class="m-auto mb-3 text-center">
-                <span class="mb-3">Posicion en la cola</span>
-                <h1 class="display-1">@PosicionEnCola</h1>
-            </div>
-        }
+            @if (PosicionEnCola != 0)
+            {
+                <div class="m-auto mb-3 text-center">
+                    <span class="mb-3">Posicion en la cola</span>
+                    <h1 class="display-1">@PosicionEnCola</h1>
+                </div>
+            }
 
-        <table class="m-auto w-100" id="@TableId">
-            <thead>
-                <tr>
-                    @foreach (var header in Headers)
-                    {
-                        <th>@header</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var turno in Turnos)
-                {
+            <table class="m-auto w-100" id="@TableId">
+                <thead>
                     <tr>
-                        <td>@turno.OrdenEnCola</td>
-                        <td>@turno.Descripcion</td>
-                        <td>
-                            @if (turno.OrdenEnCola == 1)
+                        @foreach (var header in Headers)
+                        {
+                            <th>@header</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var turno in Turnos)
+                    {
+                        <tr>
+                            <td>@turno.OrdenEnCola</td>
+                            <td>@turno.Descripcion</td>
+                            <td>
+                                @if (turno.OrdenEnCola == 1)
+                                {
+                                    <button class="btn btn-success float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Terminar</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-warning float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Terminar</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+               Icon="@Toast.Icon" Title="@Toast.Title"
+               Text="@Toast.Text" Time="@Toast.Time">
+            </Toast>
+
+            <!-- Modal -->
+            <div class="modal fade" id="@FinalizarTurnoPromptModal" tabindex="-1" aria-labelledby="FinishTaskPromptModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="FinishTaskPromptModalLabel">Esta seguro que quieres terminar el turno?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        @if (Orden == 1)
+                        {
+                            <div class="alert alert-primary d-flex m-0 align-items-center" role="alert">
+                                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                                <div class="text-light">
+                                    Su turno esta primero cola.
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
+                                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                                <div class="text-light">
+                                    Esta accion es irreversible. Su turno todavia no esta en proceso.
+                                </div>
+                            </div>
+                        }
+                        <div class="modal-body">
+                            @if (Orden == 1)
                             {
-                                <button class="btn btn-success float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Terminar</button>
+                                <div>
+                                    Se dara el turno por finalizado.
+                                </div>
                             }
                             else
                             {
-                                <button class="btn btn-warning float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Terminar</button>
+                                <div>
+                                    Se terminara el turno abruptamente.
+                                </div>
                             }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
-           Icon="@Toast.Icon" Title="@Toast.Title"
-           Text="@Toast.Text" Time="@Toast.Time">
-        </Toast>
-
-        <!-- Modal -->
-        <div class="modal fade" id="@FinalizarTurnoPromptModal" tabindex="-1" aria-labelledby="FinishTaskPromptModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="FinishTaskPromptModalLabel">Esta seguro que quieres terminar el turno?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            @if (Orden == 1)
+                            {
+                                <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal"
+                                @onclick="() => FinishTask_Click()">
+                                    Terminar turno
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal"
+                                @onclick="() => FinishTask_Click()">
+                                    Terminar turno
+                                </button>
+                            }
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    @if (Orden == 1)
-                    {
-                        <div class="alert alert-primary d-flex m-0 align-items-center" role="alert">
-                            <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+            <!-- Modal -->
+            <div class="modal fade" id="@FinalizarTurnoExitoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                        </div>
+                        <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                            <i class="me-2 fa-solid fa-circle-check"></i>
                             <div class="text-light">
-                                Su turno esta primero cola.
+                                Turno finalizado
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
-                            <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                            <div class="text-light">
-                                Esta accion es irreversible. Su turno todavia no esta en proceso.
-                            </div>
+                        <div class="modal-body">
+                            Se ha finalizado el turno exitosamente
                         </div>
-                    }
-                    <div class="modal-body">
-                        @if (Orden == 1)
-                        {
-                            <div>
-                                Se dara el turno por finalizado.
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                Se terminara el turno abruptamente.
-                            </div>
-                        }
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        @if (Orden == 1)
-                        {
-                            <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal"
-                            @onclick="() => FinishTask_Click()">
-                                Terminar turno
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal"
-                            @onclick="() => FinishTask_Click()">
-                                Terminar turno
-                            </button>
-                        }
+                        <div class="modal-footer justify-content-center">
+                            <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="@FinalizarTurnoExitoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                    </div>
-                    <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                        <i class="me-2 fa-solid fa-circle-check"></i>
-                        <div class="text-light">
-                            Turno finalizado
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        Se ha finalizado el turno exitosamente
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
+    }
+</Animate>

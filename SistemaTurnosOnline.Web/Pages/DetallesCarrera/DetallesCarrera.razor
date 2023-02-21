@@ -3,124 +3,126 @@
 @inherits DetallesCarreraBase
 @attribute [Authorize(Roles = "Admin")]
 
-<div class="w-50 mx-auto">
-    <h3>Modificar carrera</h3>
+<Animate Animation="Animations.Fade">
+    <div class="w-50 mx-auto">
+        <h3>Modificar carrera</h3>
 
-    <a href="/carrera/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <a href="/carrera/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
 
-    <EditForm Model="@Carrera" OnValidSubmit="@UpdateCarrera_Click">
-        <FluentValidationValidator />
+        <EditForm Model="@Carrera" OnValidSubmit="@UpdateCarrera_Click">
+            <FluentValidationValidator />
 
-        <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
 
-            <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre" />
-            <label for="nombreInput">Nombre</label>
-            <ValidationMessage For="@(() => Carrera.Nombre)" />
+                <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre" />
+                <label for="nombreInput">Nombre</label>
+                <ValidationMessage For="@(() => Carrera.Nombre)" />
 
-        </div>
+            </div>
 
-        <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
 
-            <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
-            <label for="codigoInput">Codigo de carrera</label>
-            <ValidationMessage For="@(() => Carrera.Codigo)" />
+                <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
+                <label for="codigoInput">Codigo de carrera</label>
+                <ValidationMessage For="@(() => Carrera.Codigo)" />
 
-        </div>
+            </div>
 
-        <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Eliminar
-            </button>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Eliminar
+                </button>
 
-            <button type="submit" class="btn btn-success w-50">
-                Modificar
-            </button>
-        </div>
-    </EditForm>
+                <button type="submit" class="btn btn-success w-50">
+                    Modificar
+                </button>
+            </div>
+        </EditForm>
 
-    @foreach (var Toast in Toasts)
-    {
-        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
-           Icon="@Toast.Icon" Title="@Toast.Title"
-           Text="@Toast.Text" Time="@Toast.Time"></Toast>
-    }
-    
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres eliminar la carrera?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                    <div class="text-light">
-                        Esta accion es irreversible.
+        @foreach (var Toast in Toasts)
+        {
+            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+               Icon="@Toast.Icon" Title="@Toast.Title"
+               Text="@Toast.Text" Time="@Toast.Time"></Toast>
+        }
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres eliminar la carrera?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                        <div class="text-light">
+                            Esta accion es irreversible.
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            Se eliminaran todos los datos relacionados a esta carrera. En consecuencia, se desvinculara la carrera
+                            con los profesores y los turnos.
+                        </div>
+                        <div class="mt-2">
+                            Los datos no podran ser recuperados.
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                                @onclick="() => DeleteCarrera_Click()">
+                            Eliminar carrera
+                        </button>
                     </div>
                 </div>
-                <div class="modal-body">
-                    <div>
-                        Se eliminaran todos los datos relacionados a esta carrera. En consecuencia, se desvinculara la carrera
-                        con los profesores y los turnos.
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@ModalActivatedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
                     </div>
-                    <div class="mt-2">
-                        Los datos no podran ser recuperados.
+                    <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-circle-check"></i>
+                        <div class="text-light">
+                            Carrera modificada
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        Se ha modificado la carrera exitosamente
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
-                            @onclick="() => DeleteCarrera_Click()">
-                        Eliminar carrera
-                    </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@ModalDeletedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                    </div>
+                    <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-circle-check"></i>
+                        <div class="text-light">
+                            Carrera eliminada.
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        Se ha eliminado la cuenta exitosamente
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="@ModalActivatedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Carrera modificada
-                    </div>
-                </div>
-                <div class="modal-body">
-                    Se ha modificado la carrera exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="@ModalDeletedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Carrera eliminada.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    Se ha eliminado la cuenta exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</Animate>

@@ -2,38 +2,40 @@
 @inherits CrearCarreraBase
 @attribute [Authorize(Roles = "Admin")]
 
-<div class="w-50 mx-auto">
-    <h3>Agregar nueva carrera</h3>
+<Animate Animation="Animations.Fade">
+    <div class="w-50 mx-auto">
+        <h3>Agregar nueva carrera</h3>
 
-    <a href="/carrera/create" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <a href="/carrera/create" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
 
-    <EditForm Model="@Carrera" OnValidSubmit="@CreateCarrera_Click">
-        <FluentValidationValidator/>
+        <EditForm Model="@Carrera" OnValidSubmit="@CreateCarrera_Click">
+            <FluentValidationValidator />
 
-        <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
 
-            <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre"/>
-            <label for="nombreInput">Nombre</label>
-            <ValidationMessage For="@(() => Carrera.Nombre)"/>
+                <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre" />
+                <label for="nombreInput">Nombre</label>
+                <ValidationMessage For="@(() => Carrera.Nombre)" />
 
-        </div>
+            </div>
 
-        <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
 
-            <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
-            <label for="codigoInput">Codigo de carrera</label>
-            <ValidationMessage For="@(() => Carrera.Codigo)" />
+                <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
+                <label for="codigoInput">Codigo de carrera</label>
+                <ValidationMessage For="@(() => Carrera.Codigo)" />
 
-        </div>
+            </div>
 
-        <ButtonSubmitWide Text="Crear"></ButtonSubmitWide>
+            <ButtonSubmitWide Text="Crear"></ButtonSubmitWide>
 
-    </EditForm>
+        </EditForm>
 
-    @foreach (var Toast in Toasts)
-    {
-        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+        @foreach (var Toast in Toasts)
+        {
+            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
                Icon="@Toast.Icon" Title="@Toast.Title"
                Text="@Toast.Text" Time="@Toast.Time"></Toast>
-    }
-</div>
+        }
+    </div>
+</Animate>

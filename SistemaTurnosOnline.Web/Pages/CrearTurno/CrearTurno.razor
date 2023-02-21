@@ -2,85 +2,87 @@
 @inherits CrearTurnoBase
 @attribute [Authorize(Roles = "Admin, Guest")]
 
-<div class="w-50 mx-auto">
+<Animate Animation="Animations.Fade">
+    <div class="w-50 mx-auto">
 
-    <h3>Crear turno</h3>
+        <h3>Crear turno</h3>
 
-    <EditForm Model="@TurnoForm" OnValidSubmit="@CreateTurno_Click">
+        <EditForm Model="@TurnoForm" OnValidSubmit="@CreateTurno_Click">
 
-        <div class="form-floating mb-3">
-
-            <InputText @bind-Value="TurnoForm.Descripcion" type="text" class="form-control" id="DescripcionInput" placeholder="descripcion"/>
-            <label for="DescripcionInput">Descripcion</label>
-
-        </div>
-
-        @if (CarrerasProfesor == null)
-        {
-            <div class="d-flex align-items-center">
-                <div class="spinner-border text-primary mx-auto" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        }
-        else
-        {
             <div class="form-floating mb-3">
 
-                <p class="mb-0 lh-1">Carrera</p>
-
-                <small class="text-muted pt-0">Pertenece a:</small>
-
-                <div class="form-check mb-2 mt-2">
-                    <input checked class="form-check-input" type="radio" name="flexRadioDefault"
-                    id="carreraCheckedNone"
-                    @onclick="() => SelectedCarreraId = CarreraCheckedNoneValue">
-                    <label class="form-check-label" for="carreraCheckedNone">
-                        Ninguna
-                    </label>
-                </div>
-
-                @foreach (var carrera in CarrerasProfesor)
-                {
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
-                        <label class="form-check-label" for="@carrera.Id">
-                            @carrera.Nombre
-                        </label>
-                    </div>
-                }
+                <InputText @bind-Value="TurnoForm.Descripcion" type="text" class="form-control" id="DescripcionInput" placeholder="descripcion" />
+                <label for="DescripcionInput">Descripcion</label>
 
             </div>
-        }
 
-        <ButtonSubmitWide Text="Agregar turno"></ButtonSubmitWide>
-
-    </EditForm>
-
-    <!-- Modal -->
-    <div class="modal fade" id="@TurnoCreado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Turno creado
+            @if (CarrerasProfesor == null)
+            {
+                <div class="d-flex align-items-center">
+                    <div class="spinner-border text-primary mx-auto" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <div class="modal-body">
-                    Se ha creado tu turno con exito. El mismo se vera reflejado en la cola.
+            }
+            else
+            {
+                <div class="form-floating mb-3">
+
+                    <p class="mb-0 lh-1">Carrera</p>
+
+                    <small class="text-muted pt-0">Pertenece a:</small>
+
+                    <div class="form-check mb-2 mt-2">
+                        <input checked class="form-check-input" type="radio" name="flexRadioDefault"
+                           id="carreraCheckedNone"
+                           @onclick="() => SelectedCarreraId = CarreraCheckedNoneValue">
+                        <label class="form-check-label" for="carreraCheckedNone">
+                            Ninguna
+                        </label>
+                    </div>
+
+                    @foreach (var carrera in CarrerasProfesor)
+                    {
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
+                            <label class="form-check-label" for="@carrera.Id">
+                                @carrera.Nombre
+                            </label>
+                        </div>
+                    }
+
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            }
+
+            <ButtonSubmitWide Text="Agregar turno"></ButtonSubmitWide>
+
+        </EditForm>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@TurnoCreado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+                    </div>
+                    <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-circle-check"></i>
+                        <div class="text-light">
+                            Turno creado
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        Se ha creado tu turno con exito. El mismo se vera reflejado en la cola.
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
-           Icon="@Toast.Icon" Title="@Toast.Title"
-           Text="@Toast.Text" Time="@Toast.Time"></Toast>
-</div>
+        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+               Icon="@Toast.Icon" Title="@Toast.Title"
+               Text="@Toast.Text" Time="@Toast.Time"></Toast>
+    </div>
+</Animate>
