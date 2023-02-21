@@ -1,9 +1,42 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<Animate Animation="Animations.Fade">
+    <div class="background-indexHeader">
+    </div>
 
-<h1>Hello, world!</h1>
+    <div class="text-center mb-5 glass">
+        <div class="box p-5">
+            <h2>¡Bienvenido al futuro de la impresión!</h2>
+            <div class="mt-3">
+                <h4 class="fw-light">
+                    Nos complace presentar nuestro nuevo sistema de impresión 3D, una tecnología avanzada
+                    que le permitirá crear prácticamente cualquier cosa que pueda imaginar.
+                    Ya sea que esté buscando producir prototipos de productos, maquetas arquitectónicas,
+                    piezas de repuesto personalizadas o cualquier otro objeto, nuestro sistema de impresión 3D lo hace posible.
+                </h4>
+            </div>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="text-center justify-content-center">
+        <div class="d-flex flex-column pt-5">
+            <div class="mb-5">
+                <h3 class="pt-5">¡No pierda la oportunidad de experimentar la revolución de la impresión 3D!</h3>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+                <div class="p-2 pb-5">
+                    <a href="/sign-in" class="btn btn-primary flex-grow-0">Comenzar ahora</a>
+                </div>
+            </div>
+
+            <div class="glass mt-5">
+                <div class="p-5">
+                    <p class="pt-5">¿No tienes una cuenta?</p>
+
+                    <div class="p-2 pb-5">
+                        <a href="sign-up" class="btn btn-primary flex-grow-0">Registrate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Animate>
