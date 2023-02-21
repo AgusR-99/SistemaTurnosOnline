@@ -15,16 +15,19 @@
     </AuthorizeView>
 
     <main>
-        <div class="top-row px-4 bg-dark border-dark">
-            <a href="https://github.com/AgusR-99/SistemaTurnosOnline" target="_blank">About</a>
-            <AuthorizeView>
-                <Authorized>
-                    <a @onclick="Logout_Click" href="javascript:void(0)">Cerrar sesion</a>
-                </Authorized>
-            </AuthorizeView>
+        <div class="top-row justify-content-between px-4 bg-dark border-dark">
+            <a class="text-light" href="/"><b class="m-0 display-font">﻿I.S.F.T. Nº 189</b></a>
+            <div>
+                <a href="https://github.com/AgusR-99/SistemaTurnosOnline" target="_blank">About</a>
+                <AuthorizeView>
+                    <Authorized>
+                        <a @onclick="Logout_Click" href="javascript:void(0)">Cerrar sesion</a>
+                    </Authorized>
+                </AuthorizeView>
+            </div>
         </div>
 
-        <article class="content px-4">
+        <article>
             @Body
         </article>
     </main>
