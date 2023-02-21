@@ -7,27 +7,27 @@
 <Animate Animation="Animations.Fade">
     <h3>Actualizar datos</h3>
     <div class="w-50 mx-auto">
-    <a href="/profesor/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <a href="/profesor/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
 
-    <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
-        <FluentValidationValidator />
-        <div class="form-floating mb-3">
-            <InputText @bind-Value="Profesor.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
-            <label for="dniInput">DNI</label>
-            <ValidationMessage For="@(() => Profesor.Dni)" />
-        </div>
+        <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
+            <FluentValidationValidator />
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Profesor.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
+                <label for="dniInput">DNI</label>
+                <ValidationMessage For="@(() => Profesor.Dni)" />
+            </div>
 
-        <div class="form-floating mb-3">
-            <InputText @bind-Value="Profesor.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
-            <label for="nombreInput">Nombre y Apellido</label>
-            <ValidationMessage For="@(() => Profesor.Nombre)" />
-        </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Profesor.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
+                <label for="nombreInput">Nombre y Apellido</label>
+                <ValidationMessage For="@(() => Profesor.Nombre)" />
+            </div>
 
-        <div class="form-floating mb-3">
-            <InputText @bind-Value="Profesor.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
-            <label for="emailInput">Direccion Email</label>
-            <ValidationMessage For="@(() => Profesor.Email)" />
-        </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Profesor.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
+                <label for="emailInput">Direccion Email</label>
+                <ValidationMessage For="@(() => Profesor.Email)" />
+            </div>
 
             @if (Carreras == null)
             {
@@ -42,122 +42,123 @@
                 <div class="form-floating mb-3">
                     @foreach (var carrera in CarrerasForm)
                     {
-                            <div class="form-check">
+                        <div class="form-check">
                             @if (carrera.IsChecked)
                             {
-                                        <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
+                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
                             }
                             else
                             {
-                                        <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
+                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
                             }
-                                <label class="form-check-label" for="@carrera.Id">
+                            <label class="form-check-label" for="@carrera.Id">
                                 @carrera.Nombre
-                                </label>
-                            </div>
+                            </label>
+                        </div>
                     }
                 </div>
             }
-        
-        <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
-            @foreach (var rol in Roles)
-            {
-                <option value="@rol">@rol</option>
-            }
-        </select>
-        
-        <div class="mb-3">
-            <a href="javascript:void(0)" @onclick="@ResetPassword_Click">Resetear contraseña</a>
-        </div>
 
-        <button type="submit" class="btn btn-success float-end w-100 mb-5">
-            Actualizar
-        </button>
+            <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
+                @foreach (var rol in Roles)
+                {
+                    <option value="@rol">@rol</option>
+                }
+            </select>
+
+            <div class="mb-3">
+                <a href="javascript:void(0)" @onclick="@ResetPassword_Click">Resetear contraseña</a>
+            </div>
+
+            <button type="submit" class="btn btn-success float-end w-100 mb-5">
+                Actualizar
+            </button>
             @foreach (var Toast in Toasts)
             {
                 <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
             }
-    </EditForm>
-    <button class="btn btn-danger float-end w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Eliminar
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres eliminar la cuenta?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                    <div class="text-light">
-                        Esta accion es irreversible.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        Se eliminaran todos los datos relacionados al usuario, incluido los turnos futuros y en proceso del usuario.
-                    </div>
-                    <div class="mt-2">
-                        Los datos no podran ser recuperados.
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
-                    @onclick="() => DeleteProfesor_Click()">Eliminar esta cuenta</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="@EliminarProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="modal-body">
-                    Se ha eliminado la cuenta exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal password reset  -->
-    <div class="modal fade" id="@PasswordResetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="resetPasswordModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-info d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-info"></i>
-                    <div class="text-light">
-                        Debe comunicarle al usuario la siguiente contraseña a introducir:
-                        <span class="spoiler">@NewPassword</span>
-                    </div>
-                </div>
-                <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                    <div class="text-light">
-                        El usuario debe modificar su contraseña inmediatamente luego de acceder a su cuenta
-                    </div>
-                </div>
-                <div class="modal-body">
-                    Se ha reseteado la contraseña exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+        </EditForm>
+        <button class="btn btn-danger float-end w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Eliminar
+        </button>
     </div>
 </Animate>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres eliminar la cuenta?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                <div class="text-light">
+                    Esta accion es irreversible.
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Se eliminaran todos los datos relacionados al usuario, incluido los turnos futuros y en proceso del usuario.
+                </div>
+                <div class="mt-2">
+                    Los datos no podran ser recuperados.
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                        @onclick="() => DeleteProfesor_Click()">
+                    Eliminar esta cuenta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="@EliminarProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="modal-body">
+                Se ha eliminado la cuenta exitosamente
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal password reset  -->
+<div class="modal fade" id="@PasswordResetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetPasswordModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="alert alert-info d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-circle-info"></i>
+                <div class="text-light">
+                    Debe comunicarle al usuario la siguiente contraseña a introducir:
+                    <span class="spoiler">@NewPassword</span>
+                </div>
+            </div>
+            <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                <div class="text-light">
+                    El usuario debe modificar su contraseña inmediatamente luego de acceder a su cuenta
+                </div>
+            </div>
+            <div class="modal-body">
+                Se ha reseteado la contraseña exitosamente
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>

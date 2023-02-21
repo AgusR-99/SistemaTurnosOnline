@@ -41,22 +41,22 @@
                    Text="@Toast.Text" Time="@Toast.Time">
             </Toast>
         </EditForm>
+    </div>
+</Animate>
 
-        <!-- Modal -->
-        <div class="modal fade" id="@PasswordActualizado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="@PasswordActualizado_Modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="updatedModalLabel">Accion realizada con exito</h5>
-                    </div>
-                    <div class="modal-body">
-                        Se ha actualizado la contraseña exitosamente
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                    </div>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="@PasswordActualizado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="@PasswordActualizado_Modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatedModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="modal-body">
+                Se ha actualizado la contraseña exitosamente
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
             </div>
         </div>
     </div>
-</Animate>
+</div>

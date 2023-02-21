@@ -58,31 +58,31 @@
 
         </EditForm>
 
-        <!-- Modal -->
-        <div class="modal fade" id="@TurnoCreado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                    </div>
-                    <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                        <i class="me-2 fa-solid fa-circle-check"></i>
-                        <div class="text-light">
-                            Turno creado
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        Se ha creado tu turno con exito. El mismo se vera reflejado en la cola.
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
                Icon="@Toast.Icon" Title="@Toast.Title"
                Text="@Toast.Text" Time="@Toast.Time"></Toast>
     </div>
 </Animate>
+
+<!-- Modal -->
+<div class="modal fade" id="@TurnoCreado_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-circle-check"></i>
+                <div class="text-light">
+                    Turno creado
+                </div>
+            </div>
+            <div class="modal-body">
+                Se ha creado tu turno con exito. El mismo se vera reflejado en la cola.
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -78,31 +78,32 @@
 
     <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
 
-    <!-- Modal -->
-    <div class="modal fade" id="@CrearProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CrearProfesorModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="CrearProfesorModalLabel">Accion realizada con exito</h5>
+</Animate>
+
+<!-- Modal -->
+<div class="modal fade" id="@CrearProfesorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="CrearProfesorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CrearProfesorModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-circle-check"></i>
+                <div class="text-light">
+                    Solicitud enviada
                 </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Solicitud enviada
-                    </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Se ha enviado la solicitud de alta con exito.
                 </div>
-                <div class="modal-body">
-                    <div>
-                        Se ha enviado la solicitud de alta con exito.
-                    </div>
-                    <div class="mt-2">
-                        Podra acceder a su cuenta una vez que sea verificada y aceptada.
-                    </div>
+                <div class="mt-2">
+                    Podra acceder a su cuenta una vez que sea verificada y aceptada.
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
             </div>
         </div>
     </div>
-</Animate>
+</div>
