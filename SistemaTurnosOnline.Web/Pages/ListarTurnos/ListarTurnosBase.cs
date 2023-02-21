@@ -13,9 +13,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
         public ITurnoService TurnoService { get; set; }
         [Inject]
         public IProfesorService ProfesorService { get; set; }
+        [Inject]
+        public ICarreraService CarreraService { get; set; }
 
         public List<TurnoListado> TurnoListado { get; set; }
-        public List<string> Headers { get; set; } = new List<string> { "Orden en cola", "DNI", "Usuario", "Descripcion", "" };
+        public List<string> Headers { get; set; } = new List<string> { "Orden en cola", "DNI", "Usuario", "Carrera", "Descripcion", "" };
         [Parameter]
         public string TableId { get; set; } = "turnosTable";
 
@@ -29,11 +31,17 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
             {
                 var profesor = await ProfesorService.GetProfesor(turno.UserId);
 
+                string carreraNombre;
+
+                if (turno.CarreraId == null || turno.CarreraId == "0") carreraNombre = "Sin carrera asignada";
+                else carreraNombre = (await CarreraService.GetCarrera(turno.CarreraId)).Nombre;
+
                 TurnoListado turnoList = new TurnoListado
                 {
                     TurnoId = turno.Id,
                     Dni = profesor.Dni,
                     UserName = profesor.Nombre,
+                    Carrera = carreraNombre,
                     Descripcion = turno.Descripcion,
                     Orden = turno.OrdenEnCola.ToString()
                 };

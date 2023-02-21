@@ -18,11 +18,20 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
         public ITurnoService TurnoService { get; set; }
 
         [Inject]
+        public ICarreraService CarreraService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public TurnoForm TurnoForm { get; set; } = new TurnoForm();
 
+        public List<Carrera> CarrerasProfesor { get; set; }
+
         public string TurnoCreado_Modal { get; set; } = "createdModal";
+
+        public static string CarreraCheckedNoneValue { get; set; } = "0";
+
+        public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
@@ -38,12 +47,25 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
                 text: "Se ha producido un error al enviar la solicitud"
         );
 
+        protected override async Task OnInitializedAsync()
+        {
+            var authState = await AuthenticationState;
+
+            TurnoForm.UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(TurnoForm.UserId);
+        }
+
         protected async Task CreateTurno_Click()
         {
             try
             {
                 var authState = await AuthenticationState;
+
                 TurnoForm.UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                TurnoForm.CarreraId = SelectedCarreraId;
+
                 await TurnoService.CreateTurno(TurnoForm);
 
                 await TurnoCreado_Modal.ShowModal(Js);

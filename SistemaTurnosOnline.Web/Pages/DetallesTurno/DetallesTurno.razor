@@ -21,6 +21,52 @@
             <label for="OrdenInput">Orden en cola</label>
             <ValidationMessage For="@(() => TurnoListado.Orden)" />
         </div>
+
+        @if (CarrerasProfesor == null)
+        {
+            <div class="d-flex align-items-center">
+                <div class="spinner-border text-primary mx-auto" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-floating mb-3">
+
+                <p class="mb-0 lh-1">Carrera</p>
+
+                <small class="text-muted pt-0">Pertenece a:</small>
+
+                <div class="form-check mb-2 mt-2">
+                    <input checked class="form-check-input" type="radio" name="flexRadioDefault"
+                    id="carreraCheckedNone"
+                    @onclick="() => SelectedCarreraId = CarreraCheckedNoneValue">
+                    <label class="form-check-label" for="carreraCheckedNone">
+                        Ninguna
+                    </label>
+                </div>
+
+                @foreach (var carrera in CarrerasProfesor)
+                {
+                    <div class="form-check mb-2">
+                        @if (carrera.Id == Turno.CarreraId)
+                        {
+                            <input checked class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
+                        }
+                        <label class="form-check-label" for="@carrera.Id">
+                            @carrera.Nombre
+                        </label>
+                    </div>
+                }
+
+            </div>
+        }
+
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-success w-50 me-5">
                 Actualizar
@@ -31,13 +77,12 @@
             </button>
         </div>
 
-        <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
-               Icon="@Toast.Icon" Title="@Toast.Title"
-               Text="@Toast.Text" Time="@Toast.Time">
-        </Toast>
     </EditForm>
 
-    
+    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
+           Icon="@Toast.Icon" Title="@Toast.Title"
+           Text="@Toast.Text" Time="@Toast.Time">
+    </Toast>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

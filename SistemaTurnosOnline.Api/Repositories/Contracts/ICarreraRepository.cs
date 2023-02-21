@@ -8,6 +8,7 @@ namespace SistemaTurnosOnline.Api.Repositories.Contracts
         Task<Carrera> UpdateCarrera(Carrera professor, string id);
         Task<Carrera> DeleteCarrera(string id);
         Task<List<Carrera>> GetCarreras();
+        Task<List<Carrera>> GetCarrerasByUserId(string userId);
         Task<Carrera> GetCarrera(string id);
         Task<Carrera> GetCarreraByName(string name);
         Task<Carrera> GetCarreraByCode(string code);

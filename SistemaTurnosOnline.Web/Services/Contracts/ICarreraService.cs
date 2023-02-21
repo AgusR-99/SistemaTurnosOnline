@@ -6,6 +6,7 @@ namespace SistemaTurnosOnline.Web.Services.Contracts
     {
         Task<List<Carrera>> GetCarreras();
         List<string> GetCarrerasValues();
+        Task<IEnumerable<Carrera>> GetCarrerasByUserId(string userId);
         void SetCarrerasValues(List<string> carreras);
         Task<Carrera> GetCarrera(string id);
         Task<Carrera> CreateCarrera(Carrera carrera);

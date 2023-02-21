@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared;
@@ -12,14 +13,17 @@ namespace SistemaTurnosOnline.Api.Repositories
     {
         private readonly SistemaTurnosOnlineDbContext dbContext;
         private readonly IProfesorRepository profesorRepository;
+        private readonly ITurnoRepository turnoRepository;
 
         // Instanciar coleccion correspondiente
         private IMongoCollection<Carrera> carreraCollection;
 
-        public CarreraRepository(SistemaTurnosOnlineDbContext dbContext, IProfesorRepository profesorRepository)
+        public CarreraRepository(SistemaTurnosOnlineDbContext dbContext, IProfesorRepository profesorRepository,
+            ITurnoRepository turnoRepository)
         {
             this.dbContext = dbContext;
             this.profesorRepository = profesorRepository;
+            this.turnoRepository = turnoRepository;
             carreraCollection = this.dbContext.db.GetCollection<Carrera>("carrera");
         }
 
@@ -60,6 +64,18 @@ namespace SistemaTurnosOnline.Api.Repositories
                     profesorRepository.UpdateProfesor(profesor, profesor.Id);
                 }
 
+                var turnos = await turnoRepository.GetTurnos();
+
+                foreach (var turno in turnos)
+                {
+                    if (turno.CarreraId == id)
+                    {
+                        turno.CarreraId = "0";
+
+                        turnoRepository.UpdateTurno(turno, turno.Id);
+                    }
+                }
+
                 await carreraCollection.DeleteOneAsync(filtro);
             }
 
@@ -96,6 +112,24 @@ namespace SistemaTurnosOnline.Api.Repositories
             var carrera = await carreraCollection.FindAsync(filtroId).Result.FirstOrDefaultAsync();
 
             return carrera;
+        }
+
+        public async Task<List<Carrera>> GetCarrerasByUserId(string userId)
+        {
+            var profesor = await profesorRepository.GetProfesor(userId);
+
+            var carrerasIdProfesor = profesor.CarrerasId?.ToList();
+
+            var carrerasProfesor = new List<Carrera>();
+
+            if (carrerasIdProfesor != null)
+            {
+                var carreras = await carreraCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
+
+                carrerasIdProfesor.ForEach(id => carrerasProfesor.Add(carreras.Find(x => x.Id == id)));
+            }
+
+            return carrerasProfesor;
         }
     }
 }

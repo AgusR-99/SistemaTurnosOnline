@@ -18,11 +18,17 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         public ITurnoService TurnoService { get; set; }
         [Inject]
         public IProfesorService ProfesorService { get; set; }
+        [Inject]
+        public ICarreraService CarreraService { get; set; }
+
         [Parameter]
         public string Id { get; set; }
 
         public TurnoListado TurnoListado { get; set; } = new TurnoListado();
         public Turno Turno { get; set; }
+        public List<Carrera> CarrerasProfesor { get; set; }
+        public static string CarreraCheckedNoneValue { get; set; } = "0";
+        public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;
         public string TurnoActualizado_Modal { get; set; } = "updatedModal";
         public string TurnoFinalizado_Modal { get; set; } = "deletedModal";
         public ToastModel Toast { get; set; } =
@@ -50,6 +56,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 Descripcion = Turno.Descripcion,
                 Orden = Turno.OrdenEnCola.ToString()
             };
+
+            CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(Turno.UserId);
         }
 
         protected async Task UpdateTurno_Click()
@@ -58,6 +66,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
             {
                 Turno.Descripcion = TurnoListado.Descripcion;
                 Turno.OrdenEnCola = Convert.ToInt64(TurnoListado.Orden);
+                Turno.CarreraId = SelectedCarreraId;
 
                 var turnoToUpdate = await TurnoService.UpdateTurno(Turno);
 

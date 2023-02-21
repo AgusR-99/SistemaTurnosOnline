@@ -10,6 +10,7 @@ namespace SistemaTurnosOnline.Shared.Turnos
         public string Id { get; set; }
         public string UserId { get; set; }
         public string Descripcion { get; set; }
+        public string CarreraId { get; set; }
         public bool Estado { get; set; }
         public long OrdenEnCola { get; set; }
     }

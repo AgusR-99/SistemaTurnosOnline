@@ -133,6 +133,27 @@ namespace SistemaTurnosOnline.Api.Controllers
             }
         }
 
+        [HttpGet("GetByUserId/{userId}")]
+        public async Task<IActionResult> GetCarrerasByUserId(string userId)
+        {
+            try
+            {
+                var carrera = await carreraRepository.GetCarrerasByUserId(userId);
+
+                if (carrera == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(carrera);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ex.Message);
+            }
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateCarrera([FromBody] Carrera carrera, string id)
         {

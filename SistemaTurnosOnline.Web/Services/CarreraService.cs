@@ -112,6 +112,22 @@ namespace SistemaTurnosOnline.Web.Services
             }
         }
 
+        public async Task<IEnumerable<Carrera>> GetCarrerasByUserId(string userId)
+        {
+            var response = await httpClient.GetAsync($"api/Carrera/GetByUserId/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return Enumerable.Empty<Carrera>();
+
+                return await response.Content.ReadFromJsonAsync<List<Carrera>>();
+            }
+
+            var message = await response.Content.ReadFromJsonAsync<Carrera>();
+            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
+        }
+
         public async Task<Carrera> UpdateCarrera(Carrera carrera)
         {
             try
