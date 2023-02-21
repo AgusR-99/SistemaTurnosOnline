@@ -11,7 +11,7 @@
     --bs-cyan: #0dcaf0;
     --bs-gray: #757575;
     --bs-gray-dark: #4f4f4f;
-    --bs-primary: #1266f1;
+    --bs-primary: #A046C8;
     --bs-secondary: #b23cfd;
     --bs-success: #00b74a;
     --bs-info: #39c0ed;
@@ -192,7 +192,7 @@ sup {
 }
 
 a {
-    color: #1266f1;
+    color: var(--bs-primary);
     text-decoration: underline
 }
 
@@ -2553,7 +2553,7 @@ textarea.form-control-lg {
 }
 
     .form-select:focus {
-        border-color: #1266f1;
+        border-color: var(--bs-primary);
         outline: 0;
         -webkit-box-shadow: 0 0 0 .25rem rgba(18,102,241,.25);
         box-shadow: 0 0 0 .25rem rgba(18,102,241,.25)
@@ -2626,14 +2626,14 @@ textarea.form-control-lg {
     }
 
     .form-check-input:focus {
-        border-color: #1266f1;
+        border-color: var(--bs-primary);
         outline: 0;
         -webkit-box-shadow: 0 0 0 .25rem rgba(18,102,241,.25);
         box-shadow: 0 0 0 .25rem rgba(18,102,241,.25)
     }
 
     .form-check-input:checked {
-        background-color: #1266f1
+        background-color: var(--bs-primary)
     }
 
         .form-check-input:checked[type=checkbox] {
@@ -2645,7 +2645,7 @@ textarea.form-control-lg {
         }
 
     .form-check-input[type=checkbox]:indeterminate {
-        background-color: #1266f1;
+        background-color: var(--bs-primary);
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3E%3C/svg%3E")
     }
 
@@ -3076,11 +3076,11 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-    border-color: #1266f1
+    border-color: var(--bs-primary);
 }
 
     .btn-primary:hover {
-        background-color: #0f57cd;
+        background-color: #6946c8;
         border-color: #0e52c1
     }
 
@@ -3103,7 +3103,7 @@ textarea.form-control-lg {
         }
 
     .btn-primary.disabled, .btn-primary:disabled {
-        border-color: #1266f1
+        border-color: var(--bs-primary)
     }
 
 .btn-secondary {
@@ -3384,7 +3384,7 @@ textarea.form-control-lg {
 
 .btn-outline-primary:hover {
     color: #fff;
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
@@ -3394,8 +3394,8 @@ textarea.form-control-lg {
 
 .btn-check:active + .btn-outline-primary, .btn-check:checked + .btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
     color: #fff;
-    background-color: #1266f1;
-    border-color: #1266f1
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary)
 }
 
     .btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus {
@@ -3642,7 +3642,7 @@ textarea.form-control-lg {
 
 .btn-link {
     font-weight: 400;
-    color: #1266f1;
+    color: var(--bs-primary);
     text-decoration: underline
 }
 
@@ -3977,7 +3977,7 @@ textarea.form-control-lg {
 
     .dropdown-item.active, .dropdown-item:active {
         text-decoration: none;
-        background-color: #1266f1
+        background-color: var(--bs-primary)
     }
 
     .dropdown-item.disabled, .dropdown-item:disabled {
@@ -4022,7 +4022,7 @@ textarea.form-control-lg {
 
         .dropdown-menu-dark .dropdown-item.active, .dropdown-menu-dark .dropdown-item:active {
             color: #fff;
-            background-color: #1266f1
+            background-color: var(--bs-primary)
         }
 
         .dropdown-menu-dark .dropdown-item.disabled, .dropdown-menu-dark .dropdown-item:disabled {
@@ -4931,7 +4931,7 @@ textarea.form-control-lg {
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    border-color: #1266f1
+    border-color: var(--bs-primary)
 }
 
 .page-item.disabled .page-link {
@@ -5182,7 +5182,7 @@ textarea.form-control-lg {
 
 .accordion-button:focus {
     z-index: 3;
-    border-color: #1266f1;
+    border-color: var(--bs-primary);
     outline: 0;
     -webkit-box-shadow: 0 4px 10px 0 rgba(0,0,0,.2),0 4px 20px 0 rgba(0,0,0,.1);
     box-shadow: 0 4px 10px 0 rgba(0,0,0,.2),0 4px 20px 0 rgba(0,0,0,.1)
@@ -6776,7 +6776,7 @@ textarea.form-control-lg {
 }
 
 .link-primary {
-    color: #1266f1
+    color: var(--bs-primary)
 }
 
     .link-primary:focus, .link-primary:hover {
@@ -14296,9 +14296,9 @@ i.flag-zimbabwe:before, i.flag-zw:before {
             }
 
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
-                border-top: .125rem solid #1266f1;
-                border-bottom: .125rem solid #1266f1;
-                border-left: .125rem solid #1266f1
+                border-top: .125rem solid var(--bs-primary);
+                border-bottom: .125rem solid var(--bs-primary);
+                border-left: .125rem solid var(--bs-primary)
             }
 
             .form-outline .form-control.active ~ .form-notch .form-notch-trailing, .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
@@ -14308,9 +14308,9 @@ i.flag-zimbabwe:before, i.flag-zw:before {
             }
 
             .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
-                border-top: .125rem solid #1266f1;
-                border-bottom: .125rem solid #1266f1;
-                border-right: .125rem solid #1266f1
+                border-top: .125rem solid var(--bs-primary);
+                border-bottom: .125rem solid var(--bs-primary);
+                border-right: .125rem solid var(--bs-primary)
             }
 
         .form-outline .form-control.disabled, .form-outline .form-control:disabled, .form-outline .form-control[readonly] {
@@ -17073,7 +17073,7 @@ i.flag.zimbabwe:before, i.flag.zw:before {
 
         .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
             color: #fff;
-            background-color: #1266f1;
+            background-color: var(--bs-primary);
             -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.2),0 2px 10px 0 rgba(0,0,0,.1);
             box-shadow: 0 2px 5px 0 rgba(0,0,0,.2),0 2px 10px 0 rgba(0,0,0,.1)
         }
@@ -17362,9 +17362,9 @@ i.flag.zimbabwe:before, i.flag.zw:before {
         background-color: transparent;
         -webkit-box-shadow: none;
         box-shadow: none;
-        color: #1266f1;
+        color: var(--bs-primary);
         font-weight: 600;
-        border-left: .125rem solid #1266f1;
+        border-left: .125rem solid var(--bs-primary);
         border-radius: 0
     }
 
@@ -17479,7 +17479,7 @@ i.flag.zimbabwe:before, i.flag.zw:before {
                 top: 0;
                 -webkit-transform: rotate(-45deg);
                 transform: rotate(-45deg);
-                background: #1266f1;
+                background: var(--bs-primary);
                 z-index: -1
             }
 
@@ -17541,7 +17541,7 @@ body {
 }
 
 .bg-primary {
-    background-color: #1266f1 !important;
+    background-color: var(--bs-primary) !important;
     color: #fff
 }
 
@@ -17555,7 +17555,7 @@ body {
 }
 
 .border-primary {
-    border-color: #1266f1 !important
+    border-color: var(--bs-primary) !important
 }
 
 .border-secondary {
@@ -17571,7 +17571,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .text-primary {
-    color: #1266f1 !important
+    color: var(--bs-primary) !important
 }
 
 .text-secondary {
@@ -17584,7 +17584,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 
 .note-primary {
     background-color: #e1ecfd;
-    border-color: #1266f1
+    border-color: var(--bs-primary)
 }
 
 .note-secondary {
@@ -17613,12 +17613,12 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .btn-primary {
-    background-color: #1266f1;
+    background-color: var(--bs-primary);
     color: #fff
 }
 
     .btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
-        background-color: #0c56d0;
+        background-color: #562fa3;
         color: #fff
     }
 
@@ -17628,7 +17628,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
     .btn-primary.disabled, .btn-primary:disabled {
-        background-color: #1266f1;
+        background-color: var(--bs-primary);
         color: #fff
     }
 
@@ -17653,12 +17653,12 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .btn-outline-primary, .btn-outline-primary:hover {
-    color: #1266f1;
-    border-color: #1266f1
+    color: var(--bs-primary);
+    border-color: var(--bs-primary)
 }
 
     .btn-outline-primary.active, .btn-outline-primary.disabled, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary.focus, .btn-outline-primary:active, .btn-outline-primary:disabled, .btn-outline-primary:focus {
-        color: #1266f1
+        color: var(--bs-primary)
     }
 
 .btn-outline-secondary, .btn-outline-secondary:hover {
@@ -17688,8 +17688,8 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 }
 
     .list-group-item.active {
-        background-color: #1266f1;
-        border-color: #1266f1
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary)
     }
 
     .list-group-item.disabled, .list-group-item:disabled {
@@ -17697,8 +17697,8 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .list-group-item-action.active:focus, .list-group-item-action.active:hover {
-    background-color: #1266f1;
-    border-color: #1266f1
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary)
 }
 
 .list-group-item-action {
@@ -17725,7 +17725,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .list-group-item-primary {
-    color: #1266f1
+    color: var(--bs-primary)
 }
 
 .list-group-item-secondary {
@@ -17820,8 +17820,8 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        color: #1266f1;
-        border-color: #1266f1;
+        color: var(--bs-primary);
+        border-color: var(--bs-primary);
         background-color: transparent
     }
 
@@ -17832,7 +17832,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 
     .nav-pills:not(.menu-sidebar) .nav-link.active, .nav-pills:not(.menu-sidebar) .show > .nav-link {
         color: #fff;
-        background-color: #1266f1
+        background-color: var(--bs-primary)
     }
 
 .navbar-brand, .navbar-brand:hover, .navbar-nav .nav-link, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:hover, .navbar-scroll .fa-bars, .navbar-scroll .nav-link, .navbar-scrolled .fa-bars, .navbar-scrolled .nav-link {
@@ -17840,7 +17840,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 }
 
 .navbar-scrolled {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .navbar.navbar-light.bg-light .breadcrumb .breadcrumb-item a {
@@ -17870,7 +17870,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
     }
 
 .page-item.active .page-link {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .page-item.disabled .page-link {
@@ -17891,7 +17891,7 @@ a:not(.sidenav-link):not(.btn):not(.dropdown-item):not(.nav-link):not(.navbar-br
 }
 
 .progress-bar {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .ripple-surface-primary .ripple-wave {
@@ -18053,17 +18053,17 @@ caption {
         }
 
     .form-check-input:checked, .form-check-input:checked:focus {
-        border-color: #1266f1
+        border-color: var(--bs-primary)
     }
 
         .form-check-input:checked:focus:before {
-            -webkit-box-shadow: 0 0 0 13px #1266f1;
-            box-shadow: 0 0 0 13px #1266f1
+            -webkit-box-shadow: 0 0 0 13px var(--bs-primary);
+            box-shadow: 0 0 0 13px var(--bs-primary)
         }
 
     .form-check-input:indeterminate:focus:before {
-        -webkit-box-shadow: 0 0 0 13px #1266f1;
-        box-shadow: 0 0 0 13px #1266f1
+        -webkit-box-shadow: 0 0 0 13px var(--bs-primary);
+        box-shadow: 0 0 0 13px var(--bs-primary)
     }
 
     .form-check-input[type=checkbox]:focus:after {
@@ -18071,7 +18071,7 @@ caption {
     }
 
     .form-check-input[type=checkbox]:checked {
-        background-color: #1266f1
+        background-color: var(--bs-primary)
     }
 
         .form-check-input[type=checkbox]:checked:after {
@@ -18080,7 +18080,7 @@ caption {
         }
 
         .form-check-input[type=checkbox]:checked:focus {
-            background-color: #1266f1
+            background-color: var(--bs-primary)
         }
 
     .form-check-input[type=checkbox]:indeterminate {
@@ -18093,8 +18093,8 @@ caption {
         }
 
         .form-check-input[type=checkbox]:indeterminate:focus {
-            background-color: #1266f1;
-            border-color: #1266f1
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary)
         }
 
     .form-check-input[type=radio]:after, .form-check-input[type=radio]:checked {
@@ -18102,8 +18102,8 @@ caption {
     }
 
         .form-check-input[type=radio]:checked:after {
-            border-color: #1266f1;
-            background-color: #1266f1
+            border-color: var(--bs-primary);
+            background-color: var(--bs-primary)
         }
 
         .form-check-input[type=radio]:checked:focus {
@@ -18130,16 +18130,16 @@ caption {
     }
 
     .form-switch .form-check-input:checked {
-        background-color: #1266f1
+        background-color: var(--bs-primary)
     }
 
         .form-switch .form-check-input:checked:focus:before {
-            -webkit-box-shadow: 3px -1px 0 13px #1266f1;
-            box-shadow: 3px -1px 0 13px #1266f1
+            -webkit-box-shadow: 3px -1px 0 13px var(--bs-primary);
+            box-shadow: 3px -1px 0 13px var(--bs-primary)
         }
 
         .form-switch .form-check-input:checked[type=checkbox]:after {
-            background-color: #1266f1;
+            background-color: var(--bs-primary);
             -webkit-box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
             box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)
         }
@@ -18200,21 +18200,21 @@ caption {
     }
 
     .form-outline .form-control:focus ~ .form-label {
-        color: #1266f1
+        color: var(--bs-primary)
     }
 
     .form-outline .form-control:focus ~ .form-notch .form-notch-middle {
-        border-color: #1266f1
+        border-color: var(--bs-primary)
     }
 
     .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
-        border-top-color: #1266f1;
-        border-bottom-color: #1266f1;
-        border-left-color: #1266f1
+        border-top-color: var(--bs-primary);
+        border-bottom-color: var(--bs-primary);
+        border-left-color: var(--bs-primary)
     }
 
     .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
-        border-color: #1266f1
+        border-color: var(--bs-primary)
     }
 
     .form-outline .form-control.disabled, .form-outline .form-control:disabled, .form-outline .form-control[readonly]:not(.select-input) {
@@ -18222,33 +18222,33 @@ caption {
     }
 
 .form-range::-webkit-slider-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-range::-moz-range-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-range::-ms-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-range:focus::-webkit-slider-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-range:focus::-moz-range-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-range:focus::-ms-thumb {
-    background-color: #1266f1
+    background-color: var(--bs-primary)
 }
 
 .form-file-input:focus-within ~ .form-file-label {
-    border-color: #1266f1;
-    -webkit-box-shadow: 0 0 0 1px #1266f1;
-    box-shadow: 0 0 0 1px #1266f1
+    border-color: var(--bs-primary);
+    -webkit-box-shadow: 0 0 0 1px var(--bs-primary);
+    box-shadow: 0 0 0 1px var(--bs-primary)
 }
 
 .form-file-input:disabled ~ .form-file-label .form-file-button, .form-file-input:disabled ~ .form-file-label .form-file-text, .form-file-input[disabled] ~ .form-file-label .form-file-button, .form-file-input[disabled] ~ .form-file-label .form-file-text {
@@ -18269,9 +18269,9 @@ caption {
 }
 
 .input-group > .form-control:focus {
-    border-color: #1266f1;
-    -webkit-box-shadow: inset 0 0 0 1px #1266f1;
-    box-shadow: inset 0 0 0 1px #1266f1
+    border-color: var(--bs-primary);
+    -webkit-box-shadow: inset 0 0 0 1px var(--bs-primary);
+    box-shadow: inset 0 0 0 1px var(--bs-primary)
 }
 
 .input-group-text {
@@ -18284,5 +18284,5 @@ caption {
 }
 
 .loading-spinner {
-    color: #1266f1
+    color: var(--bs-primary)
 }

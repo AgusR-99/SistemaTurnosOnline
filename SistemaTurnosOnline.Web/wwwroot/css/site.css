@@ -1,7 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Roboto;
 }
 
 h1:focus {
@@ -14,8 +14,8 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #A046C8;
+    border-color: #802fa3;
 }
 
 .content {
@@ -81,4 +81,37 @@ a, .btn-link {
 
 .spoiler:hover {
     color: white;
+}
+
+.display-font {
+    font-family: Righteous;
+}
+
+.background-indexHeader {
+    background-image: url("/img/background-indexHeader.jpeg");
+    background-size: cover;
+    background-position: center;
+    filter: hue-rotate(68deg);
+    -webkit-filter: hue-rotate(68deg);
+    -moz-filter: hue-rotate(68deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+@media (min-width: 641px) {
+    .box {
+        margin: auto;
+        max-width: 1024px;
+    }
 }
