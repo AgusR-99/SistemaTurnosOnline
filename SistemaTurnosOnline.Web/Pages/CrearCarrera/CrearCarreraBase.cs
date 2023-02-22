@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.FluentValidation;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
@@ -13,6 +15,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
         public ICarreraService CarreraService { get; set; }
 
         public Carrera Carrera { get; set; } = new Carrera();
+
+        public FluentValidationValidator? _fluentValidationValidator;
 
         public List<ToastModel> Toasts { get; set; } = new()
         {
@@ -35,10 +39,6 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
                 text: "Se ha producido un error al enviar la solicitud"
             )
         };
-        private async Task ShowToast(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showToast", id);
-        }
 
         protected async Task CreateCarrera_Click()
         {
@@ -48,36 +48,12 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 
                 var newCarrera = await CarreraService.CreateCarrera(Carrera);
 
-                if (newCarrera != null)
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Success);
-
-                    if (toast != null)
-                    {
-                        await ShowToast(toast.Id);
-                        typeof(Carrera).GetProperties()
-                            .Where(p => p.PropertyType == typeof(string))
-                            .ToList()
-                            .ForEach(p => p.SetValue(Carrera, string.Empty, null));
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Success)}" +
-                                                          $"asegurese que dicho parametro se encuentre presente en la lista");
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                await Toasts[0].Id.ShowToast(Js);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                if (toast != null)
-                {
-                    await ShowToast(toast.Id);
-                }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                                                      $"asegurese que dicho parametro se encuentre presente en la lista");
+                Toasts[1].Text = ex.Message;
+                await Toasts[1].Id.ShowToast(Js);
             }
         }
     }

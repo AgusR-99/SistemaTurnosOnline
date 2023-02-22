@@ -12,14 +12,25 @@ namespace SistemaTurnosOnline.Shared.Validators
             this.validator = validator;
 
             RuleFor(c => c.Nombre)
-                .NotEmpty()
+                .NotEmpty();
+
+            When(c => !string.IsNullOrWhiteSpace(c.Nombre), () =>
+            {
+                RuleFor(c => c.Nombre)
                 .MinimumLength(4)
-                .MustAsync(async (carrera, name, CancellationToken) => 
+                .MustAsync(async (carrera, name, CancellationToken) =>
                     await this.validator.NameIsUnique(name, carrera.Id)).WithMessage("La carrera ya existe");
+            });
+
             RuleFor(c => c.Codigo)
-                .NotEmpty()
+                .NotEmpty();
+
+            When(c => !string.IsNullOrWhiteSpace(c.Codigo), () =>
+            {
+                RuleFor(c => c.Codigo)
                 .MustAsync(async (carrera, codigo, CancellationToken) =>
                     await this.validator.CodeIsUnique(codigo, carrera.Id)).WithMessage("El codigo ya existe");
+            });
         }
     }
 }
