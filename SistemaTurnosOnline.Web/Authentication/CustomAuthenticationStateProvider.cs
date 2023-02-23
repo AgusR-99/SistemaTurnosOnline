@@ -26,6 +26,7 @@ namespace SistemaTurnosOnline.Web.Authentication
 
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
+                    new(ClaimTypes.Name, userSession.UserName),
                     new(ClaimTypes.NameIdentifier, userSession.UserId),
                     new(ClaimTypes.Role, userSession.UserRole)
                 }, "CustomAuth"));
@@ -49,6 +50,7 @@ namespace SistemaTurnosOnline.Web.Authentication
 
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
+                    new(ClaimTypes.Name, userSession.UserName),
                     new(ClaimTypes.NameIdentifier, userSession.UserId),
                     new(ClaimTypes.Role, userSession.UserRole)
                 }, "CustomAuth"));
