@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject IJSRuntime Js
+@implements IDisposable
 
 <Animate Animation="Animations.Fade">
     <div class="background-indexHeader">
@@ -40,3 +42,18 @@
         </div>
     </div>
 </Animate>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender){
+            await Js.InvokeVoidAsync(identifier: "setWidthOfContainerFullWidth");
+        }
+    }
+
+    public async void Dispose()
+    {
+        await Js.InvokeVoidAsync(identifier: "setWidthOfContainerContained");
+    }
+}

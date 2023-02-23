@@ -110,8 +110,9 @@ a, .btn-link {
 }
 
 @media (min-width: 641px) {
-    .box {
-        margin: auto;
+    article{
         max-width: 1024px;
+        margin: auto;
+        padding: 1.5rem;
     }
 }
