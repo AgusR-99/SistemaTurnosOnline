@@ -30,7 +30,14 @@ namespace SistemaTurnosOnline.Web.Pages.ListarCarreras
 
         public async void Dispose()
         {
-            await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            try
+            {
+                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

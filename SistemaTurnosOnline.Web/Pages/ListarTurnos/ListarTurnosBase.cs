@@ -65,7 +65,14 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
         //https://datatables.net/forums/discussion/56389/datatables-with-blazor
         public async void Dispose()
         {
-            await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            try
+            {
+                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+
+            }
+            catch
+            {
+            }
         }
     }
 }

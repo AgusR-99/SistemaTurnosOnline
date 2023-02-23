@@ -96,7 +96,14 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         //https://datatables.net/forums/discussion/56389/datatables-with-blazor
         public async void Dispose()
         {
-            await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            try
+            {
+                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            }
+            catch
+            {
+
+            }
         }
 
         protected void Navigate_Click()
