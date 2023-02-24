@@ -31,55 +31,59 @@
 
             @if (Carreras == null)
             {
-                <div class="d-flex align-items-center">
-                    <div class="spinner-border text-primary mx-auto" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                    <div class="d-flex align-items-center">
+                        <div class="spinner-border text-primary mx-auto" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                </div>
             }
             else
             {
-                <p class="mb-0 lh-1">Carrera</p>
+                    <p class="mb-0 lh-1">Carrera</p>
 
-                <small class="text-muted pt-0">Inscripto en:</small>
+                    <small class="text-muted pt-0">Inscripto en:</small>
 
-                <div class="form-check mb-2 mt-2">
+                    <div class="form-check mb-3 mt-2">
                     @foreach (var carrera in CarrerasForm)
                     {
-                        <div class="form-check">
+                                <div class="form-check">
                             @if (carrera.IsChecked)
                             {
-                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
+                                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
                             }
                             else
                             {
-                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
+                                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
                             }
-                            <label class="form-check-label" for="@carrera.Id">
+                                    <label class="form-check-label" for="@carrera.Id">
                                 @carrera.Nombre
-                            </label>
-                        </div>
+                                    </label>
+                                </div>
                     }
-                </div>
+                    </div>
             }
 
-            <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
-                @foreach (var rol in Roles)
-                {
-                    <option value="@rol">@rol</option>
-                }
-            </select>
+            @if(UserIdSession != Id)
+            {
+                <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
+                    @foreach (var rol in Roles)
+                    {
+                        <option value="@rol">@rol</option>
+                    }
+                </select>
 
-            <div class="mb-3">
-                <a href="javascript:void(0)" @onclick="@ResetPassword_Click">Resetear contraseña</a>
-            </div>
+                <div class="mb-3">
+                    <a href="javascript:void(0)" @onclick="@ResetPassword_Click">Resetear contraseña</a>
+                </div>
+
+            }
 
             <button type="submit" class="btn btn-success float-end w-100 mb-5">
                 Actualizar
             </button>
             @foreach (var Toast in Toasts)
             {
-                <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+                    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
             }
         </EditForm>
         <button class="btn btn-danger float-end w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">

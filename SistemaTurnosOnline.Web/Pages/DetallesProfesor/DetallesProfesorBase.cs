@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 {
@@ -20,11 +22,15 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         [Parameter]
         public string Id { get; set; }
 
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
         public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
         public string SelectedRol { get; set; }
+        public string UserIdSession { get; set; }
         public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
         {
               new ToastModel(
@@ -82,6 +88,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             CarreraService.SetCarrerasValues(carrerasValues);
 
             SelectedRol = Profesor.Rol;
+
+            var authState = await AuthenticationState;
+
+            UserIdSession = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         protected async Task Checkbox_Click(string id)
