@@ -5,9 +5,13 @@
 
 <Animate Animation="Animations.Fade">
     <div class="w-50 mx-auto">
-        <h3>Modificar carrera</h3>
-
-        <a href="/carrera/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <div class="d-flex">
+            <a href="/carrera/readall" class="p-0 text-light"><span class="oi oi-arrow-left"></span></a>
+            <div class="ms-3">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Modificar carrera</h3>
+                <p class="text-muted">#@Carrera.Id</p>
+            </div>
+        </div>
 
         <EditForm Model="@Carrera" OnValidSubmit="@UpdateCarrera_Click">
             <FluentValidationValidator />

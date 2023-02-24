@@ -25,7 +25,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         public string Id { get; set; }
 
         public TurnoListado TurnoListado { get; set; } = new TurnoListado();
-        public Turno Turno { get; set; }
+        public Turno Turno { get; set; } = new Turno();
         public List<Carrera> CarrerasProfesor { get; set; }
         public static string CarreraCheckedNoneValue { get; set; } = "0";
         public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;

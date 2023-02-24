@@ -4,9 +4,9 @@
 
 <Animate Animation="Animations.Fade">
     <div class="w-50 mx-auto">
-        <h3>Agregar nueva carrera</h3>
-
-        <a href="/carrera/create" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <div class="mb-3">
+            <h3><i class="fa-solid fa-plus"></i> Agregar nueva carrera</h3>
+        </div>
 
         <EditForm Model="@Carrera" OnValidSubmit="@CreateCarrera_Click">
             <FluentValidationValidator />

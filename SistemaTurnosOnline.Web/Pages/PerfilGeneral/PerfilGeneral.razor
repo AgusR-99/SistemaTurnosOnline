@@ -4,9 +4,11 @@
 @attribute [Authorize(Roles = "Admin, Guest")]
 
 <Animate Animation="Animations.Fade">
-    <h3>General</h3>
 
     <div class="w-50 mx-auto">
+        <div class="mb-3">
+            <h3><i class="fa-solid fa-user"></i> General</h3>
+        </div>
         <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
             <FluentValidationValidator />
             <div class="form-floating mb-3">

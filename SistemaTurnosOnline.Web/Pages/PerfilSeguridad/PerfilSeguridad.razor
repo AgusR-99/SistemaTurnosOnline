@@ -3,11 +3,11 @@
 @attribute [Authorize(Roles = "Admin, Guest")]
 
 <Animate Animation="Animations.Fade">
-    <h3>PerfilSeguridad</h3>
 
     <div class="w-50 mx-auto">
-        <a href="/turno/user-items" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
-
+        <div class="mb-3">
+            <h3><i class="fa-solid fa-lock"></i> Seguridad</h3>
+        </div>
         <EditForm Model=@ProfileSecurityForm OnValidSubmit="@UpdateProfesor_Click">
             <FluentValidationValidator @ref="_fluentValidationValidator"
                                        DisableAssemblyScanning="@true" />

@@ -4,10 +4,14 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
-    <h3>Actualizar turno</h3>
-
     <div class="w-50 mx-auto">
-        <a href="/turno/readall" class="btn p-0 mb-3 text-light"><span class="oi oi-arrow-left"></span></a>
+        <div class="d-flex">
+            <a href="/turno/readall" class="p-0 text-light"><span class="oi oi-arrow-left"></span></a>
+            <div class="ms-3">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Actualizar turno</h3>
+                <p class="text-muted">#@Turno.Id</p>
+            </div>
+        </div>
 
         <EditForm Model=@TurnoListado OnValidSubmit="@UpdateTurno_Click">
             <FluentValidationValidator />
