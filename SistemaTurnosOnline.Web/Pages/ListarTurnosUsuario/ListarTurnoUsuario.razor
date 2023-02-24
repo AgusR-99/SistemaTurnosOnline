@@ -57,90 +57,90 @@
                Icon="@Toast.Icon" Title="@Toast.Title"
                Text="@Toast.Text" Time="@Toast.Time">
             </Toast>
-
-            <!-- Modal -->
-            <div class="modal fade" id="@FinalizarTurnoPromptModal" tabindex="-1" aria-labelledby="FinishTaskPromptModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="FinishTaskPromptModalLabel">Esta seguro que quieres terminar el turno?</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        @if (Orden == 1)
-                        {
-                            <div class="alert alert-primary d-flex m-0 align-items-center" role="alert">
-                                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                                <div class="text-light">
-                                    Su turno esta primero cola.
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
-                                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                                <div class="text-light">
-                                    Esta accion es irreversible. Su turno todavia no esta en proceso.
-                                </div>
-                            </div>
-                        }
-                        <div class="modal-body">
-                            @if (Orden == 1)
-                            {
-                                <div>
-                                    Se dara el turno por finalizado.
-                                </div>
-                            }
-                            else
-                            {
-                                <div>
-                                    Se terminara el turno abruptamente.
-                                </div>
-                            }
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            @if (Orden == 1)
-                            {
-                                <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal"
-                                @onclick="() => FinishTask_Click()">
-                                    Terminar turno
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal"
-                                @onclick="() => FinishTask_Click()">
-                                    Terminar turno
-                                </button>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="@FinalizarTurnoExitoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                        </div>
-                        <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                            <i class="me-2 fa-solid fa-circle-check"></i>
-                            <div class="text-light">
-                                Turno finalizado
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            Se ha finalizado el turno exitosamente
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     }
 </Animate>
+
+<!-- Modal -->
+<div class="modal fade" id="@FinalizarTurnoPromptModal" tabindex="-1" aria-labelledby="FinishTaskPromptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FinishTaskPromptModalLabel">Esta seguro que quieres terminar el turno?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            @if (Orden == 1)
+            {
+                <div class="alert alert-primary d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                    <div class="text-light">
+                        Su turno esta primero cola.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
+                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                    <div class="text-light">
+                        Esta accion es irreversible. Su turno todavia no esta en proceso.
+                    </div>
+                </div>
+            }
+            <div class="modal-body">
+                @if (Orden == 1)
+                {
+                    <div>
+                        Se dara el turno por finalizado.
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        Se terminara el turno abruptamente.
+                    </div>
+                }
+            </div>
+            <div class="modal-footer justify-content-center">
+                @if (Orden == 1)
+                {
+                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal"
+                        @onclick="() => FinishTask_Click()">
+                        Terminar turno
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal"
+                        @onclick="() => FinishTask_Click()">
+                        Terminar turno
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="@FinalizarTurnoExitoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
+            </div>
+            <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-circle-check"></i>
+                <div class="text-light">
+                    Turno finalizado
+                </div>
+            </div>
+            <div class="modal-body">
+                Se ha finalizado el turno exitosamente
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
