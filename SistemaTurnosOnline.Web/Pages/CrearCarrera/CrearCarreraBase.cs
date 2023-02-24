@@ -49,6 +49,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
                 var newCarrera = await CarreraService.CreateCarrera(Carrera);
 
                 await Toasts[0].Id.ShowToast(Js);
+
+                Carrera = new Carrera();
             }
             catch (Exception ex)
             {
