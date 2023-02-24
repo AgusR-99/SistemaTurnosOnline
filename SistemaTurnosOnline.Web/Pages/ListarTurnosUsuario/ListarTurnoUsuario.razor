@@ -21,6 +21,33 @@
                     <span class="mb-3">Posicion en la cola</span>
                     <h1 class="display-1">@PosicionEnCola</h1>
                 </div>
+
+                @if (PosicionEnCola == 1)
+                {
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-check"></i>
+                        <div class="text-light">
+                            Su turno esta primero en cola.
+                        </div>
+                    </div>
+                }
+
+                else
+                {
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-clock"></i>
+                        <div class="text-light">
+                            @if (PosicionEnCola == 2)
+                            {
+                                <span>Su turno es el siguiente a ser procesado</span>
+                            }
+                            else
+                            {
+                                <span>Su turno tiene @TurnosRestantes turnos adelante</span>
+                            }
+                        </div>
+                    </div>
+                }
             }
 
             <table class="m-auto w-100" id="@TableId">
@@ -45,7 +72,7 @@
                                 }
                                 else
                                 {
-                                    <button class="btn btn-warning float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Terminar</button>
+                                    <button class="btn btn-warning float-end" @onclick="@(_=>FinishTaskPrompt_Click(turno.Id, turno.OrdenEnCola))">Cancelar</button>
                                 }
                             </td>
                         </tr>
@@ -66,7 +93,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="FinishTaskPromptModalLabel">Esta seguro que quieres terminar el turno?</h5>
+                <h5 class="modal-title" id="FinishTaskPromptModalLabel">¿Esta seguro que quieres terminar el turno?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -114,7 +141,7 @@
                 {
                     <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal"
                         @onclick="() => FinishTask_Click()">
-                        Terminar turno
+                        Cancelar turno
                     </button>
                 }
             </div>

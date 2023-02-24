@@ -50,6 +50,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         public long Orden { get; set; }
 
         public long PosicionEnCola { get; set; }
+        public long TurnosRestantes { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -60,6 +61,8 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
             Turnos = await TurnoService.GetTurnosByUserId(userId);
 
             if (Turnos.Count() != 0) PosicionEnCola = Turnos.First().OrdenEnCola;
+
+            TurnosRestantes = PosicionEnCola - 1;
         }
 
         protected async Task FinishTaskPrompt_Click(string turnoId, long orden)
