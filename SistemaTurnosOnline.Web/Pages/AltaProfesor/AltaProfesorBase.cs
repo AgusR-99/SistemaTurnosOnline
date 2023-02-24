@@ -33,7 +33,6 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
-        public bool FirstRender { get; set; } = true;
         public string _SelectedRol = "Guest";
         public string SelectedRol
         {
@@ -45,11 +44,10 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             {
                 _SelectedRol = value;
 
-                if (_SelectedRol == "Admin" && !FirstRender)
+                if (_SelectedRol == "Admin")
                 {
                     ModalAdminPrompt.ShowModal(Js);
                 }
-                else if (FirstRender) FirstRender = false;
             }
         }
         public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
