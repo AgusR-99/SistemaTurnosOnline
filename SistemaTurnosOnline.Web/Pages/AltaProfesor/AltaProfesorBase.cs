@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
@@ -22,6 +23,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         [Parameter]
         public string ModalActivatedId { get; set; } = "activatedModal";
         public string ModalDeletedId { get; set; } = "deletedModal";
+        public string ModalAdminPrompt { get; set; } = "adminPromptModal";
         [Parameter]
         public string idPassword { get; set; } = "passwordInput";
         [Parameter]
@@ -31,7 +33,25 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
-        public string SelectedRol { get; set; } = "Guest";
+        public bool FirstRender { get; set; } = true;
+        public string _SelectedRol = "Guest";
+        public string SelectedRol
+        {
+            get
+            {
+                return _SelectedRol;
+            }
+            set
+            {
+                _SelectedRol = value;
+
+                if (_SelectedRol == "Admin" && !FirstRender)
+                {
+                    ModalAdminPrompt.ShowModal(Js);
+                }
+                else if (FirstRender) FirstRender = false;
+            }
+        }
         public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
         {
               new ToastModel(

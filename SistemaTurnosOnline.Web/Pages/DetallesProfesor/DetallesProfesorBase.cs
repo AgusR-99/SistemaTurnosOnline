@@ -29,7 +29,25 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
-        public string SelectedRol { get; set; }
+        public bool FirstRender { get; set; } = true;
+        public string _SelectedRol = "Guest";
+        public string SelectedRol
+        {
+            get
+            {
+                return _SelectedRol;
+            }
+            set
+            {
+                _SelectedRol = value;
+
+                if (_SelectedRol == "Admin" && !FirstRender)
+                {
+                    ModalAdminPrompt.ShowModal(Js);
+                }
+                else if (FirstRender) FirstRender = false;
+            }
+        }
         public string UserIdSession { get; set; }
         public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
         {
@@ -55,6 +73,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         public string EliminarProfesorModal { get; set; } = "deletedModal";
 
         public string PasswordResetModal { get; set; } = "resetPasswordModal";
+
+        public string ModalAdminPrompt { get; set; } = "adminPromptModal";
 
         public string NewPassword { get; set; }
 

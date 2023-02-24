@@ -93,6 +93,59 @@
 </Animate>
 
 <!-- Modal -->
+<div class="modal fade" id="@ModalAdminPrompt" tabindex="-1" aria-labelledby="modalAdminLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAdminLabel">¿Esta seguro que quieres seleccionar este rol?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
+                <i class="me-2 fa-solid fa-exclamation-triangle"></i>
+                <div class="text-light">
+                    Antes de otorgar permisos de administrador, es importante que el usuario comprenda lo que
+                    implica este rol y los riesgos que puede conllevar.
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    En primer lugar, como administrador, el usuario tendrá acceso a información y
+                    configuraciones sensibles, por lo que es crucial que mantenga la seguridad y
+                    proteja la información confidencial.
+                </div>
+                <div class="mt-2">
+                    Además, el usuario será responsable de la gestión y
+                    supervisión de los demás usuarios y de los sistemas y recursos de la
+                    organización.
+                </div>
+                <div class="mt-2">
+                    Asimismo, el usuario tendrá el poder para editar y eliminar
+                    cuentas de usuario. Esto significa que puede agregar o quitar el acceso de
+                    otros usuarios al sistema, incluyendo la capacidad de eliminar cuentas de
+                    usuario completamente.
+                </div>
+                <div class="mt-2">
+                    Es importante que el usuario entienda que estas capacidades tienen un gran
+                    impacto en el funcionamiento del sistema y en la seguridad de la
+                    información. Por lo tanto, debe ser cuidadoso al realizar cambios y
+                    asegurarse de que los usuarios adecuados tengan acceso a la información
+                    correcta.
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                        @onclick='(() => SelectedRol = "Guest")'>
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
