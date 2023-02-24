@@ -1,50 +1,213 @@
 ﻿@page "/"
+@using System.Security.Claims
 @inject IJSRuntime Js
 @implements IDisposable
 
 <Animate Animation="Animations.Fade">
-    <div class="background-indexHeader">
-    </div>
 
-    <div class="text-center mb-5 glass">
-        <div class="box p-5">
-            <h2>¡Bienvenido al futuro de la impresión!</h2>
-            <div class="mt-3">
-                <h4 class="fw-light">
-                    Nos complace presentar nuestro nuevo sistema de impresión 3D, una tecnología avanzada
-                    que le permitirá crear prácticamente cualquier cosa que pueda imaginar.
-                    Ya sea que esté buscando producir prototipos de productos, maquetas arquitectónicas,
-                    piezas de repuesto personalizadas o cualquier otro objeto, nuestro sistema de impresión 3D lo hace posible.
-                </h4>
-            </div>
-        </div>
-    </div>
+    <AuthorizeView Roles="Admin" >
 
-    <div class="text-center justify-content-center">
-        <div class="d-flex flex-column pt-5">
-            <div class="mb-5">
-                <h3 class="pt-5">¡No pierda la oportunidad de experimentar la revolución de la impresión 3D!</h3>
-
-                <div class="p-2 pb-5">
-                    <a href="/sign-in" class="btn btn-primary flex-grow-0">Comenzar ahora</a>
+        <Authorized>
+            <div class="m-4 text-center">
+                <div class="mb-5">
+                    <h1>¡Bienvenido @UserName!</h1>
+                    <p>
+                        Aquí encontrarás toda la información que necesitas para gestionar los turnos y
+                        monitorear el uso de la impresora 3D.
+                    </p>
                 </div>
-            </div>
 
-            <div class="glass mt-5">
-                <div class="p-5">
-                    <p class="pt-5">¿No tienes una cuenta?</p>
+                <div class="m-auto index-description">
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-user"></h1>
+                            <h2>Perfil</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás ver y actualizar tu información personal y
+                                preferencias de cuenta. Asimismo, es posible cambiar la
+                                contraseña de la cuenta en la plataforma. Esto es fundamental
+                                para mantener tu cuenta segura.
+                            </p>
+                        </div>
+                    </div>
 
-                    <div class="p-2 pb-5">
-                        <a href="sign-up" class="btn btn-primary flex-grow-0">Registrate</a>
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-lock"></h1>
+                            <h2>Seguridad</h2>
+                        </div>
+                        <div>
+                            <p>
+                                La plataforma utiliza técnicas de seguridad como el hash y la sal para proteger tus contraseñas. Estas técnicas aseguran que tus contraseñas estén protegidas y que no sean accesibles para los atacantes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-users"></h1>
+                            <h2>Profesores</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás administrar los usuarios del sistema de
+                                gestión de turnos. Podrás verificar y activar nuevos usuarios, editar sus
+                                detalles y eliminar usuarios si es necesario. También podrás asignar
+                                roles a cada usuario para controlar su acceso e informacion al sistema.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-briefcase"></h1>
+                            <h2>Carreras</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás administrar las carreras que están relacionadas con
+                                el uso de la impresora 3D en el instituto académico. Podrás agregar nuevas
+                                carreras, editar sus detalles y eliminar carreras si es necesario.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-clock"></h1>
+                            <h2>Turnos</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás administrar los turnos reservados, finalizarlos y cancelarlos si
+                                es necesario. También podrás editar los detalles de los turnos reservados.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </Authorized>
+
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Guest">
+
+        <Authorized>
+            <div class="m-4 text-center">
+                <div class="mb-5">
+                    <h1>¡Bienvenido @UserName!</h1>
+                    <p>
+                        Aquí encontrarás toda la información que necesitas para gestionar tus turnos y perfil.
+                    </p>
+                </div>
+
+                <div class="m-auto index-description">
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-user"></h1>
+                            <h2>Perfil</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás ver y actualizar tu información personal y
+                                preferencias de cuenta. Asimismo, es posible cambiar la
+                                contraseña de la cuenta en la plataforma. Esto es fundamental
+                                para mantener tu cuenta segura.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-lock"></h1>
+                            <h2>Seguridad</h2>
+                        </div>
+                        <div>
+                            <p>
+                                La plataforma utiliza técnicas de seguridad como el hash y la sal para proteger tus contraseñas. Estas técnicas aseguran que tus contraseñas estén protegidas y que no sean accesibles para los atacantes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 index-description-box">
+                        <div class="mb-3">
+                            <h1 class="fa-solid fa-clock"></h1>
+                            <h2>Turnos</h2>
+                        </div>
+                        <div>
+                            <p>
+                                En esta sección podrás crear turnos, finalizarlos y cancelarlos si
+                                es necesario.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+
+    </AuthorizeView>
+
+    <AuthorizeView>
+
+        <NotAuthorized>
+            <div class="background-indexHeader">
+            </div>
+
+            <div class="text-center mb-5 index-description-box glass">
+                <div class="box p-5">
+                    <h2>¡Bienvenido al futuro de la impresión!</h2>
+                    <div class="mt-3">
+                        <h4 class="fw-light">
+                            Nos complace presentar nuestro nuevo sistema de impresión 3D, una tecnología avanzada
+                            que le permitirá crear prácticamente cualquier cosa que pueda imaginar.
+                            Ya sea que esté buscando producir prototipos de productos, maquetas arquitectónicas,
+                            piezas de repuesto personalizadas o cualquier otro objeto, nuestro sistema de impresión 3D lo hace posible.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center justify-content-center">
+                <div class="d-flex flex-column pt-5">
+                    <div class="mb-5">
+                        <h3 class="pt-5">¡No pierda la oportunidad de experimentar la revolución de la impresión 3D!</h3>
+
+                        <div class="p-2 pb-5">
+                            <a href="/sign-in" class="btn btn-primary flex-grow-0">Comenzar ahora</a>
+                        </div>
+                    </div>
+
+                    <div class="glass mt-5">
+                        <div class="p-5">
+                            <p class="pt-5">¿No tienes una cuenta?</p>
+
+                            <div class="p-2 pb-5">
+                                <a href="sign-up" class="btn btn-primary flex-grow-0">Registrate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </Animate>
 
 @code
 {
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    public string? UserName { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationState;
+
+        UserName = authState.User.Identity.Name;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender){

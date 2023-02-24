@@ -109,10 +109,24 @@ a, .btn-link {
     -webkit-backdrop-filter: blur(5px);
 }
 
+.index-description-box h1,
+.index-description-box h2 {
+    transition: 0.3s;
+}
+
+.index-description-box:hover h1,
+.index-description-box:hover h2 {
+    text-shadow: rgba(153,0,255,1) 0px 0px 51px;
+}
+
 @media (min-width: 641px) {
     article{
         max-width: 1024px;
         margin: auto;
         padding: 1.5rem;
+    }
+
+    .index-description {
+        max-width: 641px;
     }
 }
