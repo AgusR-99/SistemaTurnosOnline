@@ -79,7 +79,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
 
         protected void Navigate_Click()
         {
-            NavigationManager.NavigateTo("turno/readall");
+            NavigationManager.NavigateTo("turno/user-items");
         }
     }
 }
