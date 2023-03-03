@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Shared;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 {
-    public class CrearProfesorBase : ComponentBase
+    public class CrearProfesorBase : ComponentBase, IAsyncDisposable
     {
         [Inject]
         public IJSRuntime Js { get; set; }
@@ -28,6 +30,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         public string ErrorMessage { get; set; }
         public List<Carrera> Carreras { get; set; }
         public string? UserId { get; set; }
+
+        private HubConnection HubConnection;
 
         public ToastModel Toast { get; set; } = new ToastModel(
                 status: ToastModel.Status.Error,
@@ -57,6 +61,11 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 CarreraService.SetCarrerasValues(new List<string> { });
 
                 Carreras = await CarreraService.GetCarreras();
+
+                HubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/inactiveUsersHub"))
+                .Build();
+
+                await HubConnection.StartAsync();
             }
             catch (Exception ex)
             {
@@ -128,6 +137,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 if (profesorToAdd != null)
                 {
                     await CrearProfesorModal.ShowModal(Js);
+
+                    await Send(profesorToAdd);
                 }
             }
             catch (Exception ex)
@@ -135,6 +146,13 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                 Toast.Text = ex.Message;
                 await Toast.Id.ShowToast(Js);
             }
+        }
+
+        private async Task Send(Profesor profesor) => await HubConnection.InvokeAsync("Send", profesor);
+
+        public async ValueTask DisposeAsync()
+        {
+            await HubConnection.DisposeAsync();
         }
 
         protected void Navigate_Click()

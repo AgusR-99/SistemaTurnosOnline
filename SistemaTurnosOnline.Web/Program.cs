@@ -9,6 +9,8 @@ using SistemaTurnosOnline.Shared.Validators.Contracts;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Authentication;
+using Microsoft.AspNetCore.ResponseCompression;
+using SistemaTurnosOnline.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,13 @@ builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
 builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();
 builder.Services.AddScoped<IValidator<ProfileSecurityForm>, ProfileSecurityValidator>();
 
+builder.Services.AddResponseCompression(o =>
+{
+    o.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" }
+        );
+});
+
 builder.Services
     .AddBlazorise(options =>
     {
@@ -61,6 +70,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<InfoHub>("/inactiveUsersHub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

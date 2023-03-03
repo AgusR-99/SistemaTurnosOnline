@@ -40,3 +40,9 @@ window.datatableRemove = function datatableRemove(table) {
     var elem = document.querySelector(table + '_wrapper');
     elem.parentNode.removeChild(elem);
 }
+
+window.datatableRemoveSoft = function datatableRemoveSoft(table) {
+    $(document).ready(function () {
+        $(table).DataTable().destroy();
+    });
+}
