@@ -91,7 +91,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
+                if (firstRender)
+                {
+                    await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
+                }
                 await base.OnAfterRenderAsync(firstRender);
             }
         }
