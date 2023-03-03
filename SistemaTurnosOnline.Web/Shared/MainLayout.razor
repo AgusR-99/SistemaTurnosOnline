@@ -1,7 +1,12 @@
-﻿@using SistemaTurnosOnline.Web.Authentication
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@using SistemaTurnosOnline.Shared
+@using SistemaTurnosOnline.Web.Authentication
+@using SistemaTurnosOnline.Web.Extensions
+@using SistemaTurnosOnline.Web.Pages
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime Js
 
 <PageTitle>SistemaTurnosOnline.Web</PageTitle>
 
@@ -28,6 +33,11 @@
         </div>
 
         <article>
+            <AuthorizeView Roles="Admin">
+                <Authorized>
+                    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+                </Authorized>
+            </AuthorizeView>
             @Body
         </article>
     </main>
@@ -35,6 +45,22 @@
 
 @code
 {
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    private HubConnection HubConnection { get; set; }
+
+    public ToastModel Toast { get; set; } =
+            new ToastModel(
+                status: ToastModel.Status.Error,
+                id: "toastSuccess",
+                headerClass: "bg-success",
+                icon: "oi oi-circle-check",
+                title: "Nueva solicitud",
+                time: "Ahora",
+                text: "Ha recibido una nueva solicitud de registro"
+            );
+
     private async Task Logout_Click()
     {
         var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
@@ -42,5 +68,23 @@
         await customAuthStateProvider.UpdateAuthenticationState(null);
 
         NavigationManager.NavigateTo("/sign-in", true);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/inactiveUsersHub"))
+                .Build();
+
+        HubConnection.On<Profesor>("ReceiveInformation", async (receiveInfo) =>
+        {
+            var authState = await AuthenticationState;
+
+            if (authState.User.IsInRole("Admin"))
+            {
+                await Toast.Id.ShowToast(Js);
+            }
+        });
+
+        await HubConnection.StartAsync();
     }
 }
