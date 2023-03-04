@@ -80,7 +80,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
                 if (turnoToUpdate != null)
                 {
-                    await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    if (turnoToUpdate.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    }
 
                     await TurnoActualizado_Modal.ShowModal(Js);
                 }
@@ -100,7 +103,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
                 if (deletedTurno != null)
                 {
-                    await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    if (deletedTurno.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    }
 
                     await TurnoFinalizado_Modal.ShowModal(Js);
                 }

@@ -92,7 +92,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
                 if (deletedTurno != null)
                 {
-                    await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    if (deletedTurno.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    }
 
                     await FinalizarTurnoExitoModal.ShowModal(Js);
                 }
