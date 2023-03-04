@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using SistemaTurnosOnline.Shared;
 
-namespace SistemaTurnosOnline.Web
+namespace SistemaTurnosOnline.Web.Hubs
 {
     public class InfoHub : Hub
     {
