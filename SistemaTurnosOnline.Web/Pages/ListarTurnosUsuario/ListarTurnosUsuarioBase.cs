@@ -34,6 +34,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         public string FinalizarTurnoExitoModal { get; set; } = "FinishTaskSuccessModal";
 
+        private HubConnection HubConnection;
+
+        private bool IsTableInitialized;
+
         public ToastModel Toast { get; set; } =
             new(
                 status: ToastModel.Status.Error,
