@@ -29,5 +29,7 @@ namespace SistemaTurnosOnline.Web.Hubs
                 await Send(nextTurno, hubConnection);
             }
         }
+
+        public async Task SendUpdateQueueState(HubConnection hubConnection) => await hubConnection.InvokeAsync("SendUpdateQueueState");
     }
 }

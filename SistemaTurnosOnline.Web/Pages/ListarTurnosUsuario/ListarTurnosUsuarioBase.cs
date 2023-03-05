@@ -41,6 +41,8 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         private HubConnection HubConnection;
 
+        private HubConnection TurnoQueueUpdateHubConnection;
+
         public ToastModel Toast { get; set; } =
             new(
                 status: ToastModel.Status.Error,
@@ -59,21 +61,37 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         public long PosicionEnCola { get; set; }
         public long TurnosRestantes { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        private async Task GetRemainingTurnsInQueueForUser(string userId)
         {
-            var authState = await AuthenticationState;
-
-            var userId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
             Turnos = await TurnoService.GetTurnosByUserId(userId);
 
             if (Turnos.Count() != 0) PosicionEnCola = Turnos.First().OrdenEnCola;
 
             TurnosRestantes = PosicionEnCola - 1;
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var authState = await AuthenticationState;
+
+            var userId = AuthStateUtils.GetUserIdFromAuthState(authState);
+
+            await GetRemainingTurnsInQueueForUser(userId);
 
             HubConnection = HubConnectionFactory.CreateHubConnection("/turnohub", NavigationManager);
 
+            TurnoQueueUpdateHubConnection = HubConnectionFactory.CreateHubConnection("/turnoqueuehub", NavigationManager);
+
+            TurnoQueueUpdateHubConnection.On("UpdateQueue", async () =>
+            {
+                await GetRemainingTurnsInQueueForUser(userId);
+
+                await InvokeAsync(StateHasChanged);
+            });
+
             await HubConnection.StartAsync();
+
+            await TurnoQueueUpdateHubConnection.StartAsync();
         }
 
         protected async Task FinishTaskPrompt_Click(string turnoId, long orden)
@@ -96,6 +114,8 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
                     {
                         await TurnoHubClient.GetAndSendNextTurno(HubConnection);
                     }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
 
                     await FinalizarTurnoExitoModal.ShowModal(Js);
                 }

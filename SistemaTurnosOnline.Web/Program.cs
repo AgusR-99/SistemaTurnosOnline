@@ -74,6 +74,7 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapHub<InfoHub>("/inactiveUsersHub");
 app.MapHub<TurnoHub>("/turnohub");
+app.MapHub<TurnoHub>("/turnoqueuehub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

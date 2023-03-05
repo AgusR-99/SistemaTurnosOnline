@@ -44,7 +44,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 text: "Se ha producido un error al enviar la solicitud"
             );
 
-        private HubConnection HubConnection { get; set; }
+        private HubConnection TurnoNotificationHubConnection { get; set; }
+
+        private HubConnection TurnoQueueUpdateHubConnection { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -63,9 +65,13 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
             CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(Turno.UserId);
 
-            HubConnection = HubConnectionFactory.CreateHubConnection("/turnohub", NavigationManager);
+            TurnoNotificationHubConnection = HubConnectionFactory.CreateHubConnection("/turnohub", NavigationManager);
 
-            await HubConnection.StartAsync();
+            TurnoQueueUpdateHubConnection = HubConnectionFactory.CreateHubConnection("/turnoqueuehub", NavigationManager);
+
+            await TurnoNotificationHubConnection.StartAsync();
+
+            await TurnoQueueUpdateHubConnection.StartAsync();
         }
 
         protected async Task UpdateTurno_Click()
@@ -82,8 +88,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 {
                     if (turnoToUpdate.OrdenEnCola == 1)
                     {
-                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                        await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
                     }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
 
                     await TurnoActualizado_Modal.ShowModal(Js);
                 }
@@ -105,8 +113,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 {
                     if (deletedTurno.OrdenEnCola == 1)
                     {
-                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                        await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
                     }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
 
                     await TurnoFinalizado_Modal.ShowModal(Js);
                 }
@@ -125,7 +135,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
         public async ValueTask DisposeAsync()
         {
-            await HubConnection.DisposeAsync();
+            await TurnoNotificationHubConnection.DisposeAsync();
         }
     }
 }

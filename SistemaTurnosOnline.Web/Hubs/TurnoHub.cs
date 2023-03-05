@@ -9,5 +9,10 @@ namespace SistemaTurnosOnline.Web.Hubs
         {
             await Clients.All.SendAsync("ReceiveInformation", turno);
         }
+
+        public async Task SendUpdateQueueState()
+        {
+            await Clients.All.SendAsync("UpdateQueue");
+        }
     }
 }
