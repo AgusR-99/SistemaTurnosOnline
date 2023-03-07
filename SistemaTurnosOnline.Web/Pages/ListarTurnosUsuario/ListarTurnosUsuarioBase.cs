@@ -44,7 +44,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         private bool IsTableInitialized;
 
         private HubConnection TurnoQueueUpdateHubConnection;
-
+        
         public ToastModel Toast { get; set; } =
             new(
                 status: ToastModel.Status.Error,
