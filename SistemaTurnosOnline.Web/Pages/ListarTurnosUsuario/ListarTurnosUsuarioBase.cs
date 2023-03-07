@@ -41,6 +41,8 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         private HubConnection HubConnection;
 
+        private bool IsTableInitialized;
+
         private HubConnection TurnoQueueUpdateHubConnection;
 
         public ToastModel Toast { get; set; } =
@@ -129,12 +131,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (!firstRender && !IsTableInitialized)
             {
-                if (firstRender)
-                {
-                    await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                }
-                await base.OnAfterRenderAsync(firstRender);
+                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
+
+                IsTableInitialized = true;
             }
         }
 
