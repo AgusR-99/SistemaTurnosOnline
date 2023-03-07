@@ -9,6 +9,9 @@ using SistemaTurnosOnline.Shared.Validators.Contracts;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Authentication;
+using Microsoft.AspNetCore.ResponseCompression;
+using SistemaTurnosOnline.Web.Hubs;
+using SistemaTurnosOnline.Web.Hubs.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddTransient<ICarreraService, CarreraService>();
 builder.Services.AddTransient<ITurnoService, TurnoService>();
+builder.Services.AddTransient<ITurnoHubClient, TurnoHubClient>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
@@ -37,6 +41,13 @@ builder.Services.AddScoped<IValidator<Carrera>, CarreraValidator>();
 builder.Services.AddScoped<IValidator<SignInForm>, SignInValidator>();
 builder.Services.AddScoped<IValidator<TurnoListado>, TurnoValidator>();
 builder.Services.AddScoped<IValidator<ProfileSecurityForm>, ProfileSecurityValidator>();
+
+builder.Services.AddResponseCompression(o =>
+{
+    o.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" }
+        );
+});
 
 builder.Services
     .AddBlazorise(options =>
@@ -61,6 +72,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<InfoHub>("/inactiveUsersHub");
+app.MapHub<TurnoHub>("/turnohub");
+app.MapHub<TurnoHub>("/turnoqueuehub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

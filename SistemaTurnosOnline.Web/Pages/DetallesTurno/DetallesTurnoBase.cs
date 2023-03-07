@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Extensions;
-using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Hubs.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 {
@@ -20,7 +21,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
-
+        [Inject]
+        public ITurnoHubClient TurnoHubClient { get; set; }
         [Parameter]
         public string Id { get; set; }
 
@@ -42,6 +44,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                 text: "Se ha producido un error al enviar la solicitud"
             );
 
+        private HubConnection TurnoNotificationHubConnection { get; set; }
+
+        private HubConnection TurnoQueueUpdateHubConnection { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             Turno = await TurnoService.GetTurno(Id);
@@ -58,6 +64,14 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
             };
 
             CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(Turno.UserId);
+
+            TurnoNotificationHubConnection = HubConnectionFactory.CreateHubConnection("/turnohub", NavigationManager);
+
+            TurnoQueueUpdateHubConnection = HubConnectionFactory.CreateHubConnection("/turnoqueuehub", NavigationManager);
+
+            await TurnoNotificationHubConnection.StartAsync();
+
+            await TurnoQueueUpdateHubConnection.StartAsync();
         }
 
         protected async Task UpdateTurno_Click()
@@ -72,6 +86,13 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
                 if (turnoToUpdate != null)
                 {
+                    if (turnoToUpdate.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
+                    }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
+
                     await TurnoActualizado_Modal.ShowModal(Js);
                 }
             }
@@ -88,7 +109,17 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
             {
                 var deletedTurno = await TurnoService.DeleteTurno(Id);
 
-                if (deletedTurno != null) await TurnoFinalizado_Modal.ShowModal(Js);
+                if (deletedTurno != null)
+                {
+                    if (deletedTurno.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
+                    }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
+
+                    await TurnoFinalizado_Modal.ShowModal(Js);
+                }
             }
             catch (Exception ex)
             {
@@ -100,6 +131,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         protected void Navigate_Click()
         {
             NavigationManager.NavigateTo("turno/readall");
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await TurnoNotificationHubConnection.DisposeAsync();
         }
     }
 }
