@@ -119,6 +119,27 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
                     await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
 
+                    var newTurnos = Turnos.ToList();
+
+                    newTurnos.Remove(newTurnos
+                        .First(turno => turno.Id == deletedTurno.Id));
+
+                    if (!newTurnos.Any())
+                    {
+                        await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+                    }
+
+                    await InvokeAsync(StateHasChanged);
+                }
+                if (deletedTurno != null)
+                {
+                    if (deletedTurno.OrdenEnCola == 1)
+                    {
+                        await TurnoHubClient.GetAndSendNextTurno(HubConnection);
+                    }
+
+                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
+
                     await FinalizarTurnoExitoModal.ShowModal(Js);
                 }
             }
