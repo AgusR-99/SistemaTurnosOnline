@@ -16,21 +16,9 @@
         <EditForm Model="@Carrera" OnValidSubmit="@UpdateCarrera_Click">
             <FluentValidationValidator />
 
-            <div class="form-floating mb-3">
+            <FloatingInputText @bind-Value="Carrera.Nombre"></FloatingInputText>
 
-                <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre" />
-                <label for="nombreInput">Nombre</label>
-                <ValidationMessage For="@(() => Carrera.Nombre)" />
-
-            </div>
-
-            <div class="form-floating mb-3">
-
-                <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
-                <label for="codigoInput">Codigo de carrera</label>
-                <ValidationMessage For="@(() => Carrera.Codigo)" />
-
-            </div>
+            <FloatingInputText @bind-Value="Carrera.Codigo" Type="number"></FloatingInputText>
 
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">

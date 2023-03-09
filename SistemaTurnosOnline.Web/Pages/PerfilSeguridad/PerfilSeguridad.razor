@@ -12,23 +12,11 @@
             <FluentValidationValidator @ref="_fluentValidationValidator"
                                        DisableAssemblyScanning="@true" />
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="ProfileSecurityForm.Password" type="password" class="form-control" id="PasswordInput" placeholder="somepassword" />
-                <label for="DescripcionInput">Contraseña</label>
-                <ValidationMessage For="@(() => ProfileSecurityForm.Password)" />
-            </div>
+            <FloatingInputText @bind-Value="ProfileSecurityForm.Password" FieldName="Contraseña" Type="password"></FloatingInputText>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="ProfileSecurityForm.NewPassword" type="password" class="form-control" id="NewPasswordInput" placeholder="somepassword" />
-                <label for="NewPasswordInput">Nueva contraseña</label>
-                <ValidationMessage For="@(() => ProfileSecurityForm.NewPassword)" />
-            </div>
+            <FloatingInputText @bind-Value="ProfileSecurityForm.NewPassword" FieldName="Nueva contraseña" Type="password"></FloatingInputText>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="ProfileSecurityForm.NewPasswordConfirm" type="password" class="form-control" id="NewPasswordConfirmInput" placeholder="somepassword" />
-                <label for="NewPasswordConfirmInput">Confirmar nueva contraseña</label>
-                <ValidationMessage For="@(() => ProfileSecurityForm.NewPasswordConfirm)" />
-            </div>
+            <FloatingInputText @bind-Value="ProfileSecurityForm.NewPasswordConfirm" FieldName="Repetir nueva contraseña" Type="password"></FloatingInputText>
 
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success w-100 me-5">

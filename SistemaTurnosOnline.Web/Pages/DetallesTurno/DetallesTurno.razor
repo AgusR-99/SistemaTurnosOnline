@@ -15,17 +15,10 @@
 
         <EditForm Model=@TurnoListado OnValidSubmit="@UpdateTurno_Click">
             <FluentValidationValidator />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="TurnoListado.Descripcion" type="text" class="form-control" id="DescripcionInput" placeholder="descripcion" />
-                <label for="DescripcionInput">Descripcion</label>
-                <ValidationMessage For="@(() => TurnoListado.Descripcion)" />
-            </div>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="TurnoListado.Orden" type="number" class="form-control" id="OrdenInput" placeholder="1234" />
-                <label for="OrdenInput">Orden en cola</label>
-                <ValidationMessage For="@(() => TurnoListado.Orden)" />
-            </div>
+            <FloatingInputText @bind-Value="TurnoListado.Descripcion"></FloatingInputText>
+
+            <FloatingInputText @bind-Value="TurnoListado.Orden" Type="number"></FloatingInputText>
 
             @if (CarrerasProfesor == null)
             {
