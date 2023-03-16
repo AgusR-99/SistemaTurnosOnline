@@ -1,0 +1,68 @@
+﻿@using System.Linq.Expressions
+@using SistemaTurnosOnline.Web.Extensions
+@inject IJSRuntime Js
+
+<div class="form-floating mb-3">
+
+    <InputText Value="@Value" ValueChanged="@(v => Value = v)" ValueExpression="ValueExpression"
+        type="@Type" class="form-control" id="@Id" placeholder="ph" />
+    <label for="@Id">@FieldName</label>
+    <ValidationMessage For="ValueExpression" />
+
+</div>
+
+@code {
+    private string _Value;
+
+    [Parameter]
+    public string Value
+    {
+        get
+        {
+            return _Value;
+        }
+        set
+        {
+            if (_Value != value)
+            {
+                ValueChanged.InvokeAsync(value);
+            }
+            _Value = value;
+        }
+    }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public string Type { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public string FieldName { get; set; }
+
+    [Parameter]
+    public Expression<Func<string>> ValueExpression { get; set; }
+
+    [Parameter]
+    public bool IsReadOnly { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (FieldName == null) FieldName = ExpressionHelper.GetMemberName(ValueExpression.Body);
+
+        if (Id == null) Id = ExpressionHelper.GetMemberName(ValueExpression.Body) + "Input";
+
+        if (Type == null) Type = "text";
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (IsReadOnly == true) Id.SetReadOnly(Js);
+        }
+    }
+}

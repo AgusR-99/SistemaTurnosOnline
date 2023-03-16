@@ -9,23 +9,12 @@
         </div>
 
         <EditForm Model="@Carrera" OnValidSubmit="@CreateCarrera_Click">
+
             <FluentValidationValidator />
 
-            <div class="form-floating mb-3">
+            <FloatingInputText @bind-Value="Carrera.Nombre"></FloatingInputText>
 
-                <InputText @bind-Value="Carrera.Nombre" type="text" class="form-control" id="nombreInput" placeholder="nombre" />
-                <label for="nombreInput">Nombre</label>
-                <ValidationMessage For="@(() => Carrera.Nombre)" />
-
-            </div>
-
-            <div class="form-floating mb-3">
-
-                <InputText @bind-Value="Carrera.Codigo" type="number" class="form-control" id="codigoInput" placeholder="0000" />
-                <label for="codigoInput">Codigo de carrera</label>
-                <ValidationMessage For="@(() => Carrera.Codigo)" />
-
-            </div>
+            <FloatingInputText @bind-Value="Carrera.Codigo" Type="number"></FloatingInputText>
 
             <ButtonSubmitWide Text="Crear"></ButtonSubmitWide>
 

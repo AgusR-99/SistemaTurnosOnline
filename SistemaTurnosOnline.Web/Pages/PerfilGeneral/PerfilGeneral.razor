@@ -11,23 +11,12 @@
         </div>
         <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
             <FluentValidationValidator />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Profesor.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" readonly />
-                <label for="dniInput">DNI</label>
-                <ValidationMessage For="@(() => Profesor.Dni)" />
-            </div>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Profesor.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
-                <label for="nombreInput">Nombre y Apellido</label>
-                <ValidationMessage For="@(() => Profesor.Nombre)" />
-            </div>
+            <FloatingInputText @bind-Value="Profesor.Dni" IsReadOnly="true"></FloatingInputText>
 
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Profesor.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
-                <label for="emailInput">Direccion Email</label>
-                <ValidationMessage For="@(() => Profesor.Email)" />
-            </div>
+            <FloatingInputText @bind-Value="Profesor.Nombre"></FloatingInputText>
+
+            <FloatingInputText @bind-Value="Profesor.Email"></FloatingInputText>
 
             @if (Carreras == null)
             {

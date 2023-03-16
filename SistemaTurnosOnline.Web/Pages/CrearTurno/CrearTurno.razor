@@ -11,12 +11,7 @@
 
         <EditForm Model="@TurnoForm" OnValidSubmit="@CreateTurno_Click">
 
-            <div class="form-floating mb-3">
-
-                <InputText @bind-Value="TurnoForm.Descripcion" type="text" class="form-control" id="DescripcionInput" placeholder="descripcion" />
-                <label for="DescripcionInput">Descripcion</label>
-
-            </div>
+            <FloatingInputText @bind-Value="TurnoForm.Descripcion"></FloatingInputText>
 
             @if (CarrerasProfesor == null)
             {

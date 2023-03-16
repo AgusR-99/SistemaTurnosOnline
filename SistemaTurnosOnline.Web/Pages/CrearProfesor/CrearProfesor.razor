@@ -12,35 +12,17 @@
             <EditForm Model=@ProfesorForm OnValidSubmit="@CreateProfesor_Click">
                 <FluentValidationValidator />
                 <h3 class="mb-3">Registrarse</h3>
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="ProfesorForm.Dni" type=" number" class="form-control" id="dniInput" placeholder="1234" />
-                    <label for="dniInput">DNI</label>
-                    <ValidationMessage For="@(() => ProfesorForm.Dni)" />
-                </div>
 
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="ProfesorForm.Nombre" type="text" class="form-control" id="nombreInput" placeholder="name" />
-                    <label for="nombreInput">Nombre y Apellido</label>
-                    <ValidationMessage For="@(() => ProfesorForm.Nombre)" />
-                </div>
+                <FloatingInputText @bind-Value="ProfesorForm.Dni" FieldName="DNI" Type="number"></FloatingInputText>
 
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="ProfesorForm.Email" type="email" class="form-control" id="emailInput" placeholder="name@example.com" />
-                    <label for="emailInput">Direccion Email</label>
-                    <ValidationMessage For="@(() => ProfesorForm.Email)" />
-                </div>
+                <FloatingInputText @bind-Value="ProfesorForm.Nombre" FieldName="Nombre y Apellido"></FloatingInputText>
 
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="ProfesorForm.Password" type="password" class="form-control" id="passwordInput" placeholder="password" />
-                    <label for="passwordInput">Contraseña</label>
-                    <ValidationMessage For="@(() => ProfesorForm.Password)" />
-                </div>
+                <FloatingInputText @bind-Value="ProfesorForm.Email"></FloatingInputText>
 
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="ProfesorForm.PasswordConfirm" type="password" class="form-control" id="passwordInputRe" placeholder="password" />
-                    <label for="passwordInputRe">Repetir contraseña</label>
-                    <ValidationMessage For="@(() => ProfesorForm.PasswordConfirm)" />
-                </div>
+                <FloatingInputText @bind-Value="ProfesorForm.Password" FieldName="Contraseña" Type="password"></FloatingInputText>
+
+                <FloatingInputText @bind-Value="ProfesorForm.PasswordConfirm" FieldName="Repetir contraseña" Type="password"></FloatingInputText>
+                
                 @if (Carreras == null)
                 {
                     <div class="d-flex align-items-center">
