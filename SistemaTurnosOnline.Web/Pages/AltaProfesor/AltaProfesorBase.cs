@@ -23,19 +23,15 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
         [Parameter]
         public string Id { get; set; }
-        [Parameter]
+
         public string ModalActivatedId { get; set; } = "activatedModal";
         public string ModalDeletedId { get; set; } = "deletedModal";
         public string ModalAdminPrompt { get; set; } = "adminPromptModal";
-        [Parameter]
-        public string idPassword { get; set; } = "passwordInput";
-        [Parameter]
-        public string idPasswordRe { get; set; } = "passwordInputRe";
-
         public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
         public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
+
         public string _SelectedRol = "Guest";
         public string SelectedRol
         {
@@ -74,20 +70,6 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
                 text: "Se ha producido un error al enviar la solicitud"
                 )
         };
-
-        private async Task ShowModal(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showModal", id);
-        }
-        private async Task ShowToast(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showToast", id);
-        }
-
-        protected async Task ShowPassword(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showPassword", id);
-        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -155,7 +137,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 if (activatedProfesor != null)
                 {
-                    await ShowModal(ModalActivatedId);
+                    await ModalActivatedId.ShowModal(Js);
                 }
             }
             catch (Exception)
@@ -164,7 +146,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 if (toast != null)
                 {
-                    await ShowToast(toast.Id);
+                    await toast.Id.ShowToast(Js);
                 }
                 else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
                     $"asegurese que dicho parametro se encuentre presente en la lista");
@@ -179,7 +161,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 if (deletedProfesor != null)
                 {
-                    await ShowModal(ModalDeletedId);
+                    await ModalDeletedId.ShowModal(Js);
                 }
                 else
                 {
@@ -187,7 +169,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                     if (toast != null)
                     {
-                        await ShowToast(toast.Id);
+                        await toast.Id.ShowToast(Js);
                     }
                     else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
                         $"asegurese que dicho parametro se encuentre presente en la lista");
