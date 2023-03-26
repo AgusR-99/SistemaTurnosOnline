@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
@@ -17,6 +18,8 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
 
         [Parameter]
         public string Id { get; set; }
@@ -106,21 +109,21 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
                 .ForEach(carrera => carrera.IsChecked = true);
             }
 
-            var carrerasValues = CarreraService.GetCarrerasValues();
+            var carrerasValues = CarreraListManager.GetCarrerasValues();
 
             foreach (var carrera in CarrerasForm.Where(c => c.IsChecked))
             {
                 carrerasValues.Add(carrera.Id);
             }
 
-            CarreraService.SetCarrerasValues(carrerasValues);
+            CarreraListManager.SetCarrerasValues(carrerasValues);
         }
 
         protected void Checkbox_Click(string id)
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -131,7 +134,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
             catch (Exception)
             {

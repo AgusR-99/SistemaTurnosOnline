@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Web.Shared;
 using System.Security.Claims;
@@ -20,6 +21,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         public ICarreraService CarreraService { get; set; }
         [Inject]
         NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
@@ -58,7 +61,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                CarreraService.SetCarrerasValues(new List<string> { });
+                CarreraListManager.SetCarrerasValues(new List<string> { });
 
                 Carreras = await CarreraService.GetCarreras();
 
@@ -94,7 +97,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -105,7 +108,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
             catch (Exception ex)
             {
@@ -120,7 +123,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                var CarrerasValues = CarreraService.GetCarrerasValues();
+                var CarrerasValues = CarreraListManager.GetCarrerasValues();
 
                 var carrerasId =
                     from carrera in Carreras

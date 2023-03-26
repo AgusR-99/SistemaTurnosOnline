@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using System.Security.Claims;
 
@@ -19,6 +20,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
+
         [Parameter]
         public string Id { get; set; }
 
@@ -98,14 +102,14 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 .ForEach(carrera => carrera.IsChecked = true);
             }
 
-            var carrerasValues = CarreraService.GetCarrerasValues();
+            var carrerasValues = CarreraListManager.GetCarrerasValues();
 
             foreach (var carrera in CarrerasForm.Where(c => c.IsChecked))
             {
                 carrerasValues.Add(carrera.Id);
             }
 
-            CarreraService.SetCarrerasValues(carrerasValues);
+            CarreraListManager.SetCarrerasValues(carrerasValues);
 
             SelectedRol = Profesor.Rol;
 
@@ -118,7 +122,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -129,7 +133,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
             catch (Exception ex)
             {
@@ -144,7 +148,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         {
             try
             {
-                var CarrerasValues = CarreraService.GetCarrerasValues();
+                var CarrerasValues = CarreraListManager.GetCarrerasValues();
 
                 var carrerasId =
                     from carrera in Carreras

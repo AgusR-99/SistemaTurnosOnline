@@ -6,6 +6,7 @@ using System.Security.Claims;
 using SistemaTurnosOnline.Web.Extensions;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 
 namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 {
@@ -15,6 +16,7 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
+        public List<string> CarrerasValues { get; set; } = new List<string>();
 
         [Inject]
         public IJSRuntime Js { get; set; }
@@ -27,6 +29,9 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 
         [Inject]
         public ICarreraService CarreraService { get; set; }
+
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
@@ -63,21 +68,21 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
                     .ToList()
                     .ForEach(carrera => carrera.IsChecked = true);
 
-            var carrerasValues = CarreraService.GetCarrerasValues();
+            var carrerasValues = CarreraListManager.GetCarrerasValues();
 
             carrerasValues
                 .AddRange(CarrerasForm
                 .Where(c => c.IsChecked)
                 .Select(carrera => carrera.Id));
 
-            CarreraService.SetCarrerasValues(carrerasValues);
+            CarreraListManager.SetCarrerasValues(carrerasValues);
         }
 
         protected async Task Checkbox_Click(string id)
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -88,7 +93,7 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
             catch (Exception ex)
             {
@@ -103,7 +108,7 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 
             try
             {
-                var CarrerasValues = CarreraService.GetCarrerasValues();
+                var CarrerasValues = CarreraListManager.GetCarrerasValues();
 
                 var carrerasId =
                     from carrera in Carreras
