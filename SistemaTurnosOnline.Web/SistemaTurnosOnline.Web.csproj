@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Toast.razor" />
+    <None Include="Pages\ToastLegacy.razor" />
     <None Include="wwwroot\js\showmodal.js" />
   </ItemGroup>
 
