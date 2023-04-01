@@ -1,4 +1,6 @@
 ﻿@page "/carrera/create"
+@using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
+@using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 @inherits CrearCarreraBase
 @attribute [Authorize(Roles = "Admin")]
 
@@ -31,11 +33,17 @@
 
         </EditForm>
 
-        @foreach (var Toast in Toasts)
-        {
-            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass"
-               Icon="@Toast.Icon" Title="@Toast.Title"
-               Text="@Toast.Text" Time="@Toast.Time"></Toast>
-        }
+        <SuccessToastComponent
+            Id="@CreatedToast.Id"
+            Text="@CreatedToast.Text"
+            Title="@CreatedToast.Title">
+        </SuccessToastComponent>
+
+        <DangerToastComponent
+            Id="@ServerErrorToast.Id"
+            Text="@ErrorMessage"
+            Title="@ServerErrorToast.Title">
+        </DangerToastComponent>
+
     </div>
 </Animate>
