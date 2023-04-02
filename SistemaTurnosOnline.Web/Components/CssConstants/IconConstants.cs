@@ -1,6 +1,6 @@
 ﻿namespace SistemaTurnosOnline.Web.Components.CssExtensions
 {
-    public class IconExtensions
+    public class IconConstants
     {
         public const string CircleCheck = "oi oi-circle-check";
 

@@ -1,6 +1,6 @@
 ﻿namespace SistemaTurnosOnline.Web.Components.CssExtensions
 {
-    public class BgColorExtensions
+    public class BgColorConstants
     {
         public const string BgSuccess = "bg-success";
 
