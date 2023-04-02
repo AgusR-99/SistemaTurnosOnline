@@ -5,7 +5,7 @@ using SistemaTurnosOnline.Web.Components.CssExtensions;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 {
-    public class DangerToastBase : ComponentBase, IHasId, IToastCss, IToastOptions
+    public abstract class DangerToastBase : ComponentBase, IHasId, IToastCss, IToastOptions
     {
         public string Icon => IconExtensions.CircleX;
         public string HeaderClass => BgColorExtensions.BgDanger;

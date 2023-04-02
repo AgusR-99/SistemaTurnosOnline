@@ -5,7 +5,7 @@ using SistemaTurnosOnline.Web.Components.CssExtensions;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 {
-    public class SuccessToastBase : ComponentBase, IHasId, IToastCss, IToastOptions
+    public abstract class SuccessToastBase : ComponentBase, IHasId, IToastCss, IToastOptions
     {
         public string Icon => IconExtensions.CircleCheck;
         public string HeaderClass => BgColorExtensions.BgSuccess;
