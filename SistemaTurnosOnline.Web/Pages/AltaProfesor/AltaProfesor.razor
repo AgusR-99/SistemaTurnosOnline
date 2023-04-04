@@ -1,5 +1,6 @@
 ﻿@page "/profesor/activate"
 @page "/profesor/activate/{id}"
+@using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 @using SistemaTurnosOnline.Web.Extensions
 @using SistemaTurnosOnline.Web.Utils
 @inherits AltaProfesorBase
@@ -67,6 +68,8 @@
                 }
             </div>
         }
+
+        <DangerToastComponent Id="@ServerErrorToast.Id" Text="@ServerErrorToast.Text" Title="@ServerErrorToast.Title"></DangerToastComponent>
         
         <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
             @foreach (var rol in userRoles)
@@ -86,7 +89,6 @@
             </button>
         </div>
     </EditForm>
-    
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

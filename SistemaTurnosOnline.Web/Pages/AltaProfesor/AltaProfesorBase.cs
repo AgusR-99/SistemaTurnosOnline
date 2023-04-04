@@ -55,7 +55,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             }
         }
 
-        public SuccessToast SuccessSentToast = new
+        public SuccessToastModel SuccessSentToast = new
         (
             Id: "success-sent-toast",
             Text: UserToastNotificationText.Activated,

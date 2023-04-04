@@ -23,7 +23,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 
         public static string ErrorMessage { get; set; } = string.Empty;
 
-        public SuccessToast CreatedToast = new
+        public SuccessToastModel CreatedToast = new
             (
                 Id: "success-toast",
                 Title: ToastNotificationTitle.CreatedTitle,
