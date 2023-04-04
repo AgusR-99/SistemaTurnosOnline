@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SistemaTurnosOnline.Web.Components.Contracts;
 using SistemaTurnosOnline.Web.Components.Contracts.ToastContracts;
-using SistemaTurnosOnline.Web.Components.CssExtensions;
+using SistemaTurnosOnline.Web.Components.CssConstants;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 {

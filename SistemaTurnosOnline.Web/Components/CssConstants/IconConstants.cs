@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Web.Components.CssExtensions
+﻿namespace SistemaTurnosOnline.Web.Components.CssConstants
 {
     public class IconConstants
     {

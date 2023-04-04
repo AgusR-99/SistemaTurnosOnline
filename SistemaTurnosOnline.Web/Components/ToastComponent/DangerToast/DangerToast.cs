@@ -1,6 +1,4 @@
-﻿using SistemaTurnosOnline.Web.Components.CssExtensions;
-
-namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
+﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 {
     public class DangerToast : Toast
     {

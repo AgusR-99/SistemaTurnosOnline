@@ -1,6 +1,4 @@
-﻿using SistemaTurnosOnline.Web.Components.CssExtensions;
-
-namespace SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
+﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 {
     public class SuccessToast : Toast
     {

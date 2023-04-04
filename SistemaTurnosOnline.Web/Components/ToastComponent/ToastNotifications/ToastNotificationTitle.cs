@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.ToastExtensions
+﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications
 {
     public static class ToastNotificationTitle
     {

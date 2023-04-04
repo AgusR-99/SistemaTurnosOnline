@@ -4,8 +4,8 @@ using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
 using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast;
-using SistemaTurnosOnline.Web.Components.ToastComponent.ToastExtensions;
-using SistemaTurnosOnline.Web.Components.ToastComponent.ToastExtensions.ToastNotificationText;
+using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
+using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearCarrera

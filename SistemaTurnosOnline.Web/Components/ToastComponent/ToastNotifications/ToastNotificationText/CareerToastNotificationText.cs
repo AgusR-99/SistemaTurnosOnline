@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.ToastExtensions.ToastNotificationText
+﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText
 {
     public static class CareerToastNotificationText
     {
