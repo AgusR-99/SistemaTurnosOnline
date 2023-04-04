@@ -6,9 +6,9 @@ using SistemaTurnosOnline.Web.Extensions;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent
 {
-    public abstract class Toast : IHasId, IToastCss, IToastOptions, IShowable
+    public abstract class ToastModel : IHasId, IToastCss, IToastOptions, IShowable
     {
-        public Toast(string id, string title, string text)
+        public ToastModel(string id, string title, string text)
         {
             Id = id;
             Title = title;
