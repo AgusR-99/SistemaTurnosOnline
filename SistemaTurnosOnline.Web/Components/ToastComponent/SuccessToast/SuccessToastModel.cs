@@ -1,4 +1,6 @@
-﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
+﻿using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
+
+namespace SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 {
     public class SuccessToastModel : ToastModel
     {

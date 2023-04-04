@@ -1,4 +1,6 @@
-﻿namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
+﻿using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
+
+namespace SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast
 {
     public class DangerToastModel : ToastModel
     {
