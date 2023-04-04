@@ -3,14 +3,14 @@ using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
 
 namespace SistemaTurnosOnline.Web.Utils
 {
-    public static class ErrorHandlingUtils
+    public static class ErrorHandlingExtensions
     {
-        public static async Task ShowServerErrorToast(Exception ex, IJSRuntime js, DangerToast serverErrorToast)
+        public static async Task ShowServerErrorToast(this DangerToast serverErrorToast, Exception ex, IJSRuntime js)
         {
             try
             {
-                serverErrorToast.Text = ex.Message;
                 await serverErrorToast.Show(js);
+                Console.Error.WriteLine(ex.Message);
             }
             catch (Exception e)
             {
