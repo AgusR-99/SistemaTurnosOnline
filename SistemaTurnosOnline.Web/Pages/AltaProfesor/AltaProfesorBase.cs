@@ -2,9 +2,13 @@
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
+using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast;
+using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
+using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 using SistemaTurnosOnline.Web.Extensions;
-using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utils;
 
 namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 {
@@ -18,8 +22,6 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
-        [Inject]
-        public CarreraListManager CarreraListManager { get; set; }
 
         [Parameter]
         public string Id { get; set; }
@@ -30,126 +32,95 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
-        public List<string> Roles { get; set; } = new() { "Admin", "Guest" };
 
-        public string _SelectedRol = "Guest";
-        public string SelectedRol
+        public static readonly List<UserRole> userRoles = UserRoleUtils.GetUserRoles();
+
+        private List<string> _checkedCarrerasIds = new();
+
+        public UserRole _selectedRol = userRoles.FindUserRole(UserRole.Guest);
+        public UserRole SelectedRol
         {
             get
             {
-                return _SelectedRol;
+                return _selectedRol;
             }
             set
             {
-                _SelectedRol = value;
+                _selectedRol = value;
 
-                if (_SelectedRol == "Admin")
+                if (_selectedRol == UserRole.Admin)
                 {
                     ModalAdminPrompt.ShowModal(Js);
                 }
             }
         }
-        public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
-        {
-              new ToastModel(
-                status: ToastModel.Status.Success,
-                id: "toastActualizado",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Actualizacion exitosa",
-                time: "Ahora",
-                text: "Se ha activado el usuario con exito"
-                ),
-             new ToastModel(
-                status: ToastModel.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-                )
-        };
+
+        public SuccessToast SuccessSentToast = new
+        (
+            Id: "success-sent-toast",
+            Text: UserToastNotificationText.Activated,
+            Title: ToastNotificationTitle.ActivatedTitle
+        );
+
+        public DangerToast ServerErrorToast = new
+        (
+            Id: "server-error-toast",
+            Text: GenericToastNotificationText.ServerErrorText,
+            Title: ToastNotificationTitle.ServerErrorTitle
+        );
 
         protected override async Task OnInitializedAsync()
         {
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(Id)) return;
 
             Profesor = await ProfesorService.GetProfesor(Id);
+
             Carreras = await CarreraService.GetCarreras();
 
             CarrerasForm = Carreras.Select(carrera => carrera.ConvertToCarreraForm())
                   .ToList();
 
-            if (Profesor.CarrerasId != null)
+            try
             {
-                CarrerasForm.Where(carrera => Profesor.CarrerasId.Contains(carrera.Id))
-                .ToList()
-                .ForEach(carrera => carrera.IsChecked = true);
+                CarrerasForm.CheckCarrerasById(Profesor.CarrerasId!);
+            }
+            catch (Exception ex)
+            {
+                await ServerErrorToast.ShowServerErrorToast(ex, Js);
             }
 
-            var carrerasValues = CarreraListManager.GetCarrerasValues();
-
-            foreach (var carrera in CarrerasForm.Where(c => c.IsChecked))
-            {
-                carrerasValues.Add(carrera.Id);
-            }
-
-            CarreraListManager.SetCarrerasValues(carrerasValues);
+            _checkedCarrerasIds = CarrerasForm.GetCheckedCarrerasIds();
         }
 
-        protected void Checkbox_Click(string id)
+        protected async Task Checkbox_Click(string id)
         {
             try
             {
-                var carrerasValues = CarreraListManager.GetCarrerasValues();
-
-                if (carrerasValues.Contains(id))
-                {
-                    carrerasValues.Remove(id);
-                }
-                else
-                {
-                    carrerasValues.Add(id);
-                }
-
-                CarreraListManager.SetCarrerasValues(carrerasValues);
+                CarreraFormUtils.ToggleCarreraValue(_checkedCarrerasIds, id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                await ServerErrorToast.ShowServerErrorToast(ex, Js);
             }
-
         }
 
         protected async Task ActivateProfesor_Click()
         {
             try
             {
+                Profesor.CarrerasId = _checkedCarrerasIds;
+
                 Profesor.Estado = true;
 
-                Profesor.Rol = SelectedRol;
+                Profesor.Rol = SelectedRol.ToRoleString();
 
                 var activatedProfesor = await ProfesorService.UpdateProfesor(Profesor);
 
-                if (activatedProfesor != null)
-                {
-                    await ModalActivatedId.ShowModal(Js);
-                }
+                await ModalActivatedId.ShowModal(Js);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                if (toast != null)
-                {
-                    await toast.Id.ShowToast(Js);
-                }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                    $"asegurese que dicho parametro se encuentre presente en la lista");
+                await ServerErrorToast.ShowServerErrorToast(ex, Js);
             }
         }
 
@@ -159,25 +130,11 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             {
                 var deletedProfesor = ProfesorService.DeleteProfesor(Id);
 
-                if (deletedProfesor != null)
-                {
-                    await ModalDeletedId.ShowModal(Js);
-                }
-                else
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                    if (toast != null)
-                    {
-                        await toast.Id.ShowToast(Js);
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
-                        $"asegurese que dicho parametro se encuentre presente en la lista");
-                }
+                await ModalDeletedId.ShowModal(Js);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                await ServerErrorToast.ShowServerErrorToast(ex, Js);
             }
         }
 

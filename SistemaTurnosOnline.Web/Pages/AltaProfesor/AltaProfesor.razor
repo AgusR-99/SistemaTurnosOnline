@@ -1,5 +1,7 @@
 ﻿@page "/profesor/activate"
 @page "/profesor/activate/{id}"
+@using SistemaTurnosOnline.Web.Extensions
+@using SistemaTurnosOnline.Web.Utils
 @inherits AltaProfesorBase
 @attribute [Authorize(Roles = "Admin")]
 
@@ -67,16 +69,12 @@
         }
         
         <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
-            @foreach (var rol in Roles)
+            @foreach (var rol in userRoles)
             {
-                <option value="@rol">@rol</option>
+                <option value="@rol.ToRoleString()">@rol.ToRoleString()</option>
             }
         </select>
         
-        @foreach (var Toast in Toasts)
-        {
-            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
-        }
 
         <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -164,7 +162,7 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
-                            @onclick='(() => SelectedRol = "Guest")'>
+                            @onclick='(() => SelectedRol = userRoles.FindUserRole(UserRole.Guest))'>
                         Cancelar
                     </button>
                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">
