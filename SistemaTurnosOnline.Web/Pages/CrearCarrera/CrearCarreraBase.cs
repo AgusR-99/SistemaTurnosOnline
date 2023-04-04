@@ -30,7 +30,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
                 Text: CareerToastNotificationText.CareerCreated
             );
 
-        public DangerToast ServerErrorToast = new
+        public DangerToastModel ServerErrorToast = new
             (
                 Id: "danger-toast",
                 Title: ToastNotificationTitle.ServerErrorTitle,

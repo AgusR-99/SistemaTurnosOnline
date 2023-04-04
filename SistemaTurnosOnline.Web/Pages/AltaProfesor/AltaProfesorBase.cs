@@ -62,7 +62,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             Title: ToastNotificationTitle.ActivatedTitle
         );
 
-        public DangerToast ServerErrorToast = new
+        public DangerToastModel ServerErrorToast = new
         (
             Id: "server-error-toast",
             Text: GenericToastNotificationText.ServerErrorText,

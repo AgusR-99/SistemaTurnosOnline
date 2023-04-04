@@ -5,7 +5,7 @@ namespace SistemaTurnosOnline.Web.Utils
 {
     public static class ErrorHandlingExtensions
     {
-        public static async Task ShowServerErrorToast(this DangerToast serverErrorToast, Exception ex, IJSRuntime js)
+        public static async Task ShowServerErrorToast(this DangerToastModel serverErrorToast, Exception ex, IJSRuntime js)
         {
             try
             {
