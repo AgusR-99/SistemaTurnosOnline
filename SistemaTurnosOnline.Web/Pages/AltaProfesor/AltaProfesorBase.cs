@@ -2,6 +2,8 @@
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Components.ModalComponent;
+using SistemaTurnosOnline.Web.Components.ModalComponent.ModalNotifications;
 using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
 using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
@@ -26,9 +28,6 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
         [Parameter]
         public string Id { get; set; }
 
-        public string ModalActivatedId { get; set; } = "activatedModal";
-        public string ModalDeletedId { get; set; } = "deletedModal";
-        public string ModalAdminPrompt { get; set; } = "adminPromptModal";
         public ProfesorSecure Profesor { get; set; } = new ProfesorSecure();
         public List<Carrera> Carreras { get; set; }
         public List<CarreraForm> CarrerasForm { get; set; }
@@ -50,23 +49,48 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 if (_selectedRol == UserRole.Admin)
                 {
-                    ModalAdminPrompt.ShowModal(Js);
+                    SelectedAdminPrivilegesModal.Show(Js);
                 }
             }
         }
-
-        public SuccessToastModel SuccessSentToast = new
-        (
-            Id: "success-sent-toast",
-            Text: UserToastNotificationText.Activated,
-            Title: ToastNotificationTitle.ActivatedTitle
-        );
 
         public DangerToastModel ServerErrorToast = new
         (
             Id: "server-error-toast",
             Text: GenericToastNotificationText.ServerErrorText,
             Title: ToastNotificationTitle.ServerErrorTitle
+        );
+
+        public ModalModel IrreversibleActionModal = new
+        (
+            id: "irreversible-action-modal",
+            label: "irreversible-action-modal-label",
+            headerText: ModalHeaderText.IrreversibleAction,
+            alertText: ModalAlertText.IrreversibleAction
+        );
+
+        public ModalModel SelectedAdminPrivilegesModal = new
+        (
+            id: "selected-admin-privileges-modal",
+            label: "selected-admin-privileges-label",
+            headerText: ModalHeaderText.SelectedAdminPrivileges,
+            alertText: ModalAlertText.SelectedAdminPrivileges
+        );
+
+        public ModalModel RejectedUserModal = new
+        (
+            id: "rejected-user-modal",
+            label: "rejected-user-label",
+            headerText: ModalHeaderText.SuccessfulAction,
+            alertText: ModalAlertText.RejectedUser
+        );
+
+        public ModalModel ApprovedUserModal = new
+        (
+            id: "approved-user-modal",
+            label: "approved-user-label",
+            headerText: ModalHeaderText.SuccessfulAction,
+            alertText: ModalAlertText.ApprovedUser
         );
 
         protected override async Task OnInitializedAsync()
@@ -116,7 +140,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 var activatedProfesor = await ProfesorService.UpdateProfesor(Profesor);
 
-                await ModalActivatedId.ShowModal(Js);
+                await ApprovedUserModal.Show(Js);
             }
             catch (Exception ex)
             {
@@ -130,7 +154,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             {
                 var deletedProfesor = ProfesorService.DeleteProfesor(Id);
 
-                await ModalDeletedId.ShowModal(Js);
+                await RejectedUserModal.Show(Js);
             }
             catch (Exception ex)
             {
