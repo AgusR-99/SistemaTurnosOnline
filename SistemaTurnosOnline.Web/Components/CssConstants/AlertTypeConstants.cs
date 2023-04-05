@@ -5,5 +5,7 @@
         public const string Success = "alert-success";
 
         public const string Danger = "alert-danger";
+
+        public const string Warning = "alert-warning";
     }
 }
