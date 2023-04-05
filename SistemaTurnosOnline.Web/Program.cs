@@ -53,12 +53,6 @@ builder.Services.AddResponseCompression(o =>
         );
 });
 
-builder.Services
-    .AddBlazorise(options =>
-    {
-        options.Immediate = true;
-    });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
