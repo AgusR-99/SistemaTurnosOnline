@@ -33,9 +33,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;
         public string TurnoActualizado_Modal { get; set; } = "updatedModal";
         public string TurnoFinalizado_Modal { get; set; } = "deletedModal";
-        public ToastModel Toast { get; set; } =
+        public ToastModelLegacy Toast { get; set; } =
             new(
-                status: ToastModel.Status.Error,
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",

@@ -36,9 +36,9 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
-        public ToastModel Toast { get; set; } =
-            new ToastModel(
-                status: ToastModel.Status.Error,
+        public ToastModelLegacy Toast { get; set; } =
+            new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",

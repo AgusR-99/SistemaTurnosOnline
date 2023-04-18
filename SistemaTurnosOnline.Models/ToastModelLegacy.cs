@@ -1,6 +1,6 @@
 ﻿namespace SistemaTurnosOnline.Shared
 {
-    public class ToastModel
+    public class ToastModelLegacy
     {
         public enum Status
         {
@@ -14,7 +14,7 @@
         public string Title { get; set; }
         public string Time { get; set; }
         public string Text { get; set; }
-        public ToastModel(Status status, string headerClass, string id, string icon, string title, string time, string text)
+        public ToastModelLegacy(Status status, string headerClass, string id, string icon, string title, string time, string text)
         {
             this.status = status;
             Id = id;

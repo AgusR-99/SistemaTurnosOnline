@@ -53,10 +53,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
         }
         public string UserIdSession { get; set; }
-        public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
+        public List<ToastModelLegacy> Toasts { get; set; } = new List<ToastModelLegacy>
         {
-              new ToastModel(
-                status: ToastModel.Status.Success,
+              new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Success,
                 id: "toastActualizado",
                 headerClass: "bg-success",
                 icon: "oi oi-circle-check",
@@ -64,8 +64,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 time: "Ahora",
                 text: "Se ha actualizado el usuario con exito"
                 ),
-             new ToastModel(
-                status: ToastModel.Status.Error,
+             new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",
@@ -137,7 +137,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 toast.Text = ex.Message;
                 await toast.Id.ShowToast(Js);
@@ -164,14 +164,14 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 if (profesorToUpdate != null)
                 {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Success);
+                    var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Success);
 
                     if (toast != null) await toast.Id.ShowToast(Js);
                 }
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 if (toast != null)
                 {
@@ -193,7 +193,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 toast.Text = ex.Message;
                 await toast.Id.ShowToast(Js);
@@ -210,7 +210,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 toast.Text = ex.Message;
                 await toast.Id.ShowToast(Js);

@@ -21,10 +21,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
         public string ModalDeletedId { get; set; } = "deletedModal";
 
         public Carrera Carrera { get; set; } = new Carrera();
-        public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
+        public List<ToastModelLegacy> Toasts { get; set; } = new List<ToastModelLegacy>
         {
-            new ToastModel(
-                status: ToastModel.Status.Success,
+            new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Success,
                 id: "toastActualizado",
                 headerClass: "bg-success",
                 icon: "oi oi-circle-check",
@@ -32,8 +32,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
                 time: "Ahora",
                 text: "Se ha enviado actualizado el usuario con exito"
             ),
-            new ToastModel(
-                status: ToastModel.Status.Error,
+            new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",
@@ -82,13 +82,13 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
             }
             catch (Exception ex)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 if (toast != null)
                 {
                     await ShowToast(toast.Id);
                 }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
+                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
                                                       $"asegurese que dicho parametro se encuentre presente en la lista");
             }
 
@@ -106,25 +106,25 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
                 }
                 else
                 {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                    var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                     if (toast != null)
                     {
                         await ShowToast(toast.Id);
                     }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
+                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
                                                           $"asegurese que dicho parametro se encuentre presente en la lista");
                 }
             }
             catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
+                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
 
                 if (toast != null)
                 {
                     await ShowToast(toast.Id);
                 }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModel)} con {nameof(ToastModel.Status.Error)}:" +
+                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
                                                       $"asegurese que dicho parametro se encuentre presente en la lista");
             }
         }

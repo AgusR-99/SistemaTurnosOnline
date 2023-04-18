@@ -59,9 +59,9 @@
 
     private HubConnection TurnoHubConnection { get; set; }
 
-    public ToastModel Toast { get; set; } =
-            new ToastModel(
-                status: ToastModel.Status.Error,
+    public ToastModelLegacy Toast { get; set; } =
+            new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Error,
                 id: "toastSuccess",
                 headerClass: "bg-success",
                 icon: "oi oi-circle-check",
@@ -70,9 +70,9 @@
                 text: "Ha recibido una nueva solicitud de registro"
             );
 
-    public ToastModel ToastTurno { get; set; } =
-    new ToastModel(
-        status: ToastModel.Status.Error,
+    public ToastModelLegacy ToastTurno { get; set; } =
+    new ToastModelLegacy(
+        status: ToastModelLegacy.Status.Error,
         id: "toastSuccessTurno",
         headerClass: "bg-success",
         icon: "oi oi-circle-check",

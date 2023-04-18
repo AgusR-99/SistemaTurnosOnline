@@ -36,8 +36,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
         private HubConnection HubConnection;
 
-        public ToastModel Toast { get; set; } = new ToastModel(
-                status: ToastModel.Status.Error,
+        public ToastModelLegacy Toast { get; set; } = new ToastModelLegacy(
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",

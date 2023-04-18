@@ -33,17 +33,15 @@
 
         </EditForm>
 
-        <SuccessToastComponent
+        <SuccessToast
             Id="@CreatedToast.Id"
             Text="@CreatedToast.Text"
-            Title="@CreatedToast.Title">
-        </SuccessToastComponent>
+            Title="@CreatedToast.Title"/>
 
-        <DangerToastComponent
+        <DangerToast
             Id="@ServerErrorToast.Id"
-            Text="@ErrorMessage"
-            Title="@ServerErrorToast.Title">
-        </DangerToastComponent>
+            Text="@ServerErrorToast.Text"
+            Title="@ServerErrorToast.Title"/>
 
     </div>
 </Animate>
