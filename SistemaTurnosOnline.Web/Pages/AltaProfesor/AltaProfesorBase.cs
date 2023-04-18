@@ -5,6 +5,7 @@ using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Components.ModalComponent;
 using SistemaTurnosOnline.Web.Components.ModalComponent.ModalNotifications;
 using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
@@ -54,12 +55,7 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             }
         }
 
-        public DangerToastModel ServerErrorToast = new
-        (
-            Id: "server-error-toast",
-            Text: GenericToastNotificationText.ServerErrorText,
-            Title: ToastNotificationTitle.ServerErrorTitle
-        );
+        public ToastModel ServerErrorToast = ToastFactory.CreateServerErrorToast();
 
         public ModalModel IrreversibleActionModal = new
         (
@@ -108,9 +104,9 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             {
                 CarrerasForm.CheckCarrerasById(Profesor.CarrerasId!);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await ServerErrorToast.ShowServerErrorToast(ex, Js);
+                await ServerErrorToast.Show(Js);
             }
 
             _checkedCarrerasIds = CarrerasForm.GetCheckedCarrerasIds();
@@ -122,9 +118,9 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             {
                 CarreraFormUtils.ToggleCarreraValue(_checkedCarrerasIds, id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await ServerErrorToast.ShowServerErrorToast(ex, Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -142,9 +138,9 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 await ApprovedUserModal.Show(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await ServerErrorToast.ShowServerErrorToast(ex, Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -156,9 +152,9 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
 
                 await RejectedUserModal.Show(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await ServerErrorToast.ShowServerErrorToast(ex, Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
