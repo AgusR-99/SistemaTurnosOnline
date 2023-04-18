@@ -6,7 +6,7 @@ using SistemaTurnosOnline.Web.Extensions;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent.Parent
 {
-    public abstract class ToastModel : IHasId, IToastCss, IToastOptions, IShowable
+    public class ToastModel : IHasId, IToastOptions, IShowable
     {
         public ToastModel(string id, string title, string text)
         {
@@ -17,12 +17,6 @@ namespace SistemaTurnosOnline.Web.Components.ToastComponent.Parent
 
         // The ID of the toast element.
         public string Id { get; set; }
-
-        // The icon to use for the toast.
-        public string Icon { get; set; }
-
-        // The CSS class to use for the header of the toast.
-        public string HeaderClass { get; set; }
 
         // The title to display in the toast.
         public string Title { get; set; }
