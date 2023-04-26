@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
@@ -53,6 +54,10 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
         }
         public string UserIdSession { get; set; }
+
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
+
         public List<ToastModelLegacy> Toasts { get; set; } = new List<ToastModelLegacy>
         {
               new ToastModelLegacy(
@@ -135,12 +140,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 CarreraListManager.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
 
         }
@@ -169,15 +171,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     if (toast != null) await toast.Id.ShowToast(Js);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                if (toast != null)
-                {
-                    toast.Text = ex.Message;
-                    await toast.Id.ShowToast(Js);
-                }
+                await ServerErrorToast.Show(Js);
             }
         }
         protected async Task DeleteProfesor_Click()
@@ -191,12 +187,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     await EliminarProfesorModal.ShowModal(Js);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -208,12 +201,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 await PasswordResetModal.ShowModal(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
