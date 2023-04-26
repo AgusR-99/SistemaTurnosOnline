@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using SistemaTurnosOnline.Web.Shared;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
@@ -30,21 +30,13 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
         public string CrearProfesorModal { get; set; } = "createdModal";
         public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
-        public string ErrorMessage { get; set; }
         public List<Carrera> Carreras { get; set; }
         public string? UserId { get; set; }
 
         private HubConnection HubConnection;
 
-        public ToastModelLegacy Toast { get; set; } = new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-                );
+        [CascadingParameter(Name = "ServerErrorToast")]
+        public ToastModel ServerErrorToast { get; set; }
 
         private async Task StartTimerAsync(int time)
         {
@@ -70,11 +62,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 await HubConnection.StartAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -110,11 +100,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 CarreraListManager.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
 
         }
@@ -144,10 +132,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                     await Send(profesorToAdd);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
