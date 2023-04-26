@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
@@ -21,34 +22,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
         public string ModalDeletedId { get; set; } = "deletedModal";
 
         public Carrera Carrera { get; set; } = new Carrera();
-        public List<ToastModelLegacy> Toasts { get; set; } = new List<ToastModelLegacy>
-        {
-            new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Success,
-                id: "toastActualizado",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Actualizacion exitosa",
-                time: "Ahora",
-                text: "Se ha enviado actualizado el usuario con exito"
-            ),
-            new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-            )
-        };
+
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         public string ModalId { get; set; } = "deletedModal";
-
-        private async Task ShowToast(string id)
-        {
-            await Js.InvokeVoidAsync(identifier: "showToast", id);
-        }
 
         private async Task ShowModal(string id)
         {
@@ -71,27 +49,12 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
             {
                 var carreraToUpdate = await CarreraService.UpdateCarrera(Carrera);
 
-                if (carreraToUpdate != null)
-                {
-                    await ShowModal(ModalActivatedId);
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                await ShowModal(ModalActivatedId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                if (toast != null)
-                {
-                    await ShowToast(toast.Id);
-                }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
-                                                      $"asegurese que dicho parametro se encuentre presente en la lista");
+                await ServerErrorToast.Show(Js);
             }
-
         }
 
         protected async Task DeleteCarrera_Click()
@@ -100,32 +63,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesCarrera
             {
                 var deletedCarrera = CarreraService.DeleteCarrera(Id);
 
-                if (deletedCarrera != null)
-                {
-                    await ShowModal(ModalId);
-                }
-                else
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                    if (toast != null)
-                    {
-                        await ShowToast(toast.Id);
-                    }
-                    else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
-                                                          $"asegurese que dicho parametro se encuentre presente en la lista");
-                }
+                await ShowModal(ModalId);
             }
             catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Error);
-
-                if (toast != null)
-                {
-                    await ShowToast(toast.Id);
-                }
-                else throw new NullReferenceException($"No se ha encontrado {nameof(ToastModelLegacy)} con {nameof(ToastModelLegacy.Status.Error)}:" +
-                                                      $"asegurese que dicho parametro se encuentre presente en la lista");
+                await ServerErrorToast.Show(Js);
             }
         }
 
