@@ -2,6 +2,7 @@
 @using SistemaTurnosOnline.Shared
 @using SistemaTurnosOnline.Shared.Turnos
 @using SistemaTurnosOnline.Web.Authentication
+@using SistemaTurnosOnline.Web.Components.ToastComponent.Parent
 @using SistemaTurnosOnline.Web.Extensions
 @using SistemaTurnosOnline.Web.Pages
 @using System.Security.Claims
@@ -37,15 +38,18 @@
         <article>
             <AuthorizeView Roles="Admin">
                 <Authorized>
-                    <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
+                    <ToastLegacy Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></ToastLegacy>
                 </Authorized>
             </AuthorizeView>
             <AuthorizeView>
                 <Authorized>
-                    <Toast Id="@ToastTurno.Id" HeaderClass="@ToastTurno.HeaderClass" Icon="@ToastTurno.Icon" Title="@ToastTurno.Title" Text="@ToastTurno.Text" Time="@ToastTurno.Time"></Toast>
+                    <ToastLegacy Id="@ToastTurno.Id" HeaderClass="@ToastTurno.HeaderClass" Icon="@ToastTurno.Icon" Title="@ToastTurno.Title" Text="@ToastTurno.Text" Time="@ToastTurno.Time"></ToastLegacy>
                 </Authorized>
             </AuthorizeView>
-            @Body
+            <CascadingValue Value="@ServerErrorToast" Name="ServerErrorToast" IsFixed="true">
+                @Body
+            </CascadingValue>
+            <DangerToast Id="@ServerErrorToast.Id" Text="@ServerErrorToast.Text" Title="@ServerErrorToast.Title"></DangerToast>
         </article>
     </main>
 </div>
@@ -54,6 +58,8 @@
 {
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    public ToastModel ServerErrorToast = ToastFactory.CreateServerErrorToast();
 
     private HubConnection UserActivationHubConnection { get; set; }
 
