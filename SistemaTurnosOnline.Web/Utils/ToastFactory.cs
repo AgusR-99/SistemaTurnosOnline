@@ -24,5 +24,23 @@ namespace SistemaTurnosOnline.Web.Utils
             );
         }
 
+        public static ToastModel CreateNewUserToast()
+        {
+            return new ToastModel(
+                id: "new-user-toast",
+                title: ToastNotificationTitle.IncomingNotificationTitle,
+                text: SignalRToastNotificationText.NewUser
+            );
+        }
+
+        public static ToastModel CreateFirstInQueueToast()
+        {
+            return new ToastModel(
+                id: "first-in-queue-toast",
+                title: ToastNotificationTitle.IncomingNotificationTitle,
+                text: SignalRToastNotificationText.FirstInQueue
+            );
+        }
+
     }
 }
