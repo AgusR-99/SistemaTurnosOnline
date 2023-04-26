@@ -6,6 +6,7 @@ using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 {
@@ -33,16 +34,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
         public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;
         public string TurnoActualizado_Modal { get; set; } = "updatedModal";
         public string TurnoFinalizado_Modal { get; set; } = "deletedModal";
-        public ToastModelLegacy Toast { get; set; } =
-            new(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-            );
+
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         private HubConnection TurnoNotificationHubConnection { get; set; }
 
@@ -84,22 +78,18 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 
                 var turnoToUpdate = await TurnoService.UpdateTurno(Turno);
 
-                if (turnoToUpdate != null)
+                if (turnoToUpdate.OrdenEnCola == 1)
                 {
-                    if (turnoToUpdate.OrdenEnCola == 1)
-                    {
-                        await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
-                    }
-
-                    await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
-
-                    await TurnoActualizado_Modal.ShowModal(Js);
+                    await TurnoHubClient.GetAndSendNextTurno(TurnoNotificationHubConnection);
                 }
+
+                await TurnoHubClient.SendUpdateQueueState(TurnoQueueUpdateHubConnection);
+
+                await TurnoActualizado_Modal.ShowModal(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -121,10 +111,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
                     await TurnoFinalizado_Modal.ShowModal(Js);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
