@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Components.ToastComponent.DangerToast;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utils;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 {
@@ -23,19 +25,10 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 
         public static string ErrorMessage { get; set; } = string.Empty;
 
-        public SuccessToastModel CreatedToast = new
-            (
-                Id: "success-toast",
-                Title: ToastNotificationTitle.CreatedTitle,
-                Text: CareerToastNotificationText.CareerCreated
-            );
+        public ToastModel CreatedToast = ToastFactory.CreateCareerCreatedToast();
 
-        public DangerToastModel ServerErrorToast = new
-            (
-                Id: "danger-toast",
-                Title: ToastNotificationTitle.ServerErrorTitle,
-                Text: ""
-            );
+        [CascadingParameter(Name = "ServerErrorToast")]
+        public ToastModel ServerErrorToast { get; set; }
 
         protected async Task CreateCarrera_Click()
         {
