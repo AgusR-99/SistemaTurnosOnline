@@ -15,6 +15,14 @@ namespace SistemaTurnosOnline.Web.Utils
             );
         }
 
+        public static ToastModel CreateCareerCreatedToast()
+        {
+            return new ToastModel(
+                id: "career-created-toast",
+                title: ToastNotificationTitle.CreatedTitle,
+                text: CareerToastNotificationText.CareerCreated
+            );
+        }
 
     }
 }
