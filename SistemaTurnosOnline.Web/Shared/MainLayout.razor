@@ -3,6 +3,7 @@
 @using SistemaTurnosOnline.Shared.Turnos
 @using SistemaTurnosOnline.Web.Authentication
 @using SistemaTurnosOnline.Web.Components.ToastComponent.Parent
+@using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 @using SistemaTurnosOnline.Web.Extensions
 @using SistemaTurnosOnline.Web.Pages
 @using System.Security.Claims
@@ -38,12 +39,18 @@
         <article>
             <AuthorizeView Roles="Admin">
                 <Authorized>
-                    <ToastLegacy Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></ToastLegacy>
+                    <SuccessToast
+                        Id="@NewUserToast.Id"
+                        Text="@NewUserToast.Text"
+                        Title="@NewUserToast.Title"/>
                 </Authorized>
             </AuthorizeView>
             <AuthorizeView>
                 <Authorized>
-                    <ToastLegacy Id="@ToastTurno.Id" HeaderClass="@ToastTurno.HeaderClass" Icon="@ToastTurno.Icon" Title="@ToastTurno.Title" Text="@ToastTurno.Text" Time="@ToastTurno.Time"></ToastLegacy>
+                    <SuccessToast
+                        Id="@FirstInQueueToast.Id"
+                        Text="@FirstInQueueToast.Text"
+                        Title="@FirstInQueueToast.Title" />
                 </Authorized>
             </AuthorizeView>
             <CascadingValue Value="@ServerErrorToast" Name="ServerErrorToast" IsFixed="true">
@@ -65,27 +72,9 @@
 
     private HubConnection TurnoHubConnection { get; set; }
 
-    public ToastModelLegacy Toast { get; set; } =
-            new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastSuccess",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Nueva solicitud",
-                time: "Ahora",
-                text: "Ha recibido una nueva solicitud de registro"
-            );
+    public ToastModel NewUserToast = ToastFactory.CreateNewUserToast();
 
-    public ToastModelLegacy ToastTurno { get; set; } =
-    new ToastModelLegacy(
-        status: ToastModelLegacy.Status.Error,
-        id: "toastSuccessTurno",
-        headerClass: "bg-success",
-        icon: "oi oi-circle-check",
-        title: "Estado de turno",
-        time: "Ahora",
-        text: "Su turno esta primero en cola"
-    );
+    public ToastModel FirstInQueueToast = ToastFactory.CreateFirstInQueueToast();
 
     private async Task Logout_Click()
     {
@@ -94,22 +83,6 @@
         await customAuthStateProvider.UpdateAuthenticationState(null);
 
         NavigationManager.NavigateTo("/sign-in", true);
-    }
-
-    private async Task ShowNotification(Turno turnoInfo)
-    {
-        if (turnoInfo.Descripcion != "Sin descripcion")
-        {
-            ToastTurno.Text = $"Su turno esta primero en cola: \"{turnoInfo.Descripcion}\"";
-        }
-        else
-        {
-            ToastTurno.Text = $"Su turno esta primero en cola";
-        }
-
-        await InvokeAsync(StateHasChanged);
-
-        await ToastTurno.Id.ShowToast(Js);
     }
 
     protected override async Task OnInitializedAsync()
@@ -123,7 +96,7 @@
         {
             if (authState.User.IsInRole("Admin"))
             {
-                await Toast.Id.ShowToast(Js);
+                await NewUserToast.Show(Js);
             }
         });
 
@@ -135,7 +108,7 @@
 
                 if (userId == turnoInfo.UserId && turnoInfo.OrdenEnCola == 1)
                 {
-                    await ShowNotification(turnoInfo);
+                    await FirstInQueueToast.Show(Js);
                 }
             }
         });
