@@ -7,6 +7,7 @@ using SistemaTurnosOnline.Web.Extensions;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Services.CarreraService;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 
 namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 {
@@ -36,16 +37,8 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
-        public ToastModelLegacy Toast { get; set; } =
-            new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-            );
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         public string ActualizadoProfesorModal { get; set; } = "updatedModal";
 
@@ -95,10 +88,9 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 
                 CarreraListManager.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
 
         }
@@ -122,10 +114,9 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 
                 if (updatedProfesor != null) await ActualizadoProfesorModal.ShowModal(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
