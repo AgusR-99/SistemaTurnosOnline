@@ -4,7 +4,7 @@ using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
 
 namespace SistemaTurnosOnline.Web.Utils
 {
-    public static class ToastFactory
+    public static class ToastFactoryLegacy
     {
         public static ToastModel CreateServerErrorToast()
         {
