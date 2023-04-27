@@ -36,7 +36,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         private HubConnection HubConnection;
 
         [CascadingParameter(Name = "ServerErrorToast")]
-        public ToastModel ServerErrorToast { get; set; }
+        private ToastModel ServerErrorToast { get; set; }
 
         private async Task StartTimerAsync(int time)
         {
@@ -125,12 +125,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 var profesorToAdd = await ProfesorService.CreateProfesor(ProfesorForm);
 
-                if (profesorToAdd != null)
-                {
-                    await CrearProfesorModal.ShowModal(Js);
+                await CrearProfesorModal.ShowModal(Js);
 
-                    await Send(profesorToAdd);
-                }
+                await Send(profesorToAdd);
             }
             catch (Exception)
             {

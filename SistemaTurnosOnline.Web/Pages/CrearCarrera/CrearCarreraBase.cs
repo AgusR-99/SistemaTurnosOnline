@@ -28,7 +28,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
         public ToastModel CreatedToast = ToastFactoryLegacy.CreateCareerCreatedToast();
 
         [CascadingParameter(Name = "ServerErrorToast")]
-        public ToastModel ServerErrorToast { get; set; }
+        private ToastModel ServerErrorToast { get; set; }
 
         protected async Task CreateCarrera_Click()
         {
