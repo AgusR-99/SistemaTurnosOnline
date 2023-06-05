@@ -55,7 +55,8 @@ namespace SistemaTurnosOnline.Web.Pages.AltaProfesor
             }
         }
 
-        public ToastModel ServerErrorToast = ToastFactoryLegacy.CreateServerErrorToast();
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         public ModalModel IrreversibleActionModal = new
         (

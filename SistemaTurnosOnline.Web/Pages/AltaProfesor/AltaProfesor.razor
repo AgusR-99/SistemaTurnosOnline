@@ -67,8 +67,6 @@
             </div>
         }
 
-        <DangerToast Id="@ServerErrorToast.Id" Text="@ServerErrorToast.Text" Title="@ServerErrorToast.Title"></DangerToast>
-        
         <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
             @foreach (var rol in userRoles)
             {
