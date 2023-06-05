@@ -7,6 +7,8 @@
 @using SistemaTurnosOnline.Web.Extensions
 @using SistemaTurnosOnline.Web.Pages
 @using System.Security.Claims
+@using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils
+@using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
@@ -66,15 +68,15 @@
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationState { get; set; }
 
-    public ToastModel ServerErrorToast = ToastFactory.CreateServerErrorToast();
+    public ToastModel ServerErrorToast = ToastFactory.CreateToast(new ServerErrorToastCreator());
 
     private HubConnection UserActivationHubConnection { get; set; }
 
     private HubConnection TurnoHubConnection { get; set; }
 
-    public ToastModel NewUserToast = ToastFactory.CreateNewUserToast();
+    public ToastModel NewUserToast = ToastFactory.CreateToast(new NewUserToastCreator());
 
-    public ToastModel FirstInQueueToast = ToastFactory.CreateFirstInQueueToast();
+    public ToastModel FirstInQueueToast = ToastFactory.CreateToast(new FirstInQueueToastCreator());
 
     private async Task Logout_Click()
     {
