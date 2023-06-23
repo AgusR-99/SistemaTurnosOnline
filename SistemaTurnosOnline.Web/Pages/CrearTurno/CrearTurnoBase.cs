@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
 
@@ -36,16 +37,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
-        public ToastModel Toast { get; set; } = 
-            new(
-                status: ToastModel.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-        );
+        [CascadingParameter(Name = "ServerErrorToast")]
+        public ToastModel ServerErrorToast { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -72,8 +65,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
             }
             catch (Exception ex)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 

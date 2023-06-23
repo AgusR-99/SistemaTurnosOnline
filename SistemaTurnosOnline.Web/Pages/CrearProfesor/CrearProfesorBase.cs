@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
-using SistemaTurnosOnline.Web.Shared;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
@@ -20,6 +21,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         public ICarreraService CarreraService { get; set; }
         [Inject]
         NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
@@ -27,21 +30,13 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
         public string CrearProfesorModal { get; set; } = "createdModal";
         public ProfesorForm ProfesorForm { get; set; } = new ProfesorForm();
-        public string ErrorMessage { get; set; }
         public List<Carrera> Carreras { get; set; }
         public string? UserId { get; set; }
 
         private HubConnection HubConnection;
 
-        public ToastModel Toast { get; set; } = new ToastModel(
-                status: ToastModel.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-                );
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         private async Task StartTimerAsync(int time)
         {
@@ -58,7 +53,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                CarreraService.SetCarrerasValues(new List<string> { });
+                CarreraListManager.SetCarrerasValues(new List<string> { });
 
                 Carreras = await CarreraService.GetCarreras();
 
@@ -67,11 +62,9 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 await HubConnection.StartAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -94,7 +87,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -105,13 +98,11 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
 
         }
@@ -120,7 +111,7 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
         {
             try
             {
-                var CarrerasValues = CarreraService.GetCarrerasValues();
+                var CarrerasValues = CarreraListManager.GetCarrerasValues();
 
                 var carrerasId =
                     from carrera in Carreras
@@ -134,17 +125,13 @@ namespace SistemaTurnosOnline.Web.Pages.CrearProfesor
 
                 var profesorToAdd = await ProfesorService.CreateProfesor(ProfesorForm);
 
-                if (profesorToAdd != null)
-                {
-                    await CrearProfesorModal.ShowModal(Js);
+                await CrearProfesorModal.ShowModal(Js);
 
-                    await Send(profesorToAdd);
-                }
+                await Send(profesorToAdd);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Toast.Text = ex.Message;
-                await Toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 

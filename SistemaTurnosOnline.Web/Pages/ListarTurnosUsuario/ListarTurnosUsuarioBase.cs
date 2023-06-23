@@ -45,9 +45,9 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         private HubConnection TurnoQueueUpdateHubConnection;
         
-        public ToastModel Toast { get; set; } =
+        public ToastModelLegacy Toast { get; set; } =
             new(
-                status: ToastModel.Status.Error,
+                status: ToastModelLegacy.Status.Error,
                 id: "toastError",
                 headerClass: "bg-danger",
                 icon: "oi oi-circle-x",

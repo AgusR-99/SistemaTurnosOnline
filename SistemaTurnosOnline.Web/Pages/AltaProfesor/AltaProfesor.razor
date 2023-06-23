@@ -1,5 +1,6 @@
 ﻿@page "/profesor/activate"
 @page "/profesor/activate/{id}"
+
 @inherits AltaProfesorBase
 @attribute [Authorize(Roles = "Admin")]
 
@@ -54,21 +55,17 @@
                 }
             </div>
         }
-        
+
         <select class="form-select mb-3 bg-dark text-light border-dark" @bind="@SelectedRol" aria-label="select Rol">
-            @foreach (var rol in Roles)
+            @foreach (var rol in userRoles)
             {
-                <option value="@rol">@rol</option>
+                <option value="@rol.ToRoleString()">@rol.ToRoleString()</option>
             }
         </select>
         
-        @foreach (var Toast in Toasts)
-        {
-            <Toast Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></Toast>
-        }
 
         <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-danger w-50 me-5" data-bs-toggle="modal" data-bs-target="#@IrreversibleActionModal.Id">
                 Rechazar
             </button>
 
@@ -77,136 +74,84 @@
             </button>
         </div>
     </EditForm>
-    
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro que quieres rechazar la cuenta?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="alert alert-danger d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                    <div class="text-light">
-                        Esta accion es irreversible.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        Se eliminaran todos los datos relacionados a esta solicitud.
-                    </div>
-                    <div class="mt-2">
-                        Los datos no podran ser recuperados.
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
-                            @onclick="() => DeleteProfesor_Click()">
-                        Rechazar solicitud de cuenta
-                    </button>
-                </div>
+    <ModalContainer Id="@IrreversibleActionModal.Id" Label="@IrreversibleActionModal.Label">
+        <ModalHeaderCloseable Id="@IrreversibleActionModal.Label" Text="@IrreversibleActionModal.HeaderText"/>
+        <DangerModalAlert Text="@IrreversibleActionModal.AlertText"/>
+        <ModalBody>
+            <div>
+                Se eliminaran todos los datos relacionados a esta solicitud.
             </div>
-        </div>
-    </div>
+            <div class="mt-2">
+                Los datos no podran ser recuperados.
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                    @onclick="() => DeleteProfesor_Click()">
+                Rechazar solicitud de cuenta
+            </button>
+        </ModalFooter>
+    </ModalContainer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="@ModalAdminPrompt" tabindex="-1" aria-labelledby="modalAdminLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAdminLabel">¿Esta seguro que quieres seleccionar este rol?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="alert alert-warning d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-exclamation-triangle"></i>
-                    <div class="text-light">
-                        Antes de otorgar permisos de administrador, es importante que el usuario comprenda lo que
-                        implica este rol y los riesgos que puede conllevar.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        En primer lugar, como administrador, el usuario tendrá acceso a información y
-                        configuraciones sensibles, por lo que es crucial que mantenga la seguridad y
-                        proteja la información confidencial.
-                    </div>
-                    <div class="mt-2">
-                        Además, como administrador, el usuario será responsable de la gestión y
-                        supervisión de los demás usuarios y de los sistemas y recursos de la
-                        organización.
-                    </div>
-                    <div class="mt-2">
-                        Asimismo, el usuario tendrá el poder para editar y eliminar
-                        cuentas de usuario. Esto significa que puede agregar o quitar el acceso de
-                        otros usuarios al sistema, incluyendo la capacidad de eliminar cuentas de
-                        usuario completamente.
-                    </div>
-                    <div class="mt-2">
-                        Es importante que el usuario entienda que estas capacidades tienen un gran
-                        impacto en el funcionamiento del sistema y en la seguridad de la
-                        información. Por lo tanto, debe ser cuidadoso al realizar cambios y
-                        asegurarse de que los usuarios adecuados tengan acceso a la información
-                        correcta.
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
-                            @onclick='(() => SelectedRol = "Guest")'>
-                        Cancelar
-                    </button>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-                        Aceptar
-                    </button>
-                </div>
+    <ModalContainer Id="@SelectedAdminPrivilegesModal.Id" Label="@SelectedAdminPrivilegesModal.Label">
+        <ModalHeader Id="@SelectedAdminPrivilegesModal.Label" Text="@SelectedAdminPrivilegesModal.HeaderText" />
+        <WarningModalAlert Text="@IrreversibleActionModal.AlertText" />
+        <ModalBody>
+            <div>
+                En primer lugar, como administrador, el usuario tendrá acceso a información y
+                configuraciones sensibles, por lo que es crucial que mantenga la seguridad y
+                proteja la información confidencial.
             </div>
-        </div>
-    </div>
+            <div class="mt-2">
+                Además, como administrador, el usuario será responsable de la gestión y
+                supervisión de los demás usuarios y de los sistemas y recursos de la
+                organización.
+            </div>
+            <div class="mt-2">
+                Asimismo, el usuario tendrá el poder para editar y eliminar
+                cuentas de usuario. Esto significa que puede agregar o quitar el acceso de
+                otros usuarios al sistema, incluyendo la capacidad de eliminar cuentas de
+                usuario completamente.
+            </div>
+            <div class="mt-2">
+                Es importante que el usuario entienda que estas capacidades tienen un gran
+                impacto en el funcionamiento del sistema y en la seguridad de la
+                información. Por lo tanto, debe ser cuidadoso al realizar cambios y
+                asegurarse de que los usuarios adecuados tengan acceso a la información
+                correcta.
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    @onclick='(() => SelectedRol = userRoles.FindUserRole(UserRole.Guest))'>
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                Aceptar
+            </button>
+        </ModalFooter>
+    </ModalContainer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="@ModalActivatedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Cuenta aprobada.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    Se ha activado la cuenta exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalContainer Id="@RejectedUserModal.Id" Label="@RejectedUserModal.Label">
+        <ModalHeader Id="@RejectedUserModal.Label" Text="@RejectedUserModal.HeaderText" />
+        <SuccessModalAlert Text="@RejectedUserModal.AlertText" />
+        <ModalBody>
+            Se ha rechazado la solicitud de cuenta exitosamente
+        </ModalBody>
+        <ModalFooter>
+            <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+        </ModalFooter>
+    </ModalContainer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="@ModalDeletedId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedModalLabel">Accion realizada con exito</h5>
-                </div>
-                <div class="alert alert-success d-flex m-0 align-items-center" role="alert">
-                    <i class="me-2 fa-solid fa-circle-check"></i>
-                    <div class="text-light">
-                        Cuenta rechazada.
-                    </div>
-                </div>
-                <div class="modal-body">
-                    Se ha rechazado la solicitud de cuenta exitosamente
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalContainer Id="@ApprovedUserModal.Id" Label="@ApprovedUserModal.Label">
+        <ModalHeader Id="@ApprovedUserModal.Label" Text="@ApprovedUserModal.HeaderText" />
+        <SuccessModalAlert Text="@ApprovedUserModal.AlertText" />
+        <ModalBody>
+            Se ha aprobado la solicitud de cuenta exitosamente
+        </ModalBody>
+        <ModalFooter>
+            <a @onclick="() => Navigate_Click()" data-bs-dismiss="modal" class="btn btn-success">Aceptar</a>
+        </ModalFooter>
+    </ModalContainer>
 </div>

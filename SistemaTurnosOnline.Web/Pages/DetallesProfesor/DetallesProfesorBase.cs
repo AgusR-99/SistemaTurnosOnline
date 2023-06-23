@@ -3,8 +3,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
@@ -19,6 +23,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         public IProfesorService ProfesorService { get; set; }
         [Inject]
         public ICarreraService CarreraService { get; set; }
+        [Inject]
+        public CarreraListManager CarreraListManager { get; set; }
+
         [Parameter]
         public string Id { get; set; }
 
@@ -49,27 +56,12 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
             }
         }
         public string UserIdSession { get; set; }
-        public List<ToastModel> Toasts { get; set; } = new List<ToastModel>
-        {
-              new ToastModel(
-                status: ToastModel.Status.Success,
-                id: "toastActualizado",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Actualizacion exitosa",
-                time: "Ahora",
-                text: "Se ha actualizado el usuario con exito"
-                ),
-             new ToastModel(
-                status: ToastModel.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-                )
-        };
+
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
+
+        public ToastModel UserUpdatedToast = ToastFactory.CreateToast(new UserUpdatedToastCreator());
+
         public string EliminarProfesorModal { get; set; } = "deletedModal";
 
         public string PasswordResetModal { get; set; } = "resetPasswordModal";
@@ -98,14 +90,14 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                 .ForEach(carrera => carrera.IsChecked = true);
             }
 
-            var carrerasValues = CarreraService.GetCarrerasValues();
+            var carrerasValues = CarreraListManager.GetCarrerasValues();
 
             foreach (var carrera in CarrerasForm.Where(c => c.IsChecked))
             {
                 carrerasValues.Add(carrera.Id);
             }
 
-            CarreraService.SetCarrerasValues(carrerasValues);
+            CarreraListManager.SetCarrerasValues(carrerasValues);
 
             SelectedRol = Profesor.Rol;
 
@@ -118,7 +110,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         {
             try
             {
-                var carrerasValues = CarreraService.GetCarrerasValues();
+                var carrerasValues = CarreraListManager.GetCarrerasValues();
 
                 if (carrerasValues.Contains(id))
                 {
@@ -129,14 +121,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     carrerasValues.Add(id);
                 }
 
-                CarreraService.SetCarrerasValues(carrerasValues);
+                CarreraListManager.SetCarrerasValues(carrerasValues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
 
         }
@@ -144,7 +133,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         {
             try
             {
-                var CarrerasValues = CarreraService.GetCarrerasValues();
+                var CarrerasValues = CarreraListManager.GetCarrerasValues();
 
                 var carrerasId =
                     from carrera in Carreras
@@ -158,22 +147,11 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 var profesorToUpdate = await ProfesorService.UpdateProfesor(Profesor);
 
-                if (profesorToUpdate != null)
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModel.Status.Success);
-
-                    if (toast != null) await toast.Id.ShowToast(Js);
-                }
+                await UserUpdatedToast.Show(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                if (toast != null)
-                {
-                    toast.Text = ex.Message;
-                    await toast.Id.ShowToast(Js);
-                }
+                await ServerErrorToast.Show(Js);
             }
         }
         protected async Task DeleteProfesor_Click()
@@ -187,12 +165,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
                     await EliminarProfesorModal.ShowModal(Js);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 
@@ -204,12 +179,9 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 await PasswordResetModal.ShowModal(Js);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var toast = Toasts.Find(t => t.status == ToastModel.Status.Error);
-
-                toast.Text = ex.Message;
-                await toast.Id.ShowToast(Js);
+                await ServerErrorToast.Show(Js);
             }
         }
 

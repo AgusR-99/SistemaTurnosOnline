@@ -12,6 +12,7 @@ using SistemaTurnosOnline.Web.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Web.Hubs;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddTransient<ICarreraService, CarreraService>();
 builder.Services.AddTransient<ITurnoService, TurnoService>();
 builder.Services.AddTransient<ITurnoHubClient, TurnoHubClient>();
+builder.Services.AddTransient<CarreraListManager>();
+builder.Services.AddTransient<CarreraHttpClient>();
+builder.Services.AddTransient<CarreraResponseProcessor>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
@@ -48,12 +52,6 @@ builder.Services.AddResponseCompression(o =>
         new[] { "application/octet-stream" }
         );
 });
-
-builder.Services
-    .AddBlazorise(options =>
-    {
-        options.Immediate = true;
-    });
 
 var app = builder.Build();
 

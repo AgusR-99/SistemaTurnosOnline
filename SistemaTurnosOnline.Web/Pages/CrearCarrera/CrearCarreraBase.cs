@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
-using SistemaTurnosOnline.Web.Extensions;
+using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 {
@@ -18,27 +20,12 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 
         public FluentValidationValidator? _fluentValidationValidator;
 
-        public List<ToastModel> Toasts { get; set; } = new()
-        {
-            new ToastModel(
-                status: ToastModel.Status.Success,
-                id: "toastActualizado",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Actualizacion exitosa",
-                time: "Ahora",
-                text: "Se ha creado la carrera con exito"
-            ),
-            new ToastModel(
-                status: ToastModel.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-            )
-        };
+        public static string ErrorMessage { get; set; } = string.Empty;
+
+        public ToastModel CreatedToast = ToastFactory.CreateToast(new CareerCreatedToastCreator());
+
+        [CascadingParameter(Name = "ServerErrorToast")]
+        private ToastModel ServerErrorToast { get; set; }
 
         protected async Task CreateCarrera_Click()
         {
@@ -48,14 +35,15 @@ namespace SistemaTurnosOnline.Web.Pages.CrearCarrera
 
                 var newCarrera = await CarreraService.CreateCarrera(Carrera);
 
-                await Toasts[0].Id.ShowToast(Js);
+                await CreatedToast.Show(Js);
 
                 Carrera = new Carrera();
             }
             catch (Exception ex)
             {
-                Toasts[1].Text = ex.Message;
-                await Toasts[1].Id.ShowToast(Js);
+                ErrorMessage = ex.Message;
+
+                await ServerErrorToast.Show(Js);
             }
         }
     }
