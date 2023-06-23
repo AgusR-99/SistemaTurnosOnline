@@ -1,6 +1,7 @@
 ﻿@page "/profesor"
 @page "/profesor/{id}"
 @using SistemaTurnosOnline.Shared
+@using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 @inherits DetallesProfesorBase
 @attribute [Authorize(Roles = "Admin")]
 
@@ -86,16 +87,17 @@
             <button type="submit" class="btn btn-success float-end w-100 mb-5">
                 Actualizar
             </button>
-            @foreach (var Toast in Toasts)
-            {
-                    <ToastLegacy Id="@Toast.Id" HeaderClass="@Toast.HeaderClass" Icon="@Toast.Icon" Title="@Toast.Title" Text="@Toast.Text" Time="@Toast.Time"></ToastLegacy>
-            }
+
         </EditForm>
         <button class="btn btn-danger float-end w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Eliminar
         </button>
     </div>
 </Animate>
+
+<SuccessToast Id="@UserUpdatedToast.Id"
+              Text="@UserUpdatedToast.Text"
+              Title="@UserUpdatedToast.Title" />
 
 <!-- Modal -->
 <div class="modal fade" id="@ModalAdminPrompt" tabindex="-1" aria-labelledby="modalAdminLabel" aria-hidden="true">

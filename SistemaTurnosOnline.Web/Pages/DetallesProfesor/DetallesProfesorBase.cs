@@ -7,6 +7,8 @@ using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils;
+using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
@@ -58,27 +60,8 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
         [CascadingParameter(Name = "ServerErrorToast")]
         private ToastModel ServerErrorToast { get; set; }
 
-        public List<ToastModelLegacy> Toasts { get; set; } = new List<ToastModelLegacy>
-        {
-              new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Success,
-                id: "toastActualizado",
-                headerClass: "bg-success",
-                icon: "oi oi-circle-check",
-                title: "Actualizacion exitosa",
-                time: "Ahora",
-                text: "Se ha actualizado el usuario con exito"
-                ),
-             new ToastModelLegacy(
-                status: ToastModelLegacy.Status.Error,
-                id: "toastError",
-                headerClass: "bg-danger",
-                icon: "oi oi-circle-x",
-                title: "Error de server",
-                time: "Ahora",
-                text: "Se ha producido un error al enviar la solicitud"
-                )
-        };
+        public ToastModel UserUpdatedToast = ToastFactory.CreateToast(new UserUpdatedToastCreator());
+
         public string EliminarProfesorModal { get; set; } = "deletedModal";
 
         public string PasswordResetModal { get; set; } = "resetPasswordModal";
@@ -164,12 +147,7 @@ namespace SistemaTurnosOnline.Web.Pages.DetallesProfesor
 
                 var profesorToUpdate = await ProfesorService.UpdateProfesor(Profesor);
 
-                if (profesorToUpdate != null)
-                {
-                    var toast = Toasts.Find(t => t.status == ToastModelLegacy.Status.Success);
-
-                    if (toast != null) await toast.Id.ShowToast(Js);
-                }
+                await UserUpdatedToast.Show(Js);
             }
             catch (Exception)
             {
