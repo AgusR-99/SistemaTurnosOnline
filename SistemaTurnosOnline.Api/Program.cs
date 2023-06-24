@@ -38,7 +38,6 @@ builder.Services.AddScoped<ITurnoValidator, ValidateTurno>();
 builder.Services.AddScoped<IValidator<ProfileSecurityForm>, ProfileSecurityValidator>();
 builder.Services.AddScoped<IPasswordValidator, ValidateProfileSecurity>();
 
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<SistemaTurnosOnlineDbContext>();
 
 //! Enum route constraints: ref https://nickheath.net/2019/02/20/asp-net-core-enum-route-constraints/
