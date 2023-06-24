@@ -10,7 +10,6 @@
         </div>
 
         <EditForm Model="@TurnoForm" OnValidSubmit="@CreateTurno_Click">
-
             <FloatingInputText @bind-Value="TurnoForm.Descripcion"></FloatingInputText>
 
             @if (CarrerasProfesor == null)
@@ -25,6 +24,13 @@
             {
                 <div class="form-floating mb-3">
 
+                    <div class="alert alert-warning d-flex mb-3 align-items-center" role="alert">
+                        <i class="me-2 fa-solid fa-info-circle"></i>
+                        <div class="text-light">
+                            No posees carreras asignadas. Puedes agregarlas <a href="profile/general">aqui</a>
+                        </div>
+                    </div>
+
                     <p class="mb-0 lh-1">Carrera</p>
 
                     <small class="text-muted pt-0">Pertenece a:</small>
@@ -37,16 +43,19 @@
                             Ninguna
                         </label>
                     </div>
-
-                    @foreach (var carrera in CarrerasProfesor)
+                    @if (UserHasCareers)
                     {
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
-                            <label class="form-check-label" for="@carrera.Id">
-                                @carrera.Nombre
-                            </label>
-                        </div>
+                        @foreach (var carrera in CarrerasProfesor)
+                        {
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="@carrera.Id" @onclick="() => SelectedCarreraId = carrera.Id">
+                                <label class="form-check-label" for="@carrera.Id">
+                                    @carrera.Nombre
+                                </label>
+                            </div>
+                        }
                     }
+                    
 
                 </div>
             }

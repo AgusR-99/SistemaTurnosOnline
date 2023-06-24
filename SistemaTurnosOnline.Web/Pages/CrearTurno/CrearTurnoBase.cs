@@ -34,6 +34,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
 
         public string SelectedCarreraId { get; set; } = CarreraCheckedNoneValue;
 
+        public bool UserHasCareers { get; set; } = false;
+
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
@@ -47,6 +49,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
             TurnoForm.UserId = authState.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(TurnoForm.UserId);
+
+            if (CarrerasProfesor.Count != 1 && CarrerasProfesor[0] != null) UserHasCareers = true;
         }
 
         protected async Task CreateTurno_Click()
