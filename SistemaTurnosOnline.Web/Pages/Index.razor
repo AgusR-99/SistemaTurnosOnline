@@ -217,6 +217,12 @@
 
     public async void Dispose()
     {
-        await Js.InvokeVoidAsync(identifier: "setWidthOfContainerContained");
+        try
+        {
+            await Js.InvokeVoidAsync(identifier: "setWidthOfContainerContained");
+        }
+        catch (Exception)
+        {
+        }
     }
 }

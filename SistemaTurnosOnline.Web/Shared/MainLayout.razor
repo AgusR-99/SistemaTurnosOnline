@@ -56,7 +56,23 @@
                 </Authorized>
             </AuthorizeView>
             <CascadingValue Value="@ServerErrorToast" Name="ServerErrorToast" IsFixed="true">
-                @Body
+                <ErrorBoundary @ref="errorBoundary">
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                    <ErrorContent>
+                        <div class="container">
+                            <h1>Oops...</h1>
+                            <h4>Parece que algo salio mal y no pudimos procesar la solicitud.</h4>
+                        </div>
+                        <div class="alert alert-info d-flex m-0 align-items-center" role="alert">
+                            <i class="me-2 fa-solid fa-info-circle"></i>
+                            <div class="text-light">
+                                Contactese con administracion
+                            </div>
+                        </div>
+                    </ErrorContent>
+                </ErrorBoundary>
             </CascadingValue>
             <DangerToast Id="@ServerErrorToast.Id" Text="@ServerErrorToast.Text" Title="@ServerErrorToast.Title"></DangerToast>
         </article>
@@ -65,6 +81,13 @@
 
 @code
 {
+    private ErrorBoundary? errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        errorBoundary?.Recover();
+    }
+
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationState { get; set; }
 

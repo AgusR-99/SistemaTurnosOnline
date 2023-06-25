@@ -50,7 +50,8 @@ namespace SistemaTurnosOnline.Web.Pages.CrearTurno
 
             CarrerasProfesor = (List<Carrera>)await CarreraService.GetCarrerasByUserId(TurnoForm.UserId);
 
-            if (CarrerasProfesor.Count != 1 && CarrerasProfesor[0] != null) UserHasCareers = true;
+            if (CarrerasProfesor.Count > 0 && CarrerasProfesor[0] != null)
+                UserHasCareers = true;
         }
 
         protected async Task CreateTurno_Click()
