@@ -34,6 +34,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesores
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if(firstRender)
             {
                 await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
                 await base.OnAfterRenderAsync(firstRender);

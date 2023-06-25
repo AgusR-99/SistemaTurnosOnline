@@ -41,7 +41,6 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         private HubConnection HubConnection;
 
-        private bool IsTableInitialized;
 
         private HubConnection TurnoQueueUpdateHubConnection;
         
@@ -152,11 +151,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (!firstRender && !IsTableInitialized)
+            if (firstRender)
             {
                 await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-
-                IsTableInitialized = true;
+                await base.OnAfterRenderAsync(firstRender);
             }
         }
 

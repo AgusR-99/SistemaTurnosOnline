@@ -41,18 +41,16 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos
 
                 InvokeAsync(StateHasChanged);
             });
-
             await HubConnection.StartAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (!firstRender)
+            if (firstRender)
             {
                 await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
+                await base.OnAfterRenderAsync(firstRender);
             }
-            
-            await base.OnAfterRenderAsync(firstRender);
         }
 
         public async ValueTask DisposeAsync()
