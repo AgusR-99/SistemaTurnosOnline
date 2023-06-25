@@ -151,7 +151,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            if (Turnos is not null && !firstRender)
             {
                 await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
                 await base.OnAfterRenderAsync(firstRender);
