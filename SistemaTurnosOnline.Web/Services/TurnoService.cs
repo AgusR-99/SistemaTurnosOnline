@@ -35,7 +35,7 @@ namespace SistemaTurnosOnline.Web.Services
                 return await response.Content.ReadFromJsonAsync<IEnumerable<Turno>>();
             }
 
-            var message = await response.Content.ReadFromJsonAsync<Turno>();
+            var message = await response.Content.ReadAsStringAsync();
             throw new Exception($"Http status: {response.StatusCode} Message: {message}");
         }
 
