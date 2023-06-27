@@ -46,7 +46,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            if (Profesores is not null && !firstRender)
             {
                 await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
                 await base.OnAfterRenderAsync(firstRender);
