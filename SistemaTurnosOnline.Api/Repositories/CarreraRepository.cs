@@ -129,6 +129,9 @@ namespace SistemaTurnosOnline.Api.Repositories
                 carrerasIdProfesor.ForEach(id => carrerasProfesor.Add(carreras.Find(x => x.Id == id)));
             }
 
+            if (carrerasProfesor.Count() == 1 && carrerasProfesor[0] is null)
+                carrerasProfesor = new List<Carrera>();
+
             return carrerasProfesor;
         }
     }
