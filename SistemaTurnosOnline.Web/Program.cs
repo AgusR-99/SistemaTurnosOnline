@@ -12,9 +12,9 @@ using SistemaTurnosOnline.Web.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Web.Hubs;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
-using SistemaTurnosOnline.Web.Services.CarreraService;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.TurnoManagement;
+using SistemaTurnosOnline.Web.Services.CarreraManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 

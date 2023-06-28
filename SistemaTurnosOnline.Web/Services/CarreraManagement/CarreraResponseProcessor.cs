@@ -1,6 +1,6 @@
 ﻿using SistemaTurnosOnline.Shared;
 
-namespace SistemaTurnosOnline.Web.Services.CarreraService
+namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {
     public class CarreraResponseProcessor
     {
@@ -10,7 +10,7 @@ namespace SistemaTurnosOnline.Web.Services.CarreraService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    return default(Carrera);
+                    return default;
                 }
 
                 return await response.Content.ReadFromJsonAsync<Carrera>();

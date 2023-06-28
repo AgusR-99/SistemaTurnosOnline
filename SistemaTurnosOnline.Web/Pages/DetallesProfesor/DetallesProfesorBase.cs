@@ -5,7 +5,7 @@ using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
-using SistemaTurnosOnline.Web.Services.CarreraService;
+using SistemaTurnosOnline.Web.Services.CarreraManagement;
 using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils;
 using SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators;
