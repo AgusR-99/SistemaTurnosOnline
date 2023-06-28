@@ -6,7 +6,7 @@ using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
