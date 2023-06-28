@@ -1,6 +1,6 @@
 ﻿using SistemaTurnosOnline.Shared;
 
-namespace SistemaTurnosOnline.Web.Services.Contracts
+namespace SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts
 {
     public interface IProfesorService
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Authentication;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.SignIn

@@ -8,6 +8,7 @@ using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 {

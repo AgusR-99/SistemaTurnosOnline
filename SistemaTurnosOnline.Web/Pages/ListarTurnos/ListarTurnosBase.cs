@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarTurnos

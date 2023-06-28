@@ -11,6 +11,7 @@ using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 using SistemaTurnosOnline.Web.Utils;
 
 namespace SistemaTurnosOnline.Web.Pages.AltaProfesor

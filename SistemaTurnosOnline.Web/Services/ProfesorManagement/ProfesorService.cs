@@ -1,9 +1,9 @@
-﻿using SistemaTurnosOnline.Web.Services.Contracts;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text;
 using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 
-namespace SistemaTurnosOnline.Web.Services
+namespace SistemaTurnosOnline.Web.Services.ProfesorManagement
 {
     public class ProfesorService : IProfesorService
     {
@@ -20,7 +20,7 @@ namespace SistemaTurnosOnline.Web.Services
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    return default(Profesor);
+                    return default;
                 }
 
                 return await response.Content.ReadFromJsonAsync<Profesor>();
@@ -35,7 +35,7 @@ namespace SistemaTurnosOnline.Web.Services
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    return default(ProfesorSecure);
+                    return default;
                 }
 
                 return await response.Content.ReadFromJsonAsync<ProfesorSecure>();

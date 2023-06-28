@@ -8,6 +8,7 @@ using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Services.CarreraManagement;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 {
