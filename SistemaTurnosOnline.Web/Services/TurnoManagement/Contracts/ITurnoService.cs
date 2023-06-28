@@ -1,6 +1,6 @@
 ﻿using SistemaTurnosOnline.Shared.Turnos;
 
-namespace SistemaTurnosOnline.Web.Services.Contracts
+namespace SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts
 {
     public interface ITurnoService
     {

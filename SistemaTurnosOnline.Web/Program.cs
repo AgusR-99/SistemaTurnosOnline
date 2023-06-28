@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Web.Hubs;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
 using SistemaTurnosOnline.Web.Services.CarreraService;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,8 @@ builder.Services.AddTransient<ITurnoHubClient, TurnoHubClient>();
 builder.Services.AddTransient<CarreraListManager>();
 builder.Services.AddTransient<CarreraHttpClient>();
 builder.Services.AddTransient<CarreraResponseProcessor>();
+builder.Services.AddTransient<TurnoHttpClient>();
+builder.Services.AddTransient<TurnoResponseProcessor>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
