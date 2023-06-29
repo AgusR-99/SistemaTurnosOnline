@@ -31,8 +31,9 @@ namespace SistemaTurnosOnline.Web.Pages.ListarCarreras
         {
             if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
                 tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 

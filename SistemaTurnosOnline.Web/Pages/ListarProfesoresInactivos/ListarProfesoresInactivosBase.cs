@@ -54,8 +54,9 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos
         {
             if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
                 tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 
