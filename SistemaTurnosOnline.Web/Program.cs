@@ -1,6 +1,4 @@
 using FluentValidation;
-using SistemaTurnosOnline.Web.Services;
-using SistemaTurnosOnline.Web.Services.Contracts;
 using Blazorise;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -18,6 +16,7 @@ using SistemaTurnosOnline.Web.Services.CarreraManagement;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.ValidationManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -2,7 +2,7 @@
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 
-namespace SistemaTurnosOnline.Web.Services.Contracts
+namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {
     public class ValidateTurnoService : ITurnoValidator
     {

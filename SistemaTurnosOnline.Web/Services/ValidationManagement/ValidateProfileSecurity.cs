@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Net;
 using SistemaTurnosOnline.Shared;
 
-namespace SistemaTurnosOnline.Web.Services
+namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {
     public class ValidateProfileSecurity : IPasswordValidator
     {
@@ -17,7 +17,7 @@ namespace SistemaTurnosOnline.Web.Services
 
         public async Task<bool> IsPasswordValid(string userId, string password)
         {
-            var passwordValidationModel = new PasswordValidationModel() {UserId = userId, Password = password };
+            var passwordValidationModel = new PasswordValidationModel() { UserId = userId, Password = password };
 
             var response = await httpClient.PostAsJsonAsync($"api/Profesor/PasswordValidation", passwordValidationModel);
 
