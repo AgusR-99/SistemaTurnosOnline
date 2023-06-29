@@ -138,7 +138,6 @@ namespace SistemaTurnosOnline.Api.Repositories
 
             var turno = await turnoCollection
                 .Find(filtroUserId)
-                .Sort(Builders<Turno>.Sort.Ascending("OrdenEnCola"))
                 .ToListAsync();
 
             return turno;
