@@ -26,15 +26,23 @@
     </AuthorizeView>
 
     <main>
-        <div class="top-row justify-content-between px-4 bg-dark border-dark">
-            <a class="text-light" href="/"><b class="m-0 display-font">﻿I.S.F.T. Nº 189</b></a>
-            <div>
-                <a href="https://github.com/AgusR-99/SistemaTurnosOnline" target="_blank">About</a>
-                <AuthorizeView>
-                    <Authorized>
-                        <a @onclick="Logout_Click" href="javascript:void(0)">Cerrar sesion</a>
-                    </Authorized>
-                </AuthorizeView>
+        <div class="container p-0">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a class="text-light" href="/"><b class="m-0 display-font">﻿I.S.F.T. Nº 189</b></a>
+                        </div>
+                        <div>
+                            <a href="https://github.com/AgusR-99/SistemaTurnosOnline" target="_blank">About</a>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <a class="ms-3" @onclick="Logout_Click" href="javascript:void(0)">Cerrar sesion</a>
+                                </Authorized>
+                            </AuthorizeView>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
