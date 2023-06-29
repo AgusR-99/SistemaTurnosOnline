@@ -1,7 +1,7 @@
 ﻿using SistemaTurnosOnline.Shared.Validators.Contracts;
 using System.Net;
 
-namespace SistemaTurnosOnline.Web.Services
+namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {
     public class ValidateProfesorService : IValidateProfesor
     {
@@ -12,7 +12,7 @@ namespace SistemaTurnosOnline.Web.Services
             this.httpClient = httpClient;
         }
 
-        private async Task<bool> responseStatus (HttpResponseMessage response)
+        private async Task<bool> responseStatus(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
             {

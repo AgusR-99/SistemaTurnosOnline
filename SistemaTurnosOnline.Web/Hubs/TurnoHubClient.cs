@@ -2,7 +2,7 @@
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
 using SistemaTurnosOnline.Web.Services;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Hubs
 {

@@ -1,10 +1,11 @@
 ﻿using SistemaTurnosOnline.Shared;
 using System.Text.Json;
 using System.Text;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
-namespace SistemaTurnosOnline.Web.Services.CarreraService
+namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {
-    public class CarreraHttpClient
+    public class CarreraHttpClient : ICarreraHttpClient
     {
         private readonly HttpClient httpClient;
 
