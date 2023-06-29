@@ -35,6 +35,8 @@ builder.Services.AddTransient<CarreraHttpClient>();
 builder.Services.AddTransient<CarreraResponseProcessor>();
 builder.Services.AddTransient<TurnoHttpClient>();
 builder.Services.AddTransient<TurnoResponseProcessor>();
+builder.Services.AddTransient<ProfesorHttpClient>();
+builder.Services.AddTransient<ProfesorResponseProcessor>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

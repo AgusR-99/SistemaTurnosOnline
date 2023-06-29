@@ -7,160 +7,76 @@ namespace SistemaTurnosOnline.Web.Services.ProfesorManagement
 {
     public class ProfesorService : IProfesorService
     {
-        private readonly HttpClient httpClient;
+        private readonly ProfesorHttpClient httpClient;
+        private readonly ProfesorResponseProcessor responseProcessor;
 
-        public ProfesorService(HttpClient httpClient)
+        public ProfesorService(ProfesorHttpClient httpClient, ProfesorResponseProcessor responseProcessor)
         {
             this.httpClient = httpClient;
-        }
-
-        private async Task<Profesor> ProcessProfesorResponseAsync(HttpResponseMessage response)
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return default;
-                }
-
-                return await response.Content.ReadFromJsonAsync<Profesor>();
-            }
-            var message = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
-        }
-
-        private async Task<ProfesorSecure> ProcessProfesorSecureResponseAsync(HttpResponseMessage response)
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return default;
-                }
-
-                return await response.Content.ReadFromJsonAsync<ProfesorSecure>();
-            }
-            var message = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Http status: {response.StatusCode} Message: {message}");
-        }
-
-        private async Task<IEnumerable<Profesor>> ProcessProfesorCollectionResponseAsync(HttpResponseMessage response)
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return Enumerable.Empty<Profesor>();
-                }
-
-                return await response.Content.ReadFromJsonAsync<IEnumerable<Profesor>>();
-            }
-            else
-            {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception(message);
-            }
+            this.responseProcessor = responseProcessor;
         }
 
         public async Task<Profesor> CreateProfesor(ProfesorForm profesorForm)
         {
-            var response = await httpClient.PostAsJsonAsync("api/Profesor", profesorForm);
+            var response = await httpClient.CreateProfesorAsync(profesorForm);
 
-            return await ProcessProfesorResponseAsync(response);
+            return await responseProcessor.ProcessProfesorResponseAsync(response);
         }
 
         public async Task<string> ResetPassword(string id)
         {
-            var profesorFormJson = new StringContent(JsonSerializer.Serialize(id), Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PatchAsync($"api/Profesor/ResetPassword/{id}", profesorFormJson);
+            var response = await httpClient.ResetPassword(id);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<Profesor> DeleteProfesor(string id)
         {
-            var response = await httpClient.DeleteAsync($"api/Profesor/{id}");
+            var response = await httpClient.DeleteProfesorAsync(id);
 
-            return await ProcessProfesorResponseAsync(response);
+            return await responseProcessor.ProcessProfesorResponseAsync(response);
         }
 
         public async Task<ProfesorSecure> GetProfesor(string id)
         {
-            try
-            {
-                var response = await httpClient.GetAsync($"api/Profesor/{id}");
+            var response = await httpClient.GetProfesorAsync(id);
 
-                return await ProcessProfesorSecureResponseAsync(response);
-            }
-            catch (Exception)
-            {
-                //Log exception
-                throw;
-            }
+            return await responseProcessor.ProcessProfesorSecureResponseAsync(response);
         }
 
         public async Task<Profesor> GetProfesorByDni(string dni)
         {
-            var response = await httpClient.GetAsync($"api/Profesor/GetByDni/{dni}");
+            var response = await httpClient.GetProfesorByDniAsync(dni);
 
-            return await ProcessProfesorResponseAsync(response);
+            return await responseProcessor.ProcessProfesorResponseAsync(response);
         }
 
         public async Task<IEnumerable<Profesor>> GetProfesores()
         {
-            try
-            {
-                var response = await httpClient.GetAsync("api/Profesor");
+            var response = await httpClient.GetProfesoresAsync();
 
-                return await ProcessProfesorCollectionResponseAsync(response);
-            }
-            catch (Exception)
-            {
-                //Log exception
-                throw;
-            }
+            return await responseProcessor.ProcessProfesorCollectionResponseAsync(response);
         }
 
         public async Task<IEnumerable<Profesor>> GetProfesoresInactive()
         {
-            try
-            {
-                var response = await httpClient.GetAsync("api/Profesor/GetInactive");
+            var response = await httpClient.GetProfesoresInactiveAsync();
 
-                return await ProcessProfesorCollectionResponseAsync(response);
-            }
-            catch (Exception)
-            {
-                //Log exception
-                throw;
-            }
+            return await responseProcessor.ProcessProfesorCollectionResponseAsync(response);
         }
 
         public async Task<Profesor> UpdateProfesor(ProfesorSecure profesorSecure)
         {
-            try
-            {
-                var profesorFormJson = new StringContent(JsonSerializer.Serialize(profesorSecure), Encoding.UTF8, "application/json");
+            var response = await httpClient.UpdateProfesorAsync(profesorSecure);
 
-                var response = await httpClient.PatchAsync($"api/Profesor/{profesorSecure.Id}", profesorFormJson);
-
-                return await ProcessProfesorResponseAsync(response);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            return await responseProcessor.ProcessProfesorResponseAsync(response);
         }
 
         public async Task<Profesor> UpdateProfesorPassword(ProfileSecurityForm profileSecurityForm)
         {
-            var profesorFormJson = new StringContent(JsonSerializer.Serialize(profileSecurityForm), Encoding.UTF8, "application/json");
+            var response = await httpClient.UpdateProfesorPasswordAsync(profileSecurityForm);
 
-            var response = await httpClient.PatchAsync($"api/Profesor/UpdatePassword", profesorFormJson);
-
-            return await ProcessProfesorResponseAsync(response);
+            return await responseProcessor.ProcessProfesorResponseAsync(response);
         }
     }
 }
