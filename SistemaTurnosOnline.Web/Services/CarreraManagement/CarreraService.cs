@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text;
 using SistemaTurnosOnline.Shared;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
-namespace SistemaTurnosOnline.Web.Services.CarreraService
+namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {
     public class CarreraService : ICarreraService
     {

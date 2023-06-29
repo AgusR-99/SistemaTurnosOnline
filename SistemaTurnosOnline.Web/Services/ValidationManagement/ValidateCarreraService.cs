@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Xml.Linq;
 
-namespace SistemaTurnosOnline.Web.Services
+namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {
     public class ValidateCarreraService : ICarreraValidator
     {
@@ -13,7 +13,7 @@ namespace SistemaTurnosOnline.Web.Services
 
         public ValidateCarreraService(HttpClient ttpClient)
         {
-            this.httpClient = ttpClient;
+            httpClient = ttpClient;
         }
 
         private async Task<bool> ProcessValidationResponseAsync(HttpResponseMessage response)

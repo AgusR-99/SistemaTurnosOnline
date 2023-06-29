@@ -6,7 +6,8 @@ using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Extensions;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.CrearTurno
 {

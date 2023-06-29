@@ -1,6 +1,4 @@
 using FluentValidation;
-using SistemaTurnosOnline.Web.Services;
-using SistemaTurnosOnline.Web.Services.Contracts;
 using Blazorise;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -12,7 +10,13 @@ using SistemaTurnosOnline.Web.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Web.Hubs;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
-using SistemaTurnosOnline.Web.Services.CarreraService;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement;
+using SistemaTurnosOnline.Web.Services.CarreraManagement;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.ValidationManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,10 @@ builder.Services.AddTransient<ITurnoHubClient, TurnoHubClient>();
 builder.Services.AddTransient<CarreraListManager>();
 builder.Services.AddTransient<CarreraHttpClient>();
 builder.Services.AddTransient<CarreraResponseProcessor>();
+builder.Services.AddTransient<TurnoHttpClient>();
+builder.Services.AddTransient<TurnoResponseProcessor>();
+builder.Services.AddTransient<ProfesorHttpClient>();
+builder.Services.AddTransient<ProfesorResponseProcessor>();
 
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

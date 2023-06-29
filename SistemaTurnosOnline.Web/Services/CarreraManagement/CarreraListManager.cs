@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnosOnline.Web.Services.CarreraService
+﻿namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {
     public class CarreraListManager
     {
