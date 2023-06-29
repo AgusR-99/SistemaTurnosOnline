@@ -16,7 +16,7 @@ namespace SistemaTurnosOnline.Api.Data
             var client = new MongoClient(connectionString);
 
             // Acceder al nombre de la db
-            var databaseName = "test";
+            var databaseName = "turnosdb";
 
             db = client.GetDatabase(databaseName);
         }
