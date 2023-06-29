@@ -1,8 +1,9 @@
 ﻿using SistemaTurnosOnline.Shared;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {
-    public class CarreraResponseProcessor
+    public class CarreraResponseProcessor : ICarreraResponseProcessor
     {
         public async Task<Carrera> ProcessCarreraResponseAsync(HttpResponseMessage response)
         {
