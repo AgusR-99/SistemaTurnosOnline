@@ -16,29 +16,37 @@ namespace SistemaTurnosOnline.Web.Pages.ListarCarreras
         [Parameter]
         public string TableId { get; set; } = "carrerasTable";
 
+        private bool listLoaded = false;
+
+        private bool tableInitialized = false;
+
         protected async override Task OnInitializedAsync()
         {
             Carreras = await CarreraService.GetCarreras();
+
+            listLoaded = true;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (Carreras is not null && !firstRender)
+            if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                await base.OnAfterRenderAsync(firstRender);
+                tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 
+        //https://datatables.net/forums/discussion/56389/datatables-with-blazor
         public async void Dispose()
         {
             try
             {
-                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+                if (tableInitialized)
+                    await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
             }
             catch
             {
-
             }
         }
     }

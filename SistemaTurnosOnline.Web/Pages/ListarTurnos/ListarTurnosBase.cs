@@ -23,6 +23,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
         [Parameter]
         public string TableId { get; set; } = "turnosTable";
 
+        private bool listLoaded = false;
+
+        private bool tableInitialized = false;
+
         protected override async Task OnInitializedAsync()
         {
             var turnos = (await TurnoService.GetTurnos()).ToList();
@@ -54,14 +58,17 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
             // Se realiza la asignacion aca porque sino se fetchean los datos luego de un OnAfterRenderAsync
             // Por lo tanto, no se debe inicializar la propiedad "TurnoListado" antes del llamado de este metodo
             TurnoListado = turnoListados;
+
+            listLoaded = true;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (TurnoListado is not null && !firstRender)
+            if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                await base.OnAfterRenderAsync(firstRender);
+                tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 
@@ -70,8 +77,8 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
         {
             try
             {
-                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
-
+                if (tableInitialized)
+                    await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
             }
             catch
             {

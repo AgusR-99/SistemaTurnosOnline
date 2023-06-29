@@ -62,9 +62,15 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         public long PosicionEnCola { get; set; }
         public long TurnosRestantes { get; set; }
 
+        private bool listLoaded = false;
+
+        private bool tableInitialized = false;
+
         private async Task GetRemainingTurnsInQueueForUser(string userId)
         {
             Turnos = await TurnoService.GetTurnosByUserId(userId);
+
+            listLoaded = true;
 
             if (Turnos.Count() != 0) PosicionEnCola = Turnos.First().OrdenEnCola;
 
@@ -151,10 +157,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (Turnos is not null && !firstRender)
+            if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                await base.OnAfterRenderAsync(firstRender);
+                tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 
@@ -163,11 +170,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         {
             try
             {
-                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+                if (tableInitialized)
+                    await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
             }
             catch
             {
-
             }
         }
 

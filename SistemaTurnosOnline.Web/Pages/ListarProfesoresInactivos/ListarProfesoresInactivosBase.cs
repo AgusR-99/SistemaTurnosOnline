@@ -26,9 +26,15 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos
 
         private HubConnection HubConnection { get; set; }
 
+        private bool listLoaded = false;
+
+        private bool tableInitialized = false;
+
         protected override async Task OnInitializedAsync()
         {
             Profesores = (await ProfesorService.GetProfesoresInactive()).ToList();
+
+            listLoaded = true;
 
             HubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/inactiveUsersHub"))
                 .Build();
@@ -46,28 +52,30 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (Profesores is not null && !firstRender)
+            if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                await base.OnAfterRenderAsync(firstRender);
+                tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
+            }
+        }
+
+        //https://datatables.net/forums/discussion/56389/datatables-with-blazor
+        public async void Dispose()
+        {
+            try
+            {
+                if (tableInitialized)
+                    await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+            }
+            catch
+            {
             }
         }
 
         public async ValueTask DisposeAsync()
         {
             await HubConnection.DisposeAsync();
-        }
-
-        public async void Dispose()
-        {
-            try
-            {
-                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
-            }
-            catch
-            {
-
-            }
         }
     }
 }
