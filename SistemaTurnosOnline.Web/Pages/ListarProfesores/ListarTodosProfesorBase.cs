@@ -19,9 +19,16 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesores
         public List<string> Headers { get; set; } = new List<string> { "DNI", "Nombre", "Email", "" };
         [Parameter]
         public string TableId { get; set; } = "profesoresTable";
+
+        private bool listLoaded = false;
+
+        private bool tableInitialized = false;
+
         protected override async Task OnInitializedAsync()
         {
             Profesores = (await ProfesorService.GetProfesores()).ToList();
+
+            listLoaded = true;
 
             var authState = await AuthenticationState;
 
@@ -34,10 +41,10 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesores
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (Profesores is not null && !firstRender)
+            if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>(identifier: "datatableInit", "#" + TableId);
-                await base.OnAfterRenderAsync(firstRender);
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
+                tableInitialized = true;
             }
         }
 
@@ -46,11 +53,11 @@ namespace SistemaTurnosOnline.Web.Pages.ListarProfesores
         {
             try
             {
-                await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
+                if (tableInitialized)
+                    await Js.InvokeAsync<object>(identifier: "datatableRemove", "#" + TableId);
             }
             catch
             {
-
             }
         }
     }
