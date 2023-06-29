@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Content Remove="Shared\Toast.razor" />
-    <Content Remove="wwwroot\js\showmodal.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +33,6 @@
 
   <ItemGroup>
     <None Include="Pages\ToastLegacy.razor" />
-    <None Include="wwwroot\js\showmodal.js" />
   </ItemGroup>
 
 </Project>
