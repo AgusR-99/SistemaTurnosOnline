@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using SistemaTurnosOnline.Shared.Turnos;
 
 namespace SistemaTurnosOnline.Web.Hubs.Contracts
 {

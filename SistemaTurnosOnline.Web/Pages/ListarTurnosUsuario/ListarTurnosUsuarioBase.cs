@@ -7,7 +7,6 @@ using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
-using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 {
@@ -31,7 +30,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
         [Parameter]
         public string TableId { get; set; } = "turnosTable";
 
-        public List<string> Headers { get; set; } = new List<string> { "Orden en cola", "Descripcion", ""};
+        public List<string> Headers { get; set; } = new List<string> { "Orden en cola", "Descripcion", "" };
 
         public IEnumerable<Turno> Turnos { get; set; }
 
@@ -43,7 +42,7 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnosUsuario
 
 
         private HubConnection TurnoQueueUpdateHubConnection;
-        
+
         public ToastModelLegacy Toast { get; set; } =
             new(
                 status: ToastModelLegacy.Status.Error,

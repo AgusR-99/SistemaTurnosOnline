@@ -1,9 +1,7 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
-using SistemaTurnosOnline.Web.Services;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarProfesoresInactivos

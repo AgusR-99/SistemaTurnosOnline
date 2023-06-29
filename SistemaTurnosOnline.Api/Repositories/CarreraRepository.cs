@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Xml.Linq;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using SistemaTurnosOnline.Api.Data;

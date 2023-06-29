@@ -1,8 +1,7 @@
 ﻿using SistemaTurnosOnline.Shared.Turnos;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
+using System.Text;
+using System.Text.Json;
 
 namespace SistemaTurnosOnline.Web.Services.TurnoManagement
 {

@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text;
-using SistemaTurnosOnline.Shared;
+﻿using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Services.ProfesorManagement

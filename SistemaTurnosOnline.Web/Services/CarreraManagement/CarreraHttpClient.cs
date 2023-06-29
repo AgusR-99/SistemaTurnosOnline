@@ -1,7 +1,7 @@
 ﻿using SistemaTurnosOnline.Shared;
-using System.Text.Json;
-using System.Text;
 using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using System.Text;
+using System.Text.Json;
 
 namespace SistemaTurnosOnline.Web.Services.CarreraManagement
 {

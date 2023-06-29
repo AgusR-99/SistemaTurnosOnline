@@ -1,10 +1,9 @@
-﻿using System.Linq.Expressions;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
-using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
+using System.Linq.Expressions;
 
 namespace SistemaTurnosOnline.Api.Repositories
 {

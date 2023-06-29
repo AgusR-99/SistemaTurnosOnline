@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace SistemaTurnosOnline.Shared.Validators.Contracts
+﻿namespace SistemaTurnosOnline.Shared.Validators.Contracts
 {
     public interface IValidateProfesor
     {

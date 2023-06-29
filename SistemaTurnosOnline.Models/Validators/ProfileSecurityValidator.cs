@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SistemaTurnosOnline.Shared.Validators
 {

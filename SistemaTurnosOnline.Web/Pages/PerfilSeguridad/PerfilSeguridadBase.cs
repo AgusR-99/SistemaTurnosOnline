@@ -61,7 +61,7 @@ namespace SistemaTurnosOnline.Web.Pages.PerfilSeguridad
             {
                 await ServerErrorToast.Show(Js);
             }
-            
+
         }
 
         protected void Navigate_Click()

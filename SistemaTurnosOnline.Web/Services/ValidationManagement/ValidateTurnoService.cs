@@ -1,6 +1,6 @@
-﻿using System.Net;
-using SistemaTurnosOnline.Shared.Turnos;
+﻿using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
+using System.Net;
 
 namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {

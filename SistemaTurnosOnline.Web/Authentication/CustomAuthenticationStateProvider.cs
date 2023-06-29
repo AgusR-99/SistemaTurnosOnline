@@ -1,12 +1,12 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Authentication
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly  ProtectedSessionStorage _sessionStorage;
+        private readonly ProtectedSessionStorage _sessionStorage;
         private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
 
         public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage)
@@ -37,7 +37,7 @@ namespace SistemaTurnosOnline.Web.Authentication
             {
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             }
-            
+
         }
 
         public async Task UpdateAuthenticationState(UserSession userSession)

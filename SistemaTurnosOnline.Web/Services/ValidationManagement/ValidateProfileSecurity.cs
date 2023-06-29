@@ -1,8 +1,6 @@
-﻿using Blazorise;
+﻿using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
-using System.Net.Http;
 using System.Net;
-using SistemaTurnosOnline.Shared;
 
 namespace SistemaTurnosOnline.Web.Services.ValidationManagement
 {

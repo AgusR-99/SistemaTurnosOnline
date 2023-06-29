@@ -1,6 +1,4 @@
-﻿using SistemaTurnosOnline.Shared;
-
-namespace SistemaTurnosOnline.Web.Utils
+﻿namespace SistemaTurnosOnline.Web.Utils
 {
     public static class CarreraFormUtils
     {

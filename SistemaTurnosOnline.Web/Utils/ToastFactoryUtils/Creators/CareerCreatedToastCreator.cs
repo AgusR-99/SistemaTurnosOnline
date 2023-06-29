@@ -1,6 +1,6 @@
 ﻿using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
-using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications;
+using SistemaTurnosOnline.Web.Components.ToastComponent.ToastNotifications.ToastNotificationText;
 
 namespace SistemaTurnosOnline.Web.Utils.ToastFactoryUtils.Creators
 {

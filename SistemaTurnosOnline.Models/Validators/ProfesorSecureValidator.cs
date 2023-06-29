@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace SistemaTurnosOnline.Shared.Validators
 {

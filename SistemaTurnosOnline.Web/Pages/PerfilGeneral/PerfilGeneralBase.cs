@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using SistemaTurnosOnline.Shared;
-using System.Security.Claims;
-using SistemaTurnosOnline.Web.Extensions;
 using Microsoft.JSInterop;
+using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Extensions;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
+using SistemaTurnosOnline.Web.Extensions;
 using SistemaTurnosOnline.Web.Services.CarreraManagement;
-using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
+using System.Security.Claims;
 
 namespace SistemaTurnosOnline.Web.Pages.PerfilGeneral
 {

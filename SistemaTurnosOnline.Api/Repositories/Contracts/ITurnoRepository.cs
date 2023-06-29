@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using SistemaTurnosOnline.Shared.Turnos;
+﻿using SistemaTurnosOnline.Shared.Turnos;
+using System.Linq.Expressions;
 
 namespace SistemaTurnosOnline.Api.Repositories.Contracts
 {

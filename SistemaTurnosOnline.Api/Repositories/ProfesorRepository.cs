@@ -4,7 +4,6 @@ using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared;
 using System.Linq.Expressions;
-using SistemaTurnosOnline.Shared.Turnos;
 
 namespace SistemaTurnosOnline.Api.Repositories
 {

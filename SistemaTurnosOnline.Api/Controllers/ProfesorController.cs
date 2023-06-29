@@ -79,7 +79,7 @@ namespace SistemaTurnosOnline.Api.Controllers
                 var profesor = await profesorRepository.GetProfesor(id);
 
                 var profesorSecured = profesor.ConvertToProfesorSecure();
-                
+
                 if (profesorSecured == null)
                 {
                     return NotFound();
@@ -288,7 +288,7 @@ namespace SistemaTurnosOnline.Api.Controllers
                     return NoContent();
                 }
 
-                return CreatedAtAction(nameof(GetProfesor), new {id = newProfesor.Id}, newProfesor);
+                return CreatedAtAction(nameof(GetProfesor), new { id = newProfesor.Id }, newProfesor);
             }
             catch (Exception ex)
             {

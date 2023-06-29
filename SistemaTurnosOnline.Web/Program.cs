@@ -1,21 +1,20 @@
 using FluentValidation;
-using Blazorise;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using SistemaTurnosOnline.Shared.Validators;
-using SistemaTurnosOnline.Shared.Validators.Contracts;
+using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
+using SistemaTurnosOnline.Shared.Validators;
+using SistemaTurnosOnline.Shared.Validators.Contracts;
 using SistemaTurnosOnline.Web.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
 using SistemaTurnosOnline.Web.Hubs;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
-using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
-using SistemaTurnosOnline.Web.Services.TurnoManagement;
 using SistemaTurnosOnline.Web.Services.CarreraManagement;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
-using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.TurnoManagement;
+using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.ValidationManagement;
 
 var builder = WebApplication.CreateBuilder(args);

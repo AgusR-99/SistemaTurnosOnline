@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using SistemaTurnosOnline.Web.Components.Contracts.ToastContracts;
+﻿using Microsoft.JSInterop;
 using SistemaTurnosOnline.Web.Components.Contracts;
+using SistemaTurnosOnline.Web.Components.Contracts.ToastContracts;
 using SistemaTurnosOnline.Web.Extensions;
 
 namespace SistemaTurnosOnline.Web.Components.ToastComponent.Parent

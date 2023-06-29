@@ -1,5 +1,4 @@
-﻿using SistemaTurnosOnline.Api.Repositories;
-using SistemaTurnosOnline.Api.Repositories.Contracts;
+﻿using SistemaTurnosOnline.Api.Repositories.Contracts;
 using SistemaTurnosOnline.Shared.Validators.Contracts;
 
 namespace SistemaTurnosOnline.Api.Validator
