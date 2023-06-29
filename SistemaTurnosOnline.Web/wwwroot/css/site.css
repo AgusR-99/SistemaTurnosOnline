@@ -120,9 +120,9 @@ a, .btn-link {
 }
 
 @media (min-width: 641px) {
-    article{
+    main{
         max-width: 1024px;
-        margin: auto;
+        margin: 0 auto;
         padding: 1.5rem;
     }
 
