@@ -66,8 +66,9 @@ namespace SistemaTurnosOnline.Web.Pages.ListarTurnos
         {
             if (!tableInitialized && listLoaded)
             {
-                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
                 tableInitialized = true;
+
+                await Js.InvokeAsync<object>("datatableInit", "#" + TableId);
             }
         }
 
