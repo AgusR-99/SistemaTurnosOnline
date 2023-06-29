@@ -4,11 +4,11 @@ using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
 using SistemaTurnosOnline.Shared.Turnos;
 using SistemaTurnosOnline.Web.Extensions;
-using SistemaTurnosOnline.Web.Services.Contracts;
 using SistemaTurnosOnline.Web.Hubs.Contracts;
 using SistemaTurnosOnline.Web.Components.ToastComponent.Parent;
 using SistemaTurnosOnline.Web.Services.TurnoManagement.Contracts;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.DetallesTurno
 {

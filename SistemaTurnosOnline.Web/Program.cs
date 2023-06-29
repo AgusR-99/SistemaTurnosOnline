@@ -17,6 +17,7 @@ using SistemaTurnosOnline.Web.Services.TurnoManagement;
 using SistemaTurnosOnline.Web.Services.CarreraManagement;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement;
 using SistemaTurnosOnline.Web.Services.ProfesorManagement.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 

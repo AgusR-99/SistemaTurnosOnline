@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using SistemaTurnosOnline.Shared;
-using SistemaTurnosOnline.Web.Services.Contracts;
+using SistemaTurnosOnline.Web.Services.CarreraManagement.Contracts;
 
 namespace SistemaTurnosOnline.Web.Pages.ListarCarreras
 {
