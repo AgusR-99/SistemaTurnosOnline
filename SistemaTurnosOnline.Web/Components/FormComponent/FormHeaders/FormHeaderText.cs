@@ -5,5 +5,7 @@
         public const string GeneralProfile = "General";
 
         public const string Security = "Seguridad";
+
+        public const string Update = "Actualizar datos";
     }
 }

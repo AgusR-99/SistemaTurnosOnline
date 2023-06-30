@@ -11,5 +11,7 @@
         public const string User = "fa-solid fa-user";
 
         public const string Lock = "fa-solid fa-lock";
+
+        public const string PenToSquare = "fa-solid fa-pen-to-square";
     }
 }

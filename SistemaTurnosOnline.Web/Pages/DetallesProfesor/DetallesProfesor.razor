@@ -1,19 +1,17 @@
 ﻿@page "/profesor"
 @page "/profesor/{id}"
 @using SistemaTurnosOnline.Shared
+@using SistemaTurnosOnline.Web.Components.CssConstants
+@using SistemaTurnosOnline.Web.Components.FormComponent
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormCheck
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormHeaders
+@using SistemaTurnosOnline.Web.Components.SpinnerComponent
 @using SistemaTurnosOnline.Web.Components.ToastComponent.SuccessToast
 @inherits DetallesProfesorBase
 @attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
-    <div class="w-50 mx-auto">
-        <div class="d-flex">
-            <a href="/profesor/readall" class="p-0 text-light"><span class="oi oi-arrow-left"></span></a>
-            <div class="ms-3">
-                <h3><i class="fa-solid fa-pen-to-square"></i> Actualizar datos</h3>
-                <p class="text-muted">#@Profesor.Id</p>
-            </div>
-        </div>
+    <FormDataEdition Icon="@IconConstants.PenToSquare" Header="@FormHeaderText.Update" Href="/profesor/readall" HeaderSecondary="@Profesor.Id">
 
         <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
             <FluentValidationValidator />
@@ -26,36 +24,30 @@
 
             @if (Carreras == null)
             {
-                    <div class="d-flex align-items-center">
-                        <div class="spinner-border text-primary mx-auto" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
+                <SpinnerFormList/>
             }
             else
             {
-                    <p class="mb-0 lh-1">Carrera</p>
+                <FormCarreraComponent />
 
-                    <small class="text-muted pt-0">Inscripto en:</small>
-
-                    <div class="form-check mb-3 mt-2">
+                <FormCheckComponent>
                     @foreach (var carrera in CarrerasForm)
                     {
-                                <div class="form-check">
+                        <FormCheckChildComponent>
                             @if (carrera.IsChecked)
                             {
-                                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
+                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
                             }
                             else
                             {
-                                            <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
+                                <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)">
                             }
-                                    <label class="form-check-label" for="@carrera.Id">
+                            <label class="form-check-label" for="@carrera.Id">
                                 @carrera.Nombre
-                                    </label>
-                                </div>
+                            </label>
+                        </FormCheckChildComponent>
                     }
-                    </div>
+                </FormCheckComponent>
             }
 
             @if(UserIdSession != Id)
@@ -73,15 +65,16 @@
 
             }
 
-            <button type="submit" class="btn btn-success float-end w-100 mb-5">
-                Actualizar
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Eliminar
             </button>
 
+            <button type="submit" class="btn btn-success float-end">
+                Actualizar
+            </button>
         </EditForm>
-        <button class="btn btn-danger float-end w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Eliminar
-        </button>
-    </div>
+        
+    </FormDataEdition>
 </Animate>
 
 <SuccessToast Id="@UserUpdatedToast.Id"
