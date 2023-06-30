@@ -119,6 +119,10 @@ a, .btn-link {
     text-shadow: rgba(153,0,255,1) 0px 0px 51px;
 }
 
+.form-container {
+    max-width: 425px;
+}
+
 @media (min-width: 641px) {
     main{
         max-width: 1024px;
