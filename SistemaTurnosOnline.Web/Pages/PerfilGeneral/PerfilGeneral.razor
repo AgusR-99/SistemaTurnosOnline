@@ -1,14 +1,16 @@
 ﻿@page "/profile/general"
+@using SistemaTurnosOnline.Web.Components.CssConstants
+@using SistemaTurnosOnline.Web.Components.FormComponent
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormCheck
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormHeaders
+@using SistemaTurnosOnline.Web.Components.SpinnerComponent
 @using SistemaTurnosOnline.Web.Extensions
 @inherits PerfilGeneralBase
 @attribute [Authorize(Roles = "Admin, Guest")]
 
 <Animate Animation="Animations.Fade">
 
-    <div class="w-50 mx-auto">
-        <div class="mb-3">
-            <h3><i class="fa-solid fa-user"></i> General</h3>
-        </div>
+    <Form Icon="@IconConstants.User" Header="@FormHeaderText.GeneralProfile">
         <EditForm Model=@Profesor OnValidSubmit="@UpdateProfesor_Click">
             <FluentValidationValidator />
 
@@ -20,22 +22,16 @@
 
             @if (Carreras == null)
             {
-                <div class="d-flex align-items-center">
-                    <div class="spinner-border text-primary mx-auto" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
+                <SpinnerFormList/>
             }
             else
             {
-                <p class="mb-0 lh-1">Carrera</p>
+                <FormCarreraComponent/>
 
-                <small class="text-muted pt-0">Inscripto en:</small>
-
-                <div class="form-check mb-2 mt-2">
+                <FormCheckComponent>
                     @foreach (var carrera in CarrerasForm)
                     {
-                        <div class="form-check">
+                        <FormCheckChildComponent>
                             @if (carrera.IsChecked)
                             {
                                 <input class="form-check-input border-dark" type="checkbox" id="@carrera.Id" @onchange="() => Checkbox_Click(carrera.Id)" checked>
@@ -47,9 +43,9 @@
                             <label class="form-check-label" for="@carrera.Id">
                                 @carrera.Nombre
                             </label>
-                        </div>
+                        </FormCheckChildComponent>
                     }
-                </div>
+                </FormCheckComponent>
             }
 
             <button type="submit" class="btn btn-success float-end w-100 mb-5">
@@ -57,7 +53,7 @@
             </button>
 
         </EditForm>
-    </div>
+    </Form>
 </Animate>
 
 <!-- Modal -->

@@ -7,5 +7,7 @@
         public const string CircleX = "oi oi-circle-x";
 
         public const string ExclamationTriangle = "fa-solid fa-exclamation-triangle";
+
+        public const string User = "fa-solid fa-user";
     }
 }
