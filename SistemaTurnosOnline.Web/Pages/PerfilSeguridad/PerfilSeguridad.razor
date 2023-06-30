@@ -1,14 +1,16 @@
 ﻿@page "/profile/security"
+@using SistemaTurnosOnline.Web.Components.CssConstants
+@using SistemaTurnosOnline.Web.Components.FormComponent
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormHeaders
 @inherits PerfilSeguridadBase
 @attribute [Authorize(Roles = "Admin, Guest")]
 
 <Animate Animation="Animations.Fade">
 
-    <div class="w-50 mx-auto">
-        <div class="mb-3">
-            <h3><i class="fa-solid fa-lock"></i> Seguridad</h3>
-        </div>
+    <Form Icon="@IconConstants.Lock" Header="@FormHeaderText.Security">
+
         <EditForm Model=@ProfileSecurityForm OnValidSubmit="@UpdateProfesor_Click">
+
             <FluentValidationValidator @ref="_fluentValidationValidator"
                                        DisableAssemblyScanning="@true" />
 
@@ -18,13 +20,12 @@
 
             <FloatingInputText @bind-Value="ProfileSecurityForm.NewPasswordConfirm" FieldName="Repetir nueva contraseña" Type="password"></FloatingInputText>
 
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success w-100 me-5">
-                    Guardar
-                </button>
-            </div>
+            <ButtonSubmitWide Text="Guardar"/>
+
         </EditForm>
-    </div>
+
+    </Form>
+
 </Animate>
 
 <!-- Modal -->

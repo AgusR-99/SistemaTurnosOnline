@@ -3,5 +3,7 @@
     public class FormHeaderText
     {
         public const string GeneralProfile = "General";
+
+        public const string Security = "Seguridad";
     }
 }

@@ -9,5 +9,7 @@
         public const string ExclamationTriangle = "fa-solid fa-exclamation-triangle";
 
         public const string User = "fa-solid fa-user";
+
+        public const string Lock = "fa-solid fa-lock";
     }
 }
