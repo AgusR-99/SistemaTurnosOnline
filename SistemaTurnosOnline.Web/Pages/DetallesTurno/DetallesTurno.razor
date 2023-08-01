@@ -1,18 +1,15 @@
 ﻿@page "/turno"
 @page "/turno/{id}"
+@using SistemaTurnosOnline.Web.Components.CssConstants
+@using SistemaTurnosOnline.Web.Components.FormComponent
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormCheck
+@using SistemaTurnosOnline.Web.Components.FormComponent.FormHeaders
+@using SistemaTurnosOnline.Web.Components.SpinnerComponent
 @inherits DetallesTurnoBase
 @attribute [Authorize(Roles = "Admin")]
 
 <Animate Animation="Animations.Fade">
-    <div class="w-50 mx-auto">
-        <div class="d-flex">
-            <a href="/turno/readall" class="p-0 text-light"><span class="oi oi-arrow-left"></span></a>
-            <div class="ms-3">
-                <h3><i class="fa-solid fa-pen-to-square"></i> Actualizar turno</h3>
-                <p class="text-muted">#@Turno.Id</p>
-            </div>
-        </div>
-
+    <FormDataEdition Icon="@IconConstants.PenToSquare" Header="@FormHeaderText.Update" Href="/turno/readall" HeaderSecondary="@Turno.Id">
         <EditForm Model=@TurnoListado OnValidSubmit="@UpdateTurno_Click">
             <FluentValidationValidator />
 
@@ -22,29 +19,22 @@
 
             @if (CarrerasProfesor == null)
             {
-                <div class="d-flex align-items-center">
-                    <div class="spinner-border text-primary mx-auto" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
+                <SpinnerFormList/>
             }
             else
             {
-                <div class="form-floating mb-3">
+                <FormCarreraComponent />
 
-                    <p class="mb-0 lh-1">Carrera</p>
+                <div class="form-check mb-2 mt-2">
+                    <input checked class="form-check-input" type="radio" name="flexRadioDefault"
+                       id="carreraCheckedNone"
+                       @onclick="() => SelectedCarreraId = CarreraCheckedNoneValue">
+                    <label class="form-check-label" for="carreraCheckedNone">
+                        Ninguna
+                    </label>
+                </div>
 
-                    <small class="text-muted pt-0">Pertenece a:</small>
-
-                    <div class="form-check mb-2 mt-2">
-                        <input checked class="form-check-input" type="radio" name="flexRadioDefault"
-                           id="carreraCheckedNone"
-                           @onclick="() => SelectedCarreraId = CarreraCheckedNoneValue">
-                        <label class="form-check-label" for="carreraCheckedNone">
-                            Ninguna
-                        </label>
-                    </div>
-
+                <FormCheckComponent>
                     @foreach (var carrera in CarrerasProfesor)
                     {
                         <div class="form-check mb-2">
@@ -61,8 +51,7 @@
                             </label>
                         </div>
                     }
-
-                </div>
+                </FormCheckComponent>
             }
 
             <div class="d-flex justify-content-between">
@@ -76,8 +65,7 @@
             </div>
 
         </EditForm>
-
-    </div>
+    </FormDataEdition>
 </Animate>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
