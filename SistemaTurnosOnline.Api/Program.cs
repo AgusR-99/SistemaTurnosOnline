@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using SistemaTurnosOnline.Api.Data;
 using SistemaTurnosOnline.Api.Repositories;
 using SistemaTurnosOnline.Api.Repositories.Contracts;
@@ -17,7 +18,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<SistemaTurnosOnlineDbContextEf>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
+builder.Services.AddScoped<ICarreraRepositoryEf, CarreraRepositoryEf>();
 builder.Services.AddScoped<ICarreraRepository, CarreraRepository>();
 builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
 
@@ -48,6 +55,12 @@ builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<SistemaTurnosOnlineDbContextEf>();
+    context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
